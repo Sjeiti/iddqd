@@ -1,12 +1,14 @@
-
+/* global iddqd */
+/* global CanvasRenderingContext2D */
 /*! CanvasRenderingContext2D */
 // todo: document
 iddqd.ns('iddqd.canvasrenderingcontext2d',
 	(function(){
+		'use strict';
 		var aStyle = ['strokeStyle','fillStyle','font','lineWidth']
 			,oStoredStyle = {}
 			,rv = iddqd;
-		return 	{
+		return {
 			init: function(){
 				rv.canvasrenderingcontext2d.init = rv.fn;
 				rv.extend(CanvasRenderingContext2D.prototype,rv.canvasrenderingcontext2d);
@@ -17,7 +19,7 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 					,j = i/2
 					,f,c;
 				if (i<=0||i%2===1) {
-					throw {message:'please provide position and color'};
+					throw {message:'please provide position and color'+pos+color};// todo: pos and color?
 				}
 				while (j--) {
 					f = arguments[2*j+2];
@@ -49,7 +51,7 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 				this.restoreStyle();
 			}
 			,drawCircle: function(x,y,radius,lineColor,fillColor){
-				this.storeStyle();
+//				this.storeStyle();
 				this.beginPath();
 				if (lineColor) this.strokeStyle = lineColor;
 				if (fillColor) this.fillStyle = fillColor;
@@ -57,7 +59,7 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 				lineColor&&this.stroke();
 				fillColor&&this.fill();
 				this.closePath();
-				this.restoreStyle();
+//				this.restoreStyle();
 			}
 			,drawText: function(text,x,y,lineColor,fillColor){
 				this.storeStyle();
@@ -103,7 +105,9 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 			}*/
 			,drawPolygon: function(x,y,radius,sides,fill,stroke) {
 				if (fill===undefined) fill = true;
+				else this.fillStyle = fill;
 				if (stroke===undefined) stroke = false;
+
 				this.translate(x,y);
 				for (var i=0
 						,l=sides
@@ -120,7 +124,12 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 						this.scale(s,s);
 						this.fill();
 						this.scale(1/s,1/s);
+						//console.log('fill',fill); // log
 					}
+
+				/*if (fill) {
+					this.fill();
+				}*/
 					this.rotate(a);
 					stroke&&this.stroke(); // todo: fix strokes to boundary
 					this.closePath();
@@ -136,7 +145,7 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 						,TWOPI = 2*Math.PI
 						,iNumRot = 2*sides
 						,fAngle = TWOPI/iNumRot
-						,fAngleH = .5*fAngle
+						,fAngleH = 0.5*fAngle
 						,fInset = inset
 						//
 						,BB = fInset*Math.sin(fAngle)
@@ -167,6 +176,6 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 				this.translate(-x,-y);
 				return this;
 			}
-		}
+		};
 	})()
 );

@@ -1,12 +1,10 @@
-// todo: refactor to new syntax
-// todo: add comments
-/*! iddqd.htmlelement */
-//if (!iddqd.htmlelement) {
-//	iddqd.htmlelement = {
+/* global iddqd */
 // todo: document
-iddqd.ns('iddqd.htmlelement',{
+iddqd.ns('iddqd.htmlelement',(function(){
+	'use strict';
+	return {
 		init: function(){
-			iddqd.htmlelement.init = iddqd.fn;
+			delete iddqd.htmlelement.init;
 			iddqd.extend(HTMLElement.prototype,iddqd.htmlelement);
 		}
 		,addChild: function(elementName,attributes,append) {
@@ -88,14 +86,16 @@ iddqd.ns('iddqd.htmlelement',{
 				var aEvt = evt.split(',')
 					iEvt = aEvt.length;
 				if (iEvt>1) while (iEvt--) this.addEventListener(aEvt[iEvt],fn,useCapture);
-	        	else this.addEventListener(evt,fn,useCapture);
+				else this.addEventListener(evt,fn,useCapture);
 			}:function(evt,fn){
 				var aEvt = evt.split(',')
 					iEvt = aEvt.length;
 				if (iEvt>1) while (iEvt--) this.addEventListener(aEvt[iEvt],fn,f);
-	        	else this.attachEvent('on'+evt,fn);
+				else this.attachEvent('on'+evt,fn);
 			};
 		})()*/
 //	};
 //}
-});
+		};
+	})()
+);

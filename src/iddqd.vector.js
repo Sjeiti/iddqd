@@ -1,5 +1,4 @@
-
-/*! iddqd.vector */
+/* global iddqd */
 /**
  * A mathematical vector with an x and y position.<br/>
  * Can be used for numerous vector calculations.
@@ -8,11 +7,12 @@
  * @requires iddqd.js
  * */
 iddqd.ns('iddqd.vector',(function(){
+	'use strict';
 	var aPool = [];
 	function vector(x,y) {
 		var fX,fY
 
-			,vector = iddqd.vector
+			,_vector = iddqd.vector// todo: check if this works
 
 			,fSize = 0
 			,bRecalculateSize = true
@@ -131,11 +131,11 @@ iddqd.ns('iddqd.vector',(function(){
 			return oVector;
 		}
 		function normalized(){
-			return vector(fX/size(),fY/size());
+			return _vector(fX/size(),fY/size());
 		}
 		function distance(v){
 			v = v.clone();
-			v.subtract(this);
+			v.subtract(oVector);
 			return v.drop().size();
 		}
 
@@ -239,7 +239,7 @@ iddqd.ns('iddqd.vector',(function(){
 
 		// average
 		function average(v,f) {
-			if (f===undefined) f = .5;
+			if (f===undefined) f = 0.5;
 			multiplyNumber(1-f).add(v.clone().drop().multiplyNumber(f));
 			bRecalculateRadians = true;
 			bRecalculateSize = true;
@@ -270,7 +270,7 @@ iddqd.ns('iddqd.vector',(function(){
 			,by = b.getY()
 			,cx = c.getX()
 			,cy = c.getY();
-		return {v1:vector(cx-ax,cy-ay),v2:vector(bx-ax,by-ay)};
+		return {v1:_vector(cx-ax,cy-ay),v2:_vector(bx-ax,by-ay)};
 	}
 	function uv(a,b,c) {
 		var oTV = getTriangleVectors(a,b,c)
@@ -337,7 +337,7 @@ iddqd.ns('iddqd.vector',(function(){
 
 		// misc
 		function clone(){
-			return vector(fX,fY);
+			return _vector(fX,fY);
 		}
 		function toString(){
 			return '[object vector('+fX+','+fY+')]';
@@ -359,6 +359,7 @@ iddqd.ns('iddqd.vector',(function(){
 
 
 	iddqd.vector.crossPoint = function (v1,v2,v3,v4) {
+		'use strict';
 		var  v12 = v1.clone().subtractVector(v2)
 			,fA1 = v12.getY()/v12.getX()
 			,fB1 = v2.getY()-v2.getX()*fA1

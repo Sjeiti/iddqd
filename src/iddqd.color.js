@@ -51,9 +51,17 @@ iddqd.ns('iddqd.color',function(undefined){
 		case 0: randomize(); break;
 		case 1:
 			if (typeof(iR)=='string') {
-				var s = iR.replace('#','');
-				if (s.length===3) s = s.substr(0,1)+s.substr(0,1)+s.substr(1,1)+s.substr(1,1)+s.substr(2,1)+s.substr(2,1);
-				oReturn.integer = iClr = parseInt(s,16);
+				if (iR.match(/rgb/gi)) {
+					var aRGB = iR.match(/\d+/g);
+					iR = parseInt(aRGB[0],10);
+					iG = parseInt(aRGB[1],10);
+					iB = parseInt(aRGB[2],10);
+					iClr = iR<<16|iG<<8|iB;
+				} else {
+					var s = iR.replace('#','');
+					if (s.length===3) s = s.substr(0,1)+s.substr(0,1)+s.substr(1,1)+s.substr(1,1)+s.substr(2,1)+s.substr(2,1);
+					oReturn.integer = iClr = parseInt(s,16);
+				}
 			} else oReturn.integer = iClr = iR<255?iR<<16|iR<<8|iR:iR;
 		break;
 		case 2: oReturn.integer = iClr = iR; break;

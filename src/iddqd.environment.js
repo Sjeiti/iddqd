@@ -2,7 +2,7 @@
 iddqd.ns('iddqd.environment',(function(){
 	'use strict';
 	var
-		oNavigator =	window.navigator.userAgent
+		oNavigator =	window.navigator
 		,sUserAgent =	oNavigator.userAgent
 		,isIPad =		!!sUserAgent.match(/iPad/i)
 		,isIPhone =		!!sUserAgent.match(/iPhone/i)

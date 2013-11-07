@@ -1,19 +1,19 @@
-
-/*! iddqd.signals */
+/* global iddqd */
 /**
  * Signal implementation for various generic events.
  * All signals are dead (no events attached) untill the first signal.add or signal.addOnce.
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @namespace iddqd.signals
- * @requires hammer.js
  * @requires signals.js http://millermedeiros.github.com/js-signals/
  * @requires iddqd.js
  * @requires iddqd.vector.js
  * @requires iddqd.capabilities.js
  */
 
-iddqd.ns('iddqd.signals',function(rv,signals,vector){
+// todo: hammer.js
 
+iddqd.ns('iddqd.signals',function(rv,signals,vector){
+	'use strict';
 	var oSignals = rv.signals = {}
 		,fnEmpty = rv.fn
 		,bTouch = rv.capabilities.touch
@@ -54,7 +54,7 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 	addSignal('DOMReady',function(signal){
 		var fnDispatch = function(){
 			// override 'add' and 'addOnce' before dispatch since DOMReady can only be fired once
-			signal.add = signal.addOnce = function(fn){fn()};
+			signal.add = signal.addOnce = function(fn){fn();};
 			signal.dispatch();
 		};
 		if (document.addEventListener) {
@@ -70,8 +70,8 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 	 * @name iddqd.signals.readyState
 	 * @type Signal
 	 */
-	addSignal('readyState',function(signal){
-		document.onreadystatechange = function(){
+	addSignal('readyState',function (signal) {
+		document.onreadystatechange = function () {
 			signal.dispatch(document.readyState);
 		};
 	});
@@ -375,7 +375,7 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 				,start: vpos
 				,last: vpos.clone()
 				,update: update
-				,toString: function(){return '[object touch '+id+']'}
+				,toString: function(){return '[object touch '+id+']';}
 			};
 			function update(x,y) {
 				oReturn.last.set(oReturn.pos.getX(),oReturn.pos.getY());
@@ -398,7 +398,7 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 					document.body.ongesturestart = function(){ // todo: check if optional
 						oViewport.content = 'width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no';
 						return false;
-					}
+					};
 				}
 				bInited = true;
 				oSignals.dragstart.add(fnEmpty).detach();
@@ -542,7 +542,7 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 		});
 		var oDead = {};
 		loop(oTouches,function(id,o){
-			if (aIds.indexOf(parseInt(id))===-1) {
+			if (aIds.indexOf(parseInt(id,10))===-1) {
 				oDead[id] = o;
 				oTouches.remove(id);
 //					delete oTouches[id];
@@ -576,7 +576,7 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 	addSignal('hash',function(signal){
 		var oLoc = window.location
 			,sHash = oLoc.hash.substr(1);
-		addEvent(window,'hashchange',function(e){
+		addEvent(window,'hashchange',function(){
 			var sOldHash = sHash;
 			sHash = oLoc.hash.substr(1);
 			signal.dispatch(sOldHash,sHash);
