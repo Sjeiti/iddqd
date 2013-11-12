@@ -1,11 +1,9 @@
-/*! type */
 /**
  * A crude but tiny json parser
  * @namespace iddqd.json
  * @requires iddqd
  * @requires iddqd.type
  */
-//iddqd.ns('iddqd.vector',function(x,y) {
 if (!iddqd.json) (function(rv,type) {
 	'use strict';
 	// check requirements

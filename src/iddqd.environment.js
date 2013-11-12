@@ -11,7 +11,7 @@ iddqd.ns('iddqd.environment',(function(){
 		,isIEMobile =	!!sUserAgent.match(/IEMobile/i)
 		,isPhoneGap =	window.PhoneGap!==undefined
 		,isCordova =	window.cordova!==undefined
-		// cululative
+		// cumulative
 		,isIOS =		isIPad||isIPhone||isIPod
 		,isMobile =		isIOS||isAndroid||isBlackBerry||isIEMobile
 		,isStandalone =	!!oNavigator.standalone

@@ -7,16 +7,13 @@
  */
 iddqd.ns('iddqd.native.number',(function(iddqd){
 	'use strict';
-	return {
-		augment: function() {
-			iddqd.augment(Number,iddqd.native.number);
-		}
+	return iddqd.primitive(Number,{
 		/**
 		 * Formats a number to the appropriate filesize notation
 		 * @param {number} round The number of decimals to round by
 		 * @returns {string} Filesize string result
 		 */
-		,formatSize: function(round) {
+		formatSize: function(round) {
 			var i, size = this;
 			if (round===undefined) round = 0;
 			var aSizes = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
@@ -24,5 +21,5 @@ iddqd.ns('iddqd.native.number',(function(iddqd){
 			var iMult = Math.pow(10,round);
 			return (Math.round(size*iMult)/iMult)+aSizes[i];
 		}
-	};
+	});
 })(iddqd));

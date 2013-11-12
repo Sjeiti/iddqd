@@ -1,15 +1,12 @@
 iddqd.ns('iddqd.host.node',(function(){
 	'use strict';
-	return {
-		augment: function() {
-			iddqd.augment(Node,iddqd.host.node);
-		}
+	return iddqd.primitive(Node,{
 		/**
 		 * Converts a node to an object (attribute and childnode collisions may occur)
 		 * @param {object} obj An optional pre-existing object to fill.
 		 * @returns {object}
 		 */
-		,toObject: function(obj){
+		toObject: function(obj){
 			if (obj===undefined) obj = {};
 			var i,l
 				,aAttributes = this.attributes
@@ -40,8 +37,7 @@ iddqd.ns('iddqd.host.node',(function(){
 						obj._text = el.innerText||el.textContent;
 				}
 			}
-			//
 			return obj;
 		}
-	};
+	});
 })());

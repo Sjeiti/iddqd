@@ -1,11 +1,8 @@
 // todo: document
 iddqd.ns('iddqd.host.htmlelement',(function(){
 	'use strict';
-	return {
-		augment: function() {
-			iddqd.augment(HTMLElement,iddqd.host.htmlelement);
-		}
-		,addChild: function(elementName,attributes,append) {
+	return iddqd.primitive(HTMLElement,{
+		addChild: function(elementName,attributes,append) {
 			if (append===undefined) append = true;
 			var m = document.createElement(elementName);
 			if (attributes!==undefined) m.setAttributes(attributes);
@@ -94,6 +91,6 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		})()*/
 //	};
 //}
-		};
+		});
 	})()
 );

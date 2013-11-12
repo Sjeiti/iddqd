@@ -1,11 +1,8 @@
 // todo: document
-iddqd.ns('iddqd.array',(function(){
+iddqd.ns('iddqd.native.array',(function(){
 	'use strict';
-	return {
-		augment: function() {
-			iddqd.augment(Array,iddqd.array);
-		}
-		,largest: function(){
+	return iddqd.primitive(Array,{
+		largest: function(){
 			return Math.max.apply(Math,this);
 		}
 		,smallest: function(){
@@ -121,5 +118,5 @@ iddqd.ns('iddqd.array',(function(){
 	//		};
 	//		return this;
 	//	}
-	};
+	});
 })());

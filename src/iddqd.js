@@ -32,6 +32,8 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			,loop:loop
 			,extend:extend
 			,augment:augment
+			,normalize:normalize
+			,primitive:primitive
 			,ns:ns
 			,fireEvent:fireEvent
 			,millis: millis
@@ -191,7 +193,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			console.warn('Object has no prototype to augment, use extend instead.');
 		} else {
 			loop(augmentwith,function(name,fnc){
-				if (name!=='toString'&&name!=='augment') {
+				if (name!=='toString'&&name!=='normalize'&&name!=='augment') {
 					if (oPrototype.hasOwnProperty(name)) {
 						if (oPrototype[name]!==augmentwith[name]) {
 							console.warn('Attempting to augment with an existing propery: \''+name+'\' in \''+obj+'\'.');
@@ -205,6 +207,37 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		return bSuccess;
 	}
+	/**
+	 * Normalizes a namespace so methods can be called without applying.
+	 * @param namespace {Object} The object to augment.
+	 */
+	function normalize(namespace){
+		loop(namespace,function(name,fnc){
+			if (name!=='augment'&&name!=='normalize'&&name!=='toString'&&!fnc.normalized) {
+				namespace[name] = function(s){
+					return fnc.apply(s);
+				};
+				namespace[name].normalized = true;
+			}
+		});
+	}
+
+	/**
+	 * Adds augment and normalize methods to host- or native objects.
+	 * @param {object} primitiveObject The host- or native object.
+	 * @param {object} namespace The namespace to add the methods to.
+	 * @returns {object} The namespace
+	 */
+	function primitive(primitiveObject,namespace){
+		namespace.augment = function() {
+			return augment(primitiveObject,namespace);
+		};
+		namespace.normalize = function(){
+			normalize(namespace);
+		};
+		return namespace;
+	}
+
 	// todo: namespace
 	/*function namespace(namespace,includes,fn){
 

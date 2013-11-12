@@ -6,11 +6,8 @@ iddqd.ns('iddqd.host.canvasrenderingcontext2d',
 		var aStyle = ['strokeStyle','fillStyle','font','lineWidth']
 			,oStoredStyle = {}
 		;
-		return {
-			augment: function() {
-				iddqd.augment(CanvasRenderingContext2D,iddqd.host.canvasrenderingcontext2d);
-			}
-			,createGradient: function(isLinear,ysize,pos,color) {
+		return iddqd.primitive(CanvasRenderingContext2D,{
+			createGradient: function(isLinear,ysize,pos,color) {
 				var oGradient = isLinear?this.createLinearGradient(0,0,0,ysize):this.createRadialGradient(0,0,0,0,0,ysize)
 					,i = arguments.length-2
 					,j = i/2
@@ -173,6 +170,6 @@ iddqd.ns('iddqd.host.canvasrenderingcontext2d',
 				this.translate(-x,-y);
 				return this;
 			}
-		};
+		});
 	})(iddqd)
 );

@@ -1,17 +1,7 @@
 /* global ActiveXObject */
 iddqd.ns('iddqd.native.string',(function(iddqd){
 	'use strict';
-	return {
-		/**
-		 * Augment the String prototype
-		 * Without augmentation all iddqd.native.string methods have to be applied (ie iddqd.native.string.camelCase.apply('camel-case')).
-		 * @name iddqd.native.string.augment
-		 * @method
-		 * @returns {Boolean} Success
-		 */
-		augment: function() {
-			return iddqd.augment(String,iddqd.native.string);
-		}
+	return iddqd.primitive(String,{
 		/**
 		 * Pads a string left or right
 		 * @param {Number} length Final length of the total string.
@@ -19,7 +9,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		 * @param {Boolean} [left=false] Pad to the left of the string.
 		 * @returns {string} The padded string
 		 */
-		,pad: function(length,chr,left){
+		pad: function(length,chr,left){
 			if (left===undefined) left = false;
 			var iLenStr = this.length
 				,iLenPad = length-iLenStr
@@ -144,5 +134,5 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 			var sUnSpc = this.replace(/[\s\-]/g, '_');
 			return this==sCamel?sUnSpc:sCamel;
 		}
-	};
+	});
 })(iddqd));

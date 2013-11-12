@@ -1,6 +1,8 @@
 
 iddqd.ns('iddqd.pattern',{
 	pool: function(fnc){
+		'use strict';
+		/* jshint validthis:true */
 		var aPool = [];
 		function drop(){
 			aPool.push(this);
@@ -16,13 +18,14 @@ iddqd.ns('iddqd.pattern',{
 				oInstance.drop = drop;
 			}
 			return oInstance;
-		}
+		};
 	}
 	,memoize: function(fnc){
+		'use strict';
 		var oCache = {};
 		return function () {
 			var sKey = JSON.stringify(arguments);
 			return (sKey in oCache)?oCache[sKey]:oCache[sKey] = fnc.apply(fnc,arguments);
-		}
+		};
 	}
 });
