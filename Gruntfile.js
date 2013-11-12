@@ -19,9 +19,8 @@ module.exports = function (grunt) {
 			files: ['src/*.js']
 		},
 
-		// wraps files with header and footer
-		buildHTML: {
-			asdf: 1
+		jsdoc: {
+			files: ['src/*.js']
 		}
 
 		// Move other files to production folder
@@ -37,6 +36,7 @@ module.exports = function (grunt) {
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('jsdoc');
 
 	// grunt.loadNpmTasks('grunt-contrib-copy');
 
@@ -53,29 +53,11 @@ module.exports = function (grunt) {
 //		grunt.log.writeln('File "inspectColor.js" created.');
 //	});
 
-	// buildHTML
-	grunt.registerMultiTask('buildHTML', 'Build the index.html', function() {
-		var sHTMLTpl = grunt.file.read('src/inspectColor.html')
-				.replace(/[\r\n\t]/g,'')
-				.replace(/'/g,'\\\'')
-				.replace(/"/g,'\\\''),
-			sJsWithTpl = grunt.file.read(sTempFile)
-				.replace(/"/g,'\'')
-				.replace(/\/\*template\*\//,sHTMLTpl),
-			sIndex = grunt.file.read('src/index.html')
-				.replace(/javascript:/,'$&'+sJsWithTpl)
-		;
-		//
-		grunt.file.write('index.html',sIndex);
-		grunt.log.writeln('File "index.html" created.');
-
-		grunt.file.delete(sTempFile);
-		grunt.log.writeln('File "'+sTempFile+'" deleted.');
-
-	});
 
 	// Default task(s).
-	grunt.registerTask('default',['jshint','uglify','buildHTML']);
+	grunt.registerTask('default',['jshint','uglify']);
+
+	grunt.registerTask('jsdoc',['jsdoc']);
 
 
 

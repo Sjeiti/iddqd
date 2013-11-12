@@ -1,6 +1,6 @@
 {
-  "name": "inspectColor",
-  "version": "0.1.0",
+  "name": "iddqd",
+  "version": "2.0.0",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.2",
@@ -19,12 +19,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Sjeiti/inspectColor.git"
+    "url": "https://github.com/Sjeiti/iddqd.git"
   },
-  "keywords": [
-    "color",
-    "inspector"
-  ],
+  "keywords": [],
   "author": "Ron Valstar",
   "license": "MIT"
 }

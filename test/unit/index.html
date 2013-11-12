@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>IDDQD unit test</title>
+		<meta charset="utf-8" />
+		<link href="qunit/qunit.css" type="text/css" rel="stylesheet" />
+		<style>html,body{padding:0;margin:0;}</style>
+		<script src="../../vendor/es5-shim.min.js"></script>
+		<script src="../../vendor/es5-sham.min.js"></script>
+		<script src="../../vendor/zen.min.js"></script>
+		<script src="../../vendor/signals.min.js"></script>
+		<script src="../../src/iddqd.js"></script>
+		<script src="../../src/iddqd.native.string.js"></script>
+		<script src="../../src/iddqd.native.number.js"></script>
+		<script src="../../src/iddqd.native.object.js"></script>
+		<script src="../../src/iddqd.native.date.js"></script>
+		<script src="../../src/iddqd.host.node.js"></script>
+		<script src="../../src/iddqd.host.htmlelement.js"></script>
+		<script src="../../src/iddqd.host.canvasrenderingcontext2d.js"></script>
+		<script src="qunit/qunit.js"></script>
+
+		<script>
+
+			module('iddqd.js');
+			test('default functionality', function() {
+				ok(!!location.origin,'location.origin');
+				ok(!!window.console.log,'window.console.log');
+			});
+			test('iddqd.DOMReady', function(){
+				ok(!iddqd.DOMReady,'DOMReady');
+			});
+			/*asyncTest('iddqd.onDOMReady async',function () {
+				expect(2);
+				iddqd.onDOMReady(function () {
+					ok(true,'onDOMReady called');
+					ok(iddqd.DOMReady,'onDOMReady set');
+					start();
+				});
+			});*/
+			test('iddqd.loop', function() {
+				ok((function(){
+					var a = [4,1,2,3], sResult = '';
+					iddqd.loop(a,function(i,s){
+						sResult += s;
+					});
+					return sResult===a.join('');
+				})(),'array values');
+				ok((function(){
+					var a = [4,1,2,3], sResult = '';
+					iddqd.loop(a,function(i,s){
+						sResult += i;
+					});
+					return sResult==='0123';
+				})(),'array keys');
+				ok((function(){
+					var a = {a:2,c:4,b:1}, sResult = '';
+					iddqd.loop(a,function(i,s){
+						sResult += s;
+					});
+					return sResult==='241';
+				})(),'object values');
+				ok((function(){
+					var a = {a:2,c:4,b:1}, sResult = '';
+					iddqd.loop(a,function(i,s){
+						sResult += i;
+					});
+					return sResult==='acb';
+				})(),'object keys');
+			});
+			test('iddqd.extend', function() {
+				var a, b;
+				ok((
+					a = {a:1,c:2}
+					,b = {a:3,b:4}
+					,iddqd.extend(a,b)
+					,a.a===1&&a.c===2&&a.b===4
+				),'extend');
+			});
+			test('iddqd.augment', function() {
+				ok((function(){
+					var oProto = Object.create({
+							foo: function(){}
+							,toString:function(){return '[object Foo]';}
+						})
+						,oObjA = Object.create(oProto)
+						,oObjB = Object.create(oProto)
+					;
+					oProto.aaa = function(){};
+					iddqd.augment(oProto,{bar:true});
+					return oObjA.bar&&oObjB.bar;
+				})(),'augment');
+				ok((function(){
+					var oProto = Object.create({
+							foo: function(){}
+							,toString:function(){return '[object Foo]';}
+						})
+						,oObjA = Object.create(oProto)
+						,oObjB = Object.create(oProto)
+					;
+					iddqd.augment(oProto,{foo:true});
+					return oObjA.foo!==true&&oObjB.foo!==true;
+				})(),'augment');
+			});
+			test('iddqd.ns', function(){
+				ok((iddqd.ns('a',{b:{},c:true}),a.c),'namespace create');
+				ok((iddqd.ns('a.b.c',{d:true}),a.b.c.d),'namespace append');
+				ok((iddqd.ns('a.b',{d:true}),a.b.d),'namespace overwrite');
+			});
+			// todo fireEvent
+			// todo millis
+			// todo requestAnimFrame
+			// todo animate
+			// todo getGet
+			// todo getLessVars
+			// todo loadScript
+
+			module('iddqd.native.string.js');
+			test('pad', function() {
+				ok(iddqd.native.string.pad.apply('a',[3,'b'])==='abb','pad');
+				ok(iddqd.native.string.pad.apply('a',[3,'bc'])==='abc','pad');
+				ok(iddqd.native.string.pad.apply('a',[3,'b',true])==='bba','pad left');
+				ok(iddqd.native.string.pad.apply('aac',[3,'b'])==='aac','pad');
+				ok(iddqd.native.string.pad.apply('aaac',[3,'b'])==='aaac','pad');
+			});
+			test('toType', function() {
+				ok(iddqd.native.string.toType.apply('a')==='a','toType string');
+				ok(iddqd.native.string.toType.apply('1')===1,'toType number');
+				ok(iddqd.native.string.toType.apply('0.1')===.1,'toType number');
+				ok(iddqd.native.string.toType.apply('true')===true,'toType boolean');
+			});
+			test('toXML', function() {
+				ok(!!iddqd.native.string.toXML.apply('<foo bar="baz">qux</foo>'),'toXML');
+			});
+			test('toXMLObj', function() {
+				ok(iddqd.native.string.toXMLObj.apply('<foo bar="baz">qux</foo>').bar==='baz','toXMLObj');
+			});
+			test('generate', function() {
+				ok(!!iddqd.native.string.generate(),'generate');
+			});
+			test('nameCase', function() {
+				ok(iddqd.native.string.nameCase.apply('foo bar')==='Foo Bar','nameCase');
+			});
+			test('camelCase', function() {
+				ok(iddqd.native.string.camelCase.apply('foo bar baz')==='fooBarBaz','camelCase');
+				ok(iddqd.native.string.camelCase.apply('foo-bar-baz')==='fooBarBaz','camelCase');
+				ok(iddqd.native.string.camelCase.apply('foo_bar_baz')==='fooBarBaz','camelCase');
+			});
+			test('dash', function() {
+				ok(iddqd.native.string.dash.apply('foo bar baz')==='foo-bar-baz','dash');
+				ok(iddqd.native.string.dash.apply('fooBarBaz')==='foo-bar-baz','dash');
+				ok(iddqd.native.string.dash.apply('foo_bar_baz')==='foo-bar-baz','dash');
+			});
+			test('underscore', function() {
+				ok(iddqd.native.string.underscore.apply('foo bar baz')==='foo_bar_baz','underscore');
+				ok(iddqd.native.string.underscore.apply('fooBarBaz')==='foo_bar_baz','underscore');
+				ok(iddqd.native.string.underscore.apply('foo-bar-baz')==='foo_bar_baz','underscore');
+			});
+			test('augment', function() {
+				ok(iddqd.native.string.augment(),('').nameCase,'augment');
+			});
+			test('normalize', function() {
+				iddqd.native.string.normalize();
+				ok(iddqd.native.string.camelCase('foo bar baz')==='fooBarBaz','normalize');
+			});
+			test('normalize', function() {
+				iddqd.native.string.normalize();
+				ok(iddqd.native.string.camelCase('foo bar baz')==='fooBarBaz','normalize');
+			});
+
+
+			module('iddqd.native.array.js');
+			// todo iddqd.native.array.js
+
+			module('iddqd.native.number.js');
+			// todo iddqd.native.number.js
+
+			module('iddqd.native.object.js');
+			// todo iddqd.native.object.js
+
+			module('iddqd.native.date.js');
+			// todo iddqd.native.date.js
+
+			// todo etc
+		</script>
+
+	</head>
+	<body>
+		<h1 id="qunit-header">IDDQD</h1>
+		<h2 id="qunit-banner"></h2>
+		<h2 id="qunit-userAgent"></h2>
+		<ol id="qunit-tests"></ol>
+	</body>
+</html>
