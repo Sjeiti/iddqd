@@ -22,49 +22,56 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 					window.setTimeout(callback, 1000/60);
 				};
 		})()
+		,oGetget = {}
+		,bGetget = false
+		,oTmplCache = {}
 		,oReturn = {
 			toString: function(){return '[Object iddqd]';}
-			/**
-			 * Environment is standalone.
-			 * @name iddqd.standalone
-			 * */
-			,logEnabled: false
+			,DOMReady: false
+			,onDOMReady:onDOMReady
+			,loop:loop
+			,extend:extend
+			,augment:augment
+			,ns:ns
+			,fireEvent:fireEvent
+			,millis: millis
+			,requestAnimFrame:requestAnimFrame
+			,animate:animate
+			,getGet:getGet
+			,getLessVars:getLessVars
+			,loadScript: loadScript
+			//,namespace:namespace
+			,require:require
 			/**
 			 * Empty function.
 			 * @name iddqd.fn
 			 * @method
 			 * */
 			,fn: function(){}
-			,extend:extend
-			,DOMReady:false
-			,onDOMReady:onDOMReady
-			// todo: remove event
-			,fireEvent:fireEvent
-			,millis: millis
-			,loop:loop
-			,requestAnimFrame:requestAnimFrame
-			,animate:animate
-			,getGet:getGet
-			,getLessVars:getLessVars
-			,loadScript: loadScript
-			,ns:ns
-			//,namespace:namespace
-			,require:require
+			,tmpl:tmpl
+			,es5:es5
 		}
 		,sJSRoot = './'
 	;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	// set location origin
 	if (location.origin===undefined) {
 		var aLocHref = location.href.split('/');
 		aLocHref.length = 3;
 		location.origin = aLocHref.join('/');
 	}
+
 	// find js root
 	loop(document.getElementsByTagName('script'),function(i,el){
 		var sSrc = el.attributes&&el.attributes.src&&el.attributes.src.value.split('?').shift()
 			,aMatch = sSrc&&sSrc.match(/^(.*)(iddqd\.js|iddqd\.min\.js)$/);
 		if (aMatch) sJSRoot = aMatch[1]; // log
 	});
+
 	// console.log override for IE
 	if (!window.console) {
 		window.console = {};
@@ -72,18 +79,65 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			window.console.log = function(){};
 		}
 	}
+
+	// addEventListener polyfill 1.0 / Eirik Backer / MIT Licence
+	(function(win, doc){
+		/* jshint validthis: true */
+		if(win.addEventListener) return; // No need to polyfill
+		function docHijack(p){var old = doc[p];doc[p] = function(v){return addListen(old(v));};}
+		function addEvent(on, fn, self){
+			return (self = this).attachEvent('on' + on, function(ee){
+				var e = ee || win.event;
+				e.preventDefault  = e.preventDefault  || function(){e.returnValue = false;};
+				e.stopPropagation = e.stopPropagation || function(){e.cancelBubble = true;};
+				fn.call(self, e);
+			});
+		}
+		function addListen(obj, i){
+			if(i = obj.length)while(i--)obj[i].addEventListener = addEvent;
+			else obj.addEventListener = addEvent;
+			return obj;
+		}
+		addListen([doc, win]);
+		if('Element' in win) { // IE8
+			win.Element.prototype.addEventListener = addEvent;
+		}else { //IE < 8
+			doc.attachEvent('onreadystatechange', function(){addListen(doc.all);}); // Make sure we also init at domReady
+			docHijack('getElementsByTagName');
+			docHijack('getElementById');
+			docHijack('createElement');
+			addListen(doc.all);
+		}
+	})(window, document);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Extend an object
-	 * @name iddqd.extend
+	 * Method with callback function to be executed when DOM has finished loading. If DOM has already finished callback is executed immediately.
+	 * @name iddqd.onDOMReady
 	 * @method
-	 * @param obj {Object} Subject.
-	 * @param fns {Object} Property object.
-	 * @returns {Object} Subject.
+	 * @param callback Callback function.
+	 * @param state Listen to particular state
 	 */
-	function extend(obj,fns){
-		for (var s in fns) if (obj[s]===undefined) obj[s] = fns[s];
-		//for (var s in fns) if (!obj[s]) obj[s] = fns[s];
-		return obj;
+	function onDOMReady(callback,state) { // todo: add to signals
+		function doCallback(){
+			oReturn.DOMReady = true;
+			callback();
+		}
+		function checkReadyState(fn) {
+			if (document.readyState==state||'interactive') {
+				fn();
+			}
+		}
+		if (oReturn.DOMReady===true) {
+			console.log('istrue'); // log
+			doCallback();
+		} else {
+			if (document.addEventListener&&!state) document.addEventListener('DOMContentLoaded',doCallback,false);
+			else document.onreadystatechange = function(){ checkReadyState(doCallback); };
+		}
 	}
 	/**
 	 * Traverse an object or array
@@ -108,6 +162,48 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 				for (var s in o) if (fn.call(o[s],s,o[s])===false) break; // ie8 fix
 			}
 		}
+	}
+	/**
+	 * Extend an object
+	 * @name iddqd.extend
+	 * @method
+	 * @param obj {Object} Subject.
+	 * @param fns {Object} Property object.
+	 * @returns {Object} Subject.
+	 */
+	function extend(obj,fns){
+		for (var s in fns) if (obj[s]===undefined) obj[s] = fns[s];
+		//for (var s in fns) if (!obj[s]) obj[s] = fns[s];
+		return obj;
+	}
+	/**
+	* Augment an objects prototype
+	 * @name iddqd.augment
+	 * @method
+	 * @param obj {Object} The object to augment.
+	 * @param augmentwith {Object} A key value pair ({name:Function})
+	 * @returns {Boolean} Success
+	*/
+	function augment(obj,augmentwith){
+		var oPrototype = obj.prototype||Object.getPrototypeOf(obj)
+			,bSuccess = false;
+		if (oPrototype===undefined) {
+			console.warn('Object has no prototype to augment, use extend instead.');
+		} else {
+			loop(augmentwith,function(name,fnc){
+				if (name!=='toString'&&name!=='augment') {
+					if (oPrototype.hasOwnProperty(name)) {
+						if (oPrototype[name]!==augmentwith[name]) {
+							console.warn('Attempting to augment with an existing propery: \''+name+'\' in \''+obj+'\'.');
+						}
+					} else {
+						oPrototype[name] = fnc;
+						bSuccess = true;
+					}
+				}
+			});
+		}
+		return bSuccess;
 	}
 	// todo: namespace
 	/*function namespace(namespace,includes,fn){
@@ -210,6 +306,52 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		(document.head||document.getElementsByTagName('head')[0]).appendChild(mScript);
 	}
 	/**
+	 * Simple JavaScript Templating
+	 * John Resig - http://ejohn.org/ - MIT Licensed
+	 * @name iddqd.tmpl
+	 * @param {String} str ID of the template script element
+	 * @param {Object} [data] A callback function for when the file is loaded.
+	 * @example
+	 * <script type="text/html" id="user_tmpl">
+	 *	<% for ( var i = 0; i < users.length; i++ ) { %>
+	 *		<li><a href="<%=users[i].url%>"><%=users[i].name%></a></li>
+	 *	<% } %>
+	 * </script>
+	 */
+	function tmpl(str, data){
+		/* jshint -W054 */
+		// Figure out if we're getting a template, or if we need to
+		// load the template - and be sure to cache the result.
+		var fn = !/\W/.test(str) ?
+			oTmplCache[str] = oTmplCache[str] ||
+			tmpl(document.getElementById(str).innerHTML) :
+			// Generate a reusable function that will serve as a template
+			// generator (and which will be cached).
+			new Function("obj",
+			"var p=[],print=function(){p.push.apply(p,arguments);};" +
+			// Introduce the data as local variables using with(){}
+			"with(obj){p.push('" +
+			// Convert the template into pure JavaScript
+			str
+				.replace(/[\r\t\n]/g, " ")
+				.split("<%").join("\t")
+				.replace(/((^|%>)[^\t]*)'/g, "$1\r")
+				.replace(/\t=(.*?)%>/g, "',$1,'")
+				.split("\t").join("');")
+				.split("%>").join("p.push('")
+				.split("\r").join("\\'")
+			+ "');}return p.join('');");
+		// Provide some basic currying to the user
+		return data ? fn( data ) : fn;
+	}
+
+	function es5(shimonly){
+		if (!!shimonly) {
+
+		}
+	}
+
+	/**
 	 * @name iddqd.millis
 	 * @method
 	 * @returns Returns the number of milliseconds elapsed since unix epoch.
@@ -221,12 +363,12 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * Animates something
 	 * @name iddqd.animate
 	 * @method
-	 * @param {Integer} duration Length of animation in milliseconds.
+	 * @param {Number} duration Length of animation in milliseconds.
 	 * @param {Function} step Function called each step with a progress parameter (a 0-1 float).
 	 * @param {Function} complete Callback function when animation finishes.
 	 * @return {Object} An animation object with a cancel function.
 	 */
-	function animate(duration,step,complete,laststep){
+	function animate(duration,step,complete){
 		var t = millis()
 			,fnAnim = oReturn.requestAnimFrame
 			,bRunning = true
@@ -235,10 +377,9 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 					var iTCurrent = millis()-t;
 					if (iTCurrent<duration) {
 						step(iTCurrent/duration);
-
 						fnAnim(fnRun);
 					} else {
-						if (laststep===undefined||laststep) step(1);
+						step(1);
 						complete&&complete();
 					}
 				}
@@ -255,25 +396,19 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * Returns get vars object
 	 * @name iddqd.getGet
 	 * @method
-	 * @param {Boolean} [typecast=true] Tries to guess the type.
 	 * @return {Object} A key/value object.
 	 */
-	var getGet = (function(){
-		// todo: implement typecast
-		var oGetget = {}
-			,bGetget = false;
-		return function(){//typecast
-			if (!bGetget) {
-				var aPairs = location.search.substr(1).split('&');
-				for (var i=0,l=aPairs.length;i<l;i++) {
-					var aKeyValue = aPairs[i].split('=');
-					oGetget[aKeyValue.shift()] = aKeyValue.join('=');
-				}
-				bGetget = true;
+	function getGet(){ // todo typecast * @param {Boolean} [typecast=true] Tries to guess the type.
+		if (!bGetget) {
+			var aPairs = location.search.substr(1).split('&');
+			for (var i=0,l=aPairs.length;i<l;i++) {
+				var aKeyValue = aPairs[i].split('=');
+				oGetget[aKeyValue.shift()] = aKeyValue.join('=');
 			}
-			return oGetget;
-		};
-	})();
+			bGetget = true;
+		}
+		return oGetget;
+	}
 	/**
 	 * Tries to pull your LESS/SASS/etc variables from CSS and parse them to Javascript
 	 * @name iddqd.getLessVars
@@ -334,47 +469,6 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		return oLess;
 	}
-
-	/**
-	 * Method with callback function to be executed when DOM has finished loading.
-	 * @name iddqd.onDOMReady
-	 * @method
-	 * @param fn Callback function.
-	 */
-	function onDOMReady(fn,state) { // todo: add to signals
-		function checkReadyState(fn) {
-			if (document.readyState==state||'interactive') fn();
-		}
-		if (document.addEventListener&&!state) document.addEventListener('DOMContentLoaded',fn,false);
-		else document.onreadystatechange = function(){ checkReadyState(fn); };
-	}
-	onDOMReady(function(){
-		oReturn.DOMReady = true;
-	});
-	// todo: remove... keep regular addEventListener and only shim attachEvent
-	/**
-	 * Attach an event
-	 * @name iddqd.addEvent
-	 * @method
-	 * @param {Object} target The target
-	 * @param {String} evt The event. Multiple events can be attached by parsing a comma separated string.
-	 * @param {Function} fn The function handling the event
-	 */
-	var addEvent = (function(){
-		return window.addEventListener?function(target,evt,fn,useCapture){
-			if (useCapture===undefined) useCapture = false;
-			var aEvt = evt.split(',')
-				,iEvt = aEvt.length;
-			if (iEvt>1) while (iEvt--) target.addEventListener(aEvt[iEvt],fn,useCapture);
-			else target.addEventListener(evt,fn,useCapture);
-		}:function(target,evt,fn){
-			var aEvt = evt.split(',')
-				,iEvt = aEvt.length;
-			if (iEvt>1) while (iEvt--) target.addEventListener(aEvt[iEvt],fn);//,f
-			else target.attachEvent('on'+evt,fn);
-		};
-	})();
-	oReturn.addEvent = addEvent;
 	/**
 	 * Fires an event
 	 * @name iddqd.fireEvent
@@ -385,19 +479,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	function fireEvent(target,evt){
 		if (document.createEventObject){ // dispatch for IE
 			return target.fireEvent('on'+evt,document.createEventObject());
-		} else{ // dispatch for firefox + others
+		} else { // dispatch for firefox + others
 			var oEvt = document.createEvent('HTMLEvents');
 			oEvt.initEvent(evt,true,true); // event type,bubbling,cancelable
 			return !target.dispatchEvent(oEvt);
 		}
 	}
-//	var fnLog = window.console.log||function(){};
-//	window.console.log = function() {
-//		if (iddqd.logEnabled) {
-//			try { fnLog.apply(console,arguments); } catch (err) {}
-//		}
-//	};
-	//
 	return oReturn;
 })();
-// todo: make unit tests

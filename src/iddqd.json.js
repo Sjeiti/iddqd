@@ -1,4 +1,3 @@
-/* global iddqd */
 /*! type */
 /**
  * A crude but tiny json parser

@@ -1,22 +1,46 @@
-/* global iddqd */
-// todo: document
-iddqd.ns('iddqd.string',(function(){
+/* global ActiveXObject */
+iddqd.ns('iddqd.native.string',(function(iddqd){
 	'use strict';
 	return {
-		init: function(){
-			iddqd.string.init = iddqd.fn;
-			iddqd.extend(String.prototype,iddqd.string);
+		/**
+		 * Augment the String prototype
+		 * Without augmentation all iddqd.native.string methods have to be applied (ie iddqd.native.string.camelCase.apply('camel-case')).
+		 * @name iddqd.native.string.augment
+		 * @method
+		 * @returns {Boolean} Success
+		 */
+		augment: function() {
+			return iddqd.augment(String,iddqd.native.string);
 		}
+		/**
+		 * Pads a string left or right
+		 * @param {Number} length Final length of the total string.
+		 * @param {String} chr Character to pad the string with.
+		 * @param {Boolean} [left=false] Pad to the left of the string.
+		 * @returns {string} The padded string
+		 */
 		,pad: function(length,chr,left){
 			if (left===undefined) left = false;
-			var iFill = Math.max(0,length-this.length);
-			var aFill = [];
+			var iLenStr = this.length
+				,iLenPad = length-iLenStr
+				,iLenChr = chr.length
+				,bCut = iLenChr>1
+				,iFill = Math.max(0,bCut?Math.ceil(iLenPad/iLenChr):iLenPad)
+				,aFill = []
+				,sFill
+			;
 			for (var i=0;i<iFill;i++) aFill.push(chr);
-			return left?(aFill.join('')+this):(this+aFill.join(''));
+			sFill = aFill.join('');
+			if (bCut) sFill = sFill.substr(0,iLenPad);
+			return left?sFill+this:this+sFill;
 		}
+		/**
+		 * Tries to determine the type of the string and returns it.
+		 * @returns {Object} Returns a string, number or boolean.
+		 */
 		,toType: function(){
 			// integer
-			var i = parseInt(this);
+			var i = parseInt(this,10);
 			if (i.toString()==this) return i;
 			// floating point
 			var f = parseFloat(this);
@@ -27,6 +51,10 @@ iddqd.ns('iddqd.string',(function(){
 			//
 			return this;
 		}
+		/**
+		 * Converts string to XML
+		 * @returns {Document} Returns an XML Document
+		 */
 		,toXML: function() {
 			var xDoc;
 			if (window.ActiveXObject) {
@@ -38,19 +66,34 @@ iddqd.ns('iddqd.string',(function(){
 			}
 			return xDoc;
 		}
+		/**
+		 * Converts an XML string to an object
+		 * @returns {Object}
+		 */
 		,toXMLObj: function(){
-			return this.toXML().childNodes[0].toObj();
+			if (!iddqd.host||!iddqd.host.node||!iddqd.host.node.toObject) {
+				console.warn('The required function iddqd.host.node.toObject does not exist');
+				return false;
+			} else {
+				return iddqd.host.node.toObject.apply(iddqd.native.string.toXML.apply(this).childNodes[0]);
+			}
 		}
-		,generate: function(iLen,bCut) {
+		/**
+		 * Generates a random, but pronounceable string
+		 * @param length {Number} Length of the string
+		 * @param cut {Boolean} Cut string to length
+		 * @returns {string}
+		 */
+		,generate: function(length,cut) {
 			var isInt = function(n) {
 				return (n%1)===0;
-			}
+			};
 			var rand = function(fStr,fEnd) {
 				var fNum = fStr + Math.random()*(fEnd-fStr);
 				return (isInt(fStr)&&isInt(fEnd))?Math.round(fNum):fNum;
-			}
-			if (iLen===undefined) iLen = 6;
-			if (bCut===undefined) bCut = false;
+			};
+			if (length===undefined) length = 6;
+			if (cut===undefined) cut = false;
 			var aLtr = [
 				['a','e','i','o','u','y']
 				,['aa','ai','au','ea','ee','ei','eu','ia','ie','io','iu','oa','oe','oi','ua','ui']
@@ -61,60 +104,45 @@ iddqd.ns('iddqd.string',(function(){
 			var sPsw = "";
 			var iNum = 0;
 			for (var i=0;i<iSnm;i++) {
-				if (i==0)			iNum = rand(0,2);
+				if (i===0)			iNum = rand(0,2);
 				else if (i==iSnm-1)	iNum = (iNum<2)?2:rand(0,1);
 				else				iNum = (iNum<2)?rand(0,1)+2:rand(0,1);
 				var aLst = aLtr[iNum];
 				sPsw += aLst[ rand(0,aLst.length-1) ];
 			}
-			return bCut?sPsw.substr(0,iLen):sPsw;
+			return cut?sPsw.substr(0,length):sPsw;
 		}
+		/**
+		 * Capitalizes the first character of the string
+		 * @returns {string}
+		 */
 		,nameCase: function(){
-			return this.substr(0,1).toUpperCase()+this.substr(1).toLowerCase();
+			return ('-'+this).replace(/[_\s\-][a-z]/g, function($1){return $1.toUpperCase().replace('-',' ').replace('_',' ');}).substr(1);
 		}
-
+		/**
+		 * Converts the string to camelCase notation
+		 * @returns {string}
+		 */
 		,camelCase: function(){
-			return this.replace(/[_\s\-][a-z]/g, function($1){return $1.toUpperCase().replace('-','').replace(' ','').replace('_','');});//
-	//		return this.replace(/(\-[a-z])/g, function($1){return $1.toUpperCase().replace('-','');});
+			return this.replace(/[_\s\-][a-z]/g, function($1){return $1.toUpperCase().replace('-','').replace(' ','').replace('_','');});
 		}
+		/**
+		 * Converts the string to dashed notation
+		 * @returns {string}
+		 */
 		,dash: function(){
 			var sCamel = this.replace(/[A-Z]/g, function($1){return "-"+$1.toLowerCase();});
 			var sUnSpc = this.replace(/[\s_]/g, '-');
 			return this==sCamel?sUnSpc:sCamel;
-	//		return this.replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();});
 		}
+		/**
+		 * Converts the string to underscored notation
+		 * @returns {string}
+		 */
 		,underscore: function(){
 			var sCamel = this.replace(/[A-Z]/g, function($1){return "_"+$1.toLowerCase();});
 			var sUnSpc = this.replace(/[\s\-]/g, '_');
 			return this==sCamel?sUnSpc:sCamel;
-	//		return this.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
 		}
-	//	,upperCase: function(){} // todo: case fns
-	//	,lowerCase: function(){}
-	//	,switchCase: function(){}
-
-	// reverse case with array indexing
-	//	int main()
-	//{
-	//  int i;
-	//  char str[80] = "This Is A Test";
-	//
-	//  cout << "Original string: " << str << "\n";
-	//
-	//  for(i = 0; str[i]; i++) {
-	//    if(isupper(str[i]))
-	//      str[i] = tolower(str[i]);
-	//    else if(islower(str[i]))
-	//      str[i] = toupper(str[i]);
-	//  }
-	//
-	//  cout << "Inverted-case string: " << str;
-	//
-	//  return 0;
-	//}
-
-	//String.prototype.capitalize = function () {
-	//    return this.replace(RegExp("^\\p{L}"), function ($0) { return $0.toUpperCase(); })
-	//}
 	};
-})());
+})(iddqd));

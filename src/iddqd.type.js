@@ -6,12 +6,102 @@
  * @namespace iddqd.type
  * @requires iddqd.js
  * */
-if (!iddqd.type) (function(rv) {
+iddqd.ns('iddqd.type',(function(iddqd,undefined){
+	'use strict';
+	var  UNDEFINED =	getConstant('undefined')
+		,NULL =			getConstant('null')
+		,OBJECT =		getConstant('object')
+		,ARRAY =		getConstant('array')
+		,NODE =			getConstant('node')
+		,EVENT =		getConstant('event')
+		,FUNCTION =		getConstant('function')
+		,STRING =		getConstant('string')
+		,BOOLEAN =		getConstant('boolean')
+		,INT =			getConstant('int')
+		,FLOAT =		getConstant('float')
+		,NAN =			getConstant('NaN')
+		,INFINITE =		getConstant('Infinite')
+		// todo: below
+		,REGEXP =		getConstant('regexp')
+		,aEventProperties = [
+			'eventPhase'
+			,'currentTarget'
+			,'cancelable'
+			,'target'
+			,'bubbles'
+			,'type'
+			,'cancelBubble'
+			,'srcElement'
+			,'defaultPrevented'
+			,'timeStamp'
+			,'returnValue'
+		]
+	;
+	function getConstant(name) {
+		var oConstant = {toString: function() {return name;}}
+			,sConstant = name.toUpperCase();
+		type[sConstant] = oConstant;
+		return oConstant;
+	}
+	function type(obj) {
+		var iType = -1;
+		if (obj===null) {
+			iType = NULL;
+		} else if (obj===undefined) {
+			iType = UNDEFINED;
+		} else { // todo: http://jsperf.com/testing-types
+			switch (typeof(obj)){
+			case 'object':
+				var c = obj.constructor;
+				if (c===Array) iType = ARRAY;
+				//    if (o && (o.nodeType === 1 || o.nodeType === 9)) {
+				else if (obj.ownerDocument!==undefined) iType = NODE;
+				else if ((function(){
+					var isEvent = true;
+					for (var s in aEventProperties) {
+						if (aEventProperties.hasOwnProperty(s)) {
+							if (obj[aEventProperties[s]]===undefined) {
+								isEvent = false;
+								break;
+							}
+						}
+					}
+					return isEvent;
+				})()) iType = EVENT;
+				else iType = OBJECT;
+			break;
+			case 'function': iType = FUNCTION; break;
+			case 'string': iType = STRING; break;
+			case 'boolean': iType = BOOLEAN; break;
+			case 'number':
+				if (isNaN(obj)) {
+					iType = NAN;
+				} else if (!isFinite(obj)) {
+					iType = INFINITE;
+				} else {
+					iType = obj==Math.floor(obj)?INT:FLOAT;
+				}
+			break;
+			}
+		}
+		return iType;
+	}
+	return type;
+})(iddqd));
+	
+	
+	
+	
+	
+	
+	
+	
+/*if (!iddqd.type) (function(rv) {
 
 	// check requirements
 	if (!rv) throw new ReferenceError('iddqd.type requires iddqd');
 
-	var type = rv.type = function(o){0
+	var type = rv.type = function(o){
 		type.UNDEFINED = 0;
 		type.NULL = 1;
 
@@ -94,4 +184,4 @@ if (!iddqd.type) (function(rv) {
 		}
 		return i;
 	};
-})(iddqd);
+})(iddqd);*/

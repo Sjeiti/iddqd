@@ -1,4 +1,3 @@
-/* global iddqd */
 iddqd.ns('iddqd.jsonp',(function(){
 	'use strict';
 	var iNr = 2222;

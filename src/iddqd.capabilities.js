@@ -1,4 +1,3 @@
-/* global iddqd */
 /* global DocumentTouch */
 iddqd.ns('iddqd.capabilities',(function(){
 	'use strict';

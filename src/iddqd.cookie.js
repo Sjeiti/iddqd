@@ -1,4 +1,3 @@
-/* global iddqd */
 iddqd.ns('iddqd.cookie',(function(){
 	'use strict';
 	function get(name,dfault) {

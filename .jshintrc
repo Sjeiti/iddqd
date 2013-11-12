@@ -1,7 +1,7 @@
 {
     "globals": {
 //		"_": false,
-//		"Benchmark": true,
+		"iddqd": true
 //		"tinysort": true,
 //		"GLOBAL": true,
 //		"require": true,
@@ -26,6 +26,6 @@
     "boss": true,
     "expr": true,
     "noempty": false,
-    "nonew": true,
-	"W008": false
+    "laxbreak": true
+//	"W008": false :: .345
 }

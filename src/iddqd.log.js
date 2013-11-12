@@ -1,4 +1,3 @@
-/* global iddqd */
 /**
  * @name log
  * @namespace iddqd.log

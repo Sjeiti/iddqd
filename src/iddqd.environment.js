@@ -1,4 +1,3 @@
-/* global iddqd */
 iddqd.ns('iddqd.environment',(function(){
 	'use strict';
 	var

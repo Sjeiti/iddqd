@@ -1,4 +1,3 @@
-/* global iddqd */
 /**
  * A mathematical vector with an x and y position.<br/>
  * Can be used for numerous vector calculations.

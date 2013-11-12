@@ -1,4 +1,3 @@
-/* global iddqd */
 /**
  * @name number
  * @namespace iddqd.number
@@ -6,12 +5,11 @@
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
  */
-iddqd.ns('iddqd.number',(function(iddqd){
+iddqd.ns('iddqd.native.number',(function(iddqd){
 	'use strict';
 	return {
-		init: function(){
-			delete iddqd.number.init;
-			iddqd.extend(Number.prototype,iddqd.number);
+		augment: function() {
+			iddqd.augment(Number,iddqd.native.number);
 		}
 		/**
 		 * Formats a number to the appropriate filesize notation

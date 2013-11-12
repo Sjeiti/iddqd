@@ -1,4 +1,3 @@
-/* global iddqd */
 /**
  * Signal implementation for various generic events.
  * All signals are dead (no events attached) untill the first signal.add or signal.addOnce.

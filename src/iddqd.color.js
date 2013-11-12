@@ -1,4 +1,3 @@
-/* global iddqd */
 // todo: document
 iddqd.ns('iddqd.color',function(undefined){
 	'use strict';

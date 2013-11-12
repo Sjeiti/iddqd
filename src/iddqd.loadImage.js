@@ -1,4 +1,3 @@
-/* global iddqd */
 /*! loadImage */
 // todo: document
 iddqd.ns('iddqd.loadImage',function(uri,callback,error){

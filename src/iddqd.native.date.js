@@ -1,7 +1,6 @@
-/* global iddqd */
 /*! Date */
 // todo: document
-iddqd.ns('iddqd.date',(function(rv){
+iddqd.ns('iddqd.native.date',(function(rv){
 	'use strict';
 	var oDateProto = Date.prototype
 		,fnOldToString = oDateProto.toString

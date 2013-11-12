@@ -1,4 +1,3 @@
-/* global iddqd */
 /* global ActiveXObject */
 iddqd.ns('iddqd.xhttp',(function(){
 	'use strict';

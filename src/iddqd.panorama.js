@@ -1,4 +1,3 @@
-/* global iddqd */
 /* global signals */
 /* global createPanoViewer */
 /**

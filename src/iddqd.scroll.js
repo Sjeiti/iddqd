@@ -1,4 +1,3 @@
-/* global iddqd */
 /**
  * scroll
  * @author Ron Valstar (http://www.sjeiti.com/)
@@ -134,7 +133,7 @@ iddqd.ns('iddqd.scroll',function addScroll(elm,baseSize){
 		iDrH = (iHeight/iTotalH)*iDrHMx<<0;
 
 		console.log('iDrH',iDrH); // log
-		
+
 		if (iDrMnH!==0&&iDrH<iDrMnH) iDrH = iDrMnH;
 		iDragMx = iDrHMx-iDrH;
 		iScrollMx = iTotalH-iHeight;

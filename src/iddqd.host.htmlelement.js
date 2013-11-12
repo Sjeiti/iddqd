@@ -1,11 +1,9 @@
-/* global iddqd */
 // todo: document
-iddqd.ns('iddqd.htmlelement',(function(){
+iddqd.ns('iddqd.host.htmlelement',(function(){
 	'use strict';
 	return {
-		init: function(){
-			delete iddqd.htmlelement.init;
-			iddqd.extend(HTMLElement.prototype,iddqd.htmlelement);
+		augment: function() {
+			iddqd.augment(HTMLElement,iddqd.host.htmlelement);
 		}
 		,addChild: function(elementName,attributes,append) {
 			if (append===undefined) append = true;

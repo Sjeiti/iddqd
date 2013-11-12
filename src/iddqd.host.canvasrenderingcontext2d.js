@@ -1,17 +1,14 @@
-/* global iddqd */
 /* global CanvasRenderingContext2D */
-/*! CanvasRenderingContext2D */
 // todo: document
-iddqd.ns('iddqd.canvasrenderingcontext2d',
-	(function(){
+iddqd.ns('iddqd.host.canvasrenderingcontext2d',
+	(function(iddqd){
 		'use strict';
 		var aStyle = ['strokeStyle','fillStyle','font','lineWidth']
 			,oStoredStyle = {}
-			,rv = iddqd;
+		;
 		return {
-			init: function(){
-				rv.canvasrenderingcontext2d.init = rv.fn;
-				rv.extend(CanvasRenderingContext2D.prototype,rv.canvasrenderingcontext2d);
+			augment: function() {
+				iddqd.augment(CanvasRenderingContext2D,iddqd.host.canvasrenderingcontext2d);
 			}
 			,createGradient: function(isLinear,ysize,pos,color) {
 				var oGradient = isLinear?this.createLinearGradient(0,0,0,ysize):this.createRadialGradient(0,0,0,0,0,ysize)
@@ -30,13 +27,13 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 			}
 			,storeStyle: function(){
 				var oStore = {};
-				rv.loop(aStyle,function(i,prop){
+				iddqd.loop(aStyle,function(i,prop){
 					if (this.hasOwnProperty(prop)) oStore[prop] = this[prop];
 				});
 				return oStore;
 			}
 			,restoreStyle: function(o){
-				rv.loop(o||oStoredStyle,function(prop,value){
+				iddqd.loop(o||oStoredStyle,function(prop,value){
 					if (this.hasOwnProperty(prop)) this[prop] = value;
 				});
 			}
@@ -177,5 +174,5 @@ iddqd.ns('iddqd.canvasrenderingcontext2d',
 				return this;
 			}
 		};
-	})()
+	})(iddqd)
 );
