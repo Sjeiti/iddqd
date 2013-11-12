@@ -1,6 +1,5 @@
 /**
  * A simple pseudo random number generator
- * @name prng
  * @namespace iddqd.prng
  */
 iddqd.ns('iddqd.prng',(function(){
@@ -9,11 +8,14 @@ iddqd.ns('iddqd.prng',(function(){
 		,oReturn = {
 			/**
 			 * The random seed
-			 * @property
+			 * @name iddqd.prng.seed
+			 * @type {number}
 			 */
 			seed: 123
 			/**
 			 * Generate random number between 0 and 2147483647
+			 * @name iddqd.prng.rnd
+			 * @method
 			 * @return {number}
 			 */
 			,rnd: function(seed) {
@@ -23,6 +25,8 @@ iddqd.ns('iddqd.prng',(function(){
 			}
 			/**
 			 * Generate random number between 0 and 1
+			 * @name iddqd.prng.random
+			 * @method
 			 * @return {number}
 			 */
 			,random: function(seed) {

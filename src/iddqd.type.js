@@ -1,5 +1,3 @@
-
-/*! type */
 /**
  * Type checking, also checks untyped types like integer and float.
  * @author Ron Valstar (http://www.sjeiti.com/)
@@ -22,7 +20,7 @@ iddqd.ns('iddqd.type',(function(iddqd,undefined){
 		,NAN =			getConstant('NaN')
 		,INFINITE =		getConstant('Infinite')
 		// todo: below
-		,REGEXP =		getConstant('regexp')
+//		,REGEXP =		getConstant('regexp')
 		,aEventProperties = [
 			'eventPhase'
 			,'currentTarget'
@@ -88,14 +86,14 @@ iddqd.ns('iddqd.type',(function(iddqd,undefined){
 	}
 	return type;
 })(iddqd));
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 /*if (!iddqd.type) (function(rv) {
 
 	// check requirements

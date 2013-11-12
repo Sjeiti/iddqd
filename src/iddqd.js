@@ -1,5 +1,5 @@
 /**
- * @name iddqd
+ * A collection
  * @namespace iddqd
  * @version 2.0.0
  * @author Ron Valstar (http://www.sjeiti.com/)
@@ -27,6 +27,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		,oTmplCache = {}
 		,oReturn = {
 			toString: function(){return '[Object iddqd]';}
+			/**
+			 * Boolean to check if the DOMReady event has passed.
+			 * @name iddqd.DOMReady
+			 * @type {boolean}
+			 */
 			,DOMReady: false
 			,onDOMReady:onDOMReady
 			,loop:loop
@@ -209,6 +214,8 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	}
 	/**
 	 * Normalizes a namespace so methods can be called without applying.
+	 * @name iddqd.normalize
+	 * @method
 	 * @param namespace {Object} The object to augment.
 	 */
 	function normalize(namespace){
@@ -224,6 +231,8 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 
 	/**
 	 * Adds augment and normalize methods to host- or native objects.
+	 * @name iddqd.primitive
+	 * @method
 	 * @param {object} primitiveObject The host- or native object.
 	 * @param {object} namespace The namespace to add the methods to.
 	 * @returns {object} The namespace
@@ -245,6 +254,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	/**
 	 * Create namespaces. If only the first 'namespace' parameter is set it will return the namespace if it exists or null if it doesn't.
 	 * @name iddqd.ns
+	 * @method
 	 * @param {String} namespace The namespace we're creating or expanding
 	 * @param {Object} object The object with which to extend the namespace
 	 * @param {Array} [dependencies=null] An array of dependencies
@@ -314,6 +324,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	/**
 	 * Inject javascript
 	 * @name iddqd.require
+	 * @method
 	 * @param {String} file The source location of the file.
 	 * @param {String} namespace The namespace we're creating or expanding
 	 * @param {Function} [loadCallback=null] A callback function for when the file is loaded.
@@ -329,6 +340,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	/**
 	 * Load javascript file
 	 * @name iddqd.loadScript
+	 * @method
 	 * @param {String} src The source location of the file.
 	 * @param {Function} [loadCallback=null] A callback function for when the file is loaded.
 	 */
@@ -342,6 +354,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * Simple JavaScript Templating
 	 * John Resig - http://ejohn.org/ - MIT Licensed
 	 * @name iddqd.tmpl
+	 * @method
 	 * @param {String} str ID of the template script element
 	 * @param {Object} [data] A callback function for when the file is loaded.
 	 * @example

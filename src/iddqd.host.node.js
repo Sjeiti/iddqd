@@ -1,8 +1,15 @@
+/**
+ * Node methods
+ * @name iddqd.host.node
+ * @namespace iddqd.host.node
+ */
 iddqd.ns('iddqd.host.node',(function(){
 	'use strict';
 	return iddqd.primitive(Node,{
 		/**
 		 * Converts a node to an object (attribute and childnode collisions may occur)
+		 * @name iddqd.host.node.toObject
+		 * @method
 		 * @param {object} obj An optional pre-existing object to fill.
 		 * @returns {object}
 		 */

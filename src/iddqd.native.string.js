@@ -1,9 +1,17 @@
-/* global ActiveXObject */
+
+/**
+ * String methods
+ * @name iddqd.native.string
+ * @namespace iddqd.native.string
+ */
 iddqd.ns('iddqd.native.string',(function(iddqd){
 	'use strict';
 	return iddqd.primitive(String,{
 		/**
 		 * Pads a string left or right
+		 * @name pad
+		 * @namespace iddqd.native.string
+		 * @method
 		 * @param {Number} length Final length of the total string.
 		 * @param {String} chr Character to pad the string with.
 		 * @param {Boolean} [left=false] Pad to the left of the string.
@@ -46,6 +54,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		 * @returns {Document} Returns an XML Document
 		 */
 		,toXML: function() {
+			/* global ActiveXObject */
 			var xDoc;
 			if (window.ActiveXObject) {
 				xDoc = new ActiveXObject('Microsoft.XMLDOM');
