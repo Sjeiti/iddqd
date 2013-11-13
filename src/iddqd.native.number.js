@@ -1,16 +1,16 @@
 /**
- * @name number
- * @namespace iddqd.number
- * @version 1.0.0
- * @author Ron Valstar (http://www.sjeiti.com/)
- * @copyright Ron Valstar <ron@ronvalstar.nl>
+ * Number methods
+ * @name iddqd.native.number
+ * @namespace iddqd.native.number
  */
-iddqd.ns('iddqd.native.number',(function(iddqd){
+ iddqd.ns('iddqd.native.number',(function(iddqd){
 	'use strict';
 	return iddqd.primitive(Number,{
 		/**
 		 * Formats a number to the appropriate filesize notation
-		 * @param {number} round The number of decimals to round by
+ 		 * @name iddqd.native.number.formatSize
+ 		 * @method
+ 		 * @param {number} round The number of decimals to round by
 		 * @returns {string} Filesize string result
 		 */
 		formatSize: function(round) {

@@ -1,7 +1,5 @@
-
 /**
  * String methods
- * @name iddqd.native.string
  * @namespace iddqd.native.string
  */
 iddqd.ns('iddqd.native.string',(function(iddqd){
@@ -9,8 +7,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 	return iddqd.primitive(String,{
 		/**
 		 * Pads a string left or right
-		 * @name pad
-		 * @namespace iddqd.native.string
+		 * @name iddqd.native.string.pad
 		 * @method
 		 * @param {Number} length Final length of the total string.
 		 * @param {String} chr Character to pad the string with.
@@ -34,6 +31,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Tries to determine the type of the string and returns it.
+		 * @name iddqd.native.string.toType
+		 * @method
 		 * @returns {Object} Returns a string, number or boolean.
 		 */
 		,toType: function(){
@@ -51,6 +50,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts string to XML
+		 * @name iddqd.native.string.toXML
+		 * @method
 		 * @returns {Document} Returns an XML Document
 		 */
 		,toXML: function() {
@@ -67,6 +68,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts an XML string to an object
+		 * @name iddqd.native.string.toXMLObj
+		 * @method
 		 * @returns {Object}
 		 */
 		,toXMLObj: function(){
@@ -79,6 +82,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Generates a random, but pronounceable string
+		 * @name iddqd.native.string.generate
+		 * @method
 		 * @param length {Number} Length of the string
 		 * @param cut {Boolean} Cut string to length
 		 * @returns {string}
@@ -113,6 +118,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Capitalizes the first character of the string
+		 * @name iddqd.native.string.nameCase
+		 * @method
 		 * @returns {string}
 		 */
 		,nameCase: function(){
@@ -120,6 +127,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts the string to camelCase notation
+		 * @name iddqd.native.string.camelCase
+		 * @method
 		 * @returns {string}
 		 */
 		,camelCase: function(){
@@ -127,6 +136,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts the string to dashed notation
+		 * @name iddqd.native.string.dash
+		 * @method
 		 * @returns {string}
 		 */
 		,dash: function(){
@@ -136,6 +147,8 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts the string to underscored notation
+		 * @name iddqd.native.string.underscore
+		 * @method
 		 * @returns {string}
 		 */
 		,underscore: function(){

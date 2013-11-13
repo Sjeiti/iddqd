@@ -1,7 +1,20 @@
-// todo: document
+/**
+ * HTMLElement methods
+ * @name iddqd.host.htmlelement
+ * @namespace iddqd.host.htmlelement
+ */
 iddqd.ns('iddqd.host.htmlelement',(function(){
 	'use strict';
 	return iddqd.primitive(HTMLElement,{
+		/**
+		 * Create a new childnode onto the element
+		 * @name iddqd.host.htmlelement.addChild
+		 * @method
+		 * @param {string} elementName Name of the new node.
+		 * @param {object} attributes An object with attributes to set on the new node.
+		 * @param {boolean} [append=true] Append to the end of the parent node.
+		 * @returns {HTMLElement} The newly created HTMLElement
+		 */
 		addChild: function(elementName,attributes,append) {
 			if (append===undefined) append = true;
 			var m = document.createElement(elementName);
@@ -10,6 +23,15 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 			else this.insertBefore(m, this.firstChild);
 			return m;
 		}
+		/**
+		 * Create a new childnode next to the element
+		 * @name iddqd.host.htmlelement.addSibling
+		 * @method
+		 * @param {string} elementName Name of the new node.
+		 * @param {object} attributes An object with attributes to set on the new node.
+		 * @param {boolean} [after=true] Add after its sibling.
+		 * @returns {HTMLElement} The newly created HTMLElement
+		 */
 		,addSibling: function(elementName,attributes,after) {
 			if (after===undefined) after = true;
 			var m = document.createElement(elementName);
@@ -22,17 +44,44 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 			}
 			return m;
 		}
+		/**
+		 * Set attributes on an HTMLElement.
+		 * @name iddqd.host.htmlelement.setAttributes
+		 * @method
+		 * @param {object} attributes An object with attributes to set.
+		 * @returns {HTMLElement} The subject HTMLElement.
+		 */
 		,setAttributes: function(o) {
 			for (var s in o) this.setAttribute(s,o[s]);
 			return this;
 		}
+		/**
+		 * Remove an HTMLElement.
+		 * @name iddqd.host.htmlelement.remove
+		 * @method
+		 * @returns {HTMLElement} The removed HTMLElement.
+		 */
 		,remove: function() {
 			if (this.parentNode) this.parentNode.removeChild(this);
 			return this;
 		}
+		/**
+		 * Remove all the children.
+		 * @name iddqd.host.htmlelement.empty
+		 * @method
+		 * @returns {HTMLElement} The subject HTMLElement.
+		 */
 		,empty: function(){
 			for (var i=0,l=this.children.length;i<l;i++) this.removeChild(this.children[0]);
+			return this;
 		}
+		/**
+		 * Set the style of an HTMLElement.
+		 * @name iddqd.host.htmlelement.css
+		 * @method
+		 * @param {object} rules An object with style rules to set.
+		 * @returns {HTMLElement} The subject HTMLElement.
+		 */
 		,css: function(rules){
 			var oStyle = this.style;
 			for (var s in rules) {
@@ -49,7 +98,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 			return this;
 		}
 		,addClass: function(name){
-			if (!this.hasClass(name)) this.className += this.className.length===0?name:' '+name;
+			if (!this.hasClass(name)) this.className += this.classNamelength===0?name:' '+name;
 			return this;
 		}
 		,toggleClass: function(name){
@@ -57,40 +106,32 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 			else this.addClass(name);
 			return this;
 		}
-		,addEvent: function(evt,fn,useCapture){
+		/*,addEvent: function(evt,fn,useCapture){
 			iddqd.addEvent(this,evt,fn,useCapture);
 			return this;
-			/*if (window.addEvent!==undefined) window.addEvent(this,evt,fn,useCapture);
-			else console.log('Window.js missing'); */
-		}
+		}*/
+		/**
+		 * Checks if the element descends from another element.
+		 * @name iddqd.host.htmlelement.descendsFrom
+		 * @method
+		 * @param {HTMLElement} parentNode The parent.
+		 * @returns {boolean} Is descendant.
+		 */
 		,descendsFrom: function(parentNode){
 			var mParent = this.parentNode;
 			while (parentNode!==mParent&&mParent!==document.body) {
 				mParent = mParent.parentNode;
 			}
 			return parentNode===mParent;
-			/*if (window.addEvent!==undefined) window.addEvent(this,evt,fn,useCapture);
-			else console.log('Window.js missing'); */
 		}
+		/**
+		 * Checks if width and height are set.
+		 * @name iddqd.host.htmlelement.visible
+		 * @method
+		 * @returns {boolean} Is visible.
+		 */
 		,visible: function(){
 			return this.offsetWidth>0||this.offsetHeight>0;
 		}
-		/*,addEvent: (function(){
-			return window.addEventListener?function(evt,fn,useCapture){
-				if (useCapture===undefined) useCapture = false;
-				var aEvt = evt.split(',')
-					iEvt = aEvt.length;
-				if (iEvt>1) while (iEvt--) this.addEventListener(aEvt[iEvt],fn,useCapture);
-				else this.addEventListener(evt,fn,useCapture);
-			}:function(evt,fn){
-				var aEvt = evt.split(',')
-					iEvt = aEvt.length;
-				if (iEvt>1) while (iEvt--) this.addEventListener(aEvt[iEvt],fn,f);
-				else this.attachEvent('on'+evt,fn);
-			};
-		})()*/
-//	};
-//}
-		});
-	})()
-);
+	});
+})());

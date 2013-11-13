@@ -1,0 +1,26 @@
+{
+	"tags": {
+		"allowUnknownTags": true
+	},
+	"plugins": [
+		"plugins/markdown"
+	],
+	"templates": {
+		"cleverLinks": false,
+		"monospaceLinks": false,
+		"default": {
+			"outputSourceFiles": true
+		},
+		"footer": "",
+		"copyright": "Ron Valstar <ron@ronvalstar.nl>",
+		"navType": "vertical",
+		"theme": "sjeiti",
+		"linenums": true,
+		"collapseSymbols": false,
+		"inverseNav": true
+	},
+	"markdown": {
+		"parser": "gfm",
+		"hardwrap": true
+	}
+}

@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 
 		,sPackage = 'package.json'
 		,oPackage = grunt.file.readJSON(sPackage)
-		,sJsDoc = 'jsdoctpl/jsdoc.conf.json'
+		,sJsDoc = 'jsdoc_template/jsdoc.conf.json'
 		,oJsDoc = grunt.file.readJSON(sJsDoc)
 		,aFiles = [
 			'src/iddqd.js'
@@ -80,8 +80,10 @@ module.exports = function (grunt) {
 				src: aFiles,
 				options: {
 					destination: 'doc'
-					,template: 'jsdoctpl'
+					,template: 'jsdoc_template'
 					,configure: sJsDoc
+					,mainpagetitle: 'harhar' // todo find out why this has no effect
+					,readme: 'README.md'
 				}
 			}
 		}

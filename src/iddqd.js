@@ -358,11 +358,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * @param {String} str ID of the template script element
 	 * @param {Object} [data] A callback function for when the file is loaded.
 	 * @example
-	 * <script type="text/html" id="user_tmpl">
+	 *<script type="text/html" id="user_tmpl">
 	 *	<% for ( var i = 0; i < users.length; i++ ) { %>
 	 *		<li><a href="<%=users[i].url%>"><%=users[i].name%></a></li>
 	 *	<% } %>
-	 * </script>
+	 *</script>
 	 */
 	function tmpl(str, data){
 		/* jshint -W054 */
@@ -464,12 +464,14 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * @return {Object} A value object containing your LESS variables.
 	 * @example
 	 * less:
-	 * &nbsp;&#64;foo: 123px;
-	 * &nbsp;#less { .myFoo {width: @foo; } }
+	 *	&#64;foo: 123px;
+	 *	#less { .myFoo {width: @foo; } }
+	 *
 	 * javascript:
-	 * &nbsp;getLessVars('less');
+	 *	getLessVars('less');
+	 *
 	 * returns:
-	 * &nbsp;{myFoo:123}
+	 *	{myFoo:123}
 	 */
 	function getLessVars(id,parseNumbers) {
 		/*
@@ -533,3 +535,15 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	}
 	return oReturn;
 })();
+
+// no files exist for the namespaces below
+
+/**
+ * Host object methods
+ * @namespace iddqd.host
+ */
+
+/**
+ * Native object methods
+ * @namespace iddqd.native
+ */

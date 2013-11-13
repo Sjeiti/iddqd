@@ -1,6 +1,5 @@
 /**
  * Node methods
- * @name iddqd.host.node
  * @namespace iddqd.host.node
  */
 iddqd.ns('iddqd.host.node',(function(){
