@@ -1,6 +1,7 @@
 /**
  * A collection
  * @namespace iddqd
+ * @summary A collection
  * @version 2.0.0
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
@@ -25,8 +26,9 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		,oGetget = {}
 		,bGetget = false
 		,oTmplCache = {}
+		// return object including exposed private methods
 		,oReturn = {
-			toString: function(){return '[Object iddqd]';}
+			toString: function(){return '[object iddqd]';}
 			/**
 			 * Boolean to check if the DOMReady event has passed.
 			 * @name iddqd.DOMReady
@@ -230,12 +232,21 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	}
 
 	/**
-	 * Adds augment and normalize methods to host- or native objects.
+	 * Adds augment and normalize methods to host- and/or native objects.
 	 * @name iddqd.primitive
 	 * @method
 	 * @param {object} primitiveObject The host- or native object.
 	 * @param {object} namespace The namespace to add the methods to.
 	 * @returns {object} The namespace
+	 * @example
+iddqd.ns('foo',(function(){
+	return iddqd.primitive(Math,{
+		// keys and properties in this object will be added through foo.augment() and foo.normalize()
+		answerToLifeTheUniverseAndEverything: function(){
+			return 42;
+		}
+	});
+})());
 	 */
 	function primitive(primitiveObject,namespace){
 		namespace.augment = function() {
@@ -541,9 +552,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 /**
  * Host object methods
  * @namespace iddqd.host
+ * @summary Host object methods
  */
 
 /**
  * Native object methods
  * @namespace iddqd.native
+ * @summary Native object methods
  */

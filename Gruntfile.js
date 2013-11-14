@@ -17,6 +17,25 @@ module.exports = function (grunt) {
 			,'src/iddqd.host.node.js'
 			,'src/iddqd.signals.js'
 			,'src/iddqd.prng.js'
+			,'src/iddqd.xhttp.js'
+
+			,'src/iddqd.vector.js'
+			,'src/iddqd.color.js'
+			,'src/iddqd.json.js'
+			,'src/iddqd.jsonp.js'
+
+			,'src/iddqd.capabilities.js' // todo: merge these two?
+			,'src/iddqd.environment.js'
+
+			,'src/iddqd.cookie.js'
+//			,'src/iddqd.style.js'
+			,'src/iddqd.storage.js'
+//			,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
+			,'src/iddqd.loadImage.js' // todo: put loadimage and sizeimage under image ns
+			,'src/iddqd.scroll.js'
+			,'src/iddqd.pattern.js'
+			,'src/iddqd.panorama.js'
+			,'src/iddqd.log.js'
 		]
 		,sMain = fs.readFileSync(aFiles[0]).toString()
 		,oBanner = readBanner(sMain)
@@ -93,5 +112,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-jsdoc');
 
 	grunt.registerTask('default',['jshint','jsdoc']);
+	grunt.registerTask('doc',['jsdoc']);
 
 };

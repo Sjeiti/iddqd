@@ -147,7 +147,7 @@ ul, ol {
 				background-color: rgba(0,0,0,.1);
 				a { font-weight: bold; }
 			}
-			&.toc-h2 a,&.toc-h4 a { padding: 0 2*@tocIndent; }
+			&.toc-h2 a,&.toc-h4 a,&.toc-a a { padding: 0 2*@tocIndent; }
 			&.toc-h1 {}
 			&.toc-h2 a {}
 			&.toc-h3 {}
@@ -224,11 +224,9 @@ h4.name {
 //}
 article {
 	dt,dd { .spacing(); }
-	>dl {
-//		>dt { margin-top: 20px; }
-		>dd { margin-bottom: 40px; }
-	}
-	dl dl {
+	.dl-methods>dd { margin-bottom: 40px; }
+	dl.details * { display: inline-block; }
+	dl dl, .dl-namespaces {
 		margin: 5px 0 5px;
 		dt {
 			display: inline-block;
@@ -239,7 +237,6 @@ article {
 			width: @rightColWidth;
 		}
 	}
-	dl.details * { display: inline-block; }
 	h5 { width: @leftColWidth; }
 	h5, .param-desc, .param-type {
 		display: inline-block;
@@ -277,10 +274,10 @@ table.params {
 		background-color: #FAFAFA;
 	}
 	th, td {
-		padding: 2px 5px 2px 5px;
-		font-size: .7em;
-		padding-right: 20px;
+		padding: 2px 20px 2px 5px;
 		vertical-align: top;
+		&, * { font: 12px/18px Arial, sans; }
+		* { .spacing(); }
 		th, td {
 			font-size: 1em;
 		}
@@ -290,7 +287,6 @@ table.params {
 		text-align: left;
 		border-bottom: 2px solid #DDD;
 		.gradientVertical(#EEE,#DDD);
-	/*background-color: #DDD;*/
 	}
 	tbody td:first-child {
 		color: #A11;
@@ -300,6 +296,11 @@ table.params {
 		th, td {
 			background-color: #DDD;
 		}
+	}
+	code {
+		font-weight: bold;
+		background-color: transparent;
+		border: 0;
 	}
 }
 

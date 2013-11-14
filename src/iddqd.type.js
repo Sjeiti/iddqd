@@ -7,34 +7,37 @@
  **/
 iddqd.ns('iddqd.type',(function(iddqd,undefined){
 	'use strict';
-		/** @constant {Function} iddqd.type.UNDEFINED */
+		/** @constant {object} iddqd.type.UNDEFINED */
 	var  UNDEFINED =	getConstant('undefined')
-		/** @constant {Function} iddqd.type.NULL */
+		/** @constant {object} iddqd.type.NULL */
 		,NULL =			getConstant('null')
-		/** @constant {Function} iddqd.type.OBJECT */
+		/** @constant {object} iddqd.type.OBJECT */
 		,OBJECT =		getConstant('object')
-		/** @constant {Function} iddqd.type.ARRAY */
+		/** @constant {object} iddqd.type.ARRAY */
 		,ARRAY =		getConstant('array')
-		/** @constant {Function} iddqd.type.NODE */
+		/** @constant {object} iddqd.type.NODE */
 		,NODE =			getConstant('node')
-		/** @constant {Function} iddqd.type.EVENT */
+		/** @constant {object} iddqd.type.EVENT */
 		,EVENT =		getConstant('event')
-		/** @constant {Function} iddqd.type.FUNCTION */
+		/** @constant {object} iddqd.type.FUNCTION */
 		,FUNCTION =		getConstant('function')
-		/** @constant {Function} iddqd.type.STRING */
+		/** @constant {object} iddqd.type.STRING */
 		,STRING =		getConstant('string')
-		/** @constant {Function} iddqd.type.BOOLEAN */
+		/** @constant {object} iddqd.type.BOOLEAN */
 		,BOOLEAN =		getConstant('boolean')
-		/** @constant {Function} iddqd.type.INT */
+		/** @constant {object} iddqd.type.INT */
 		,INT =			getConstant('int')
-		/** @constant {Function} iddqd.type.FLOAT */
+		/** @constant {object} iddqd.type.FLOAT */
 		,FLOAT =		getConstant('float')
-		/** @constant {Function} iddqd.type.NAN */
+		/** @constant {object} iddqd.type.NAN */
 		,NAN =			getConstant('NaN')
-		/** @constant {Function} iddqd.type.INFINITE */
+		/** @constant {object} iddqd.type.INFINITE */
 		,INFINITE =		getConstant('Infinite')
-		// todo: below
-//		,REGEXP =		getConstant('regexp')
+		/** @constant {object} iddqd.type.REGEXP */
+		,REGEXP =		getConstant('regexp')
+		/** @constant {object} iddqd.type.DATE */
+		,DATE =			getConstant('date')
+		// Error
 		,aEventProperties = [
 			'eventPhase'
 			,'currentTarget'
@@ -66,7 +69,8 @@ iddqd.ns('iddqd.type',(function(iddqd,undefined){
 			case 'object':
 				var c = obj.constructor;
 				if (c===Array) iType = ARRAY;
-				//    if (o && (o.nodeType === 1 || o.nodeType === 9)) {
+				else if (c===RegExp) iType = REGEXP;
+				else if (c===Date) iType = DATE;
 				else if (obj.ownerDocument!==undefined) iType = NODE;
 				else if ((function(){
 					var isEvent = true;

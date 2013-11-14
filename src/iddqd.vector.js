@@ -1,13 +1,22 @@
 /**
- * A mathematical vector with an x and y position.<br/>
+ * A mathematical vector with an x and y position.
  * Can be used for numerous vector calculations.
- * @author Ron Valstar (http://www.sjeiti.com/)
- * @namespace iddqd.vector
- * @requires iddqd.js
- * */
+ * @name iddqd.vector
+ * @method
+ * @param {Number} x
+ * @param {Number} y
+ * @returns {Vector}
+ */
 iddqd.ns('iddqd.vector',(function(){
 	'use strict';
 	var aPool = [];
+
+	/**
+	 * @class Vector
+	 */
+//	 * @property {Function} getX - Get the x position
+//	 * @property {Function} getY - Get the y position
+//	 * @property {Function} setX - Set the x position
 	function vector(x,y) {
 		var fX,fY
 
@@ -76,21 +85,54 @@ iddqd.ns('iddqd.vector',(function(){
 			return oVector;
 		}
 
-		// getter setter
+		// GETTER SETTER
+
+		/**
+		 * Get the x position
+		 * @memberof Vector
+		 * @returns {Number}
+		 */
 		function getX(){return fX;}
+
+		/**
+		 * Get the y position
+		 * @memberof Vector
+		 * @returns {Number}
+		 */
 		function getY(){return fY;}
+
+		/**
+		 * Sets the x value and returns the vector.
+		 * @memberof Vector
+		 * @param {Number} x
+		 * @returns {Vector}
+		 */
 		function setX(x){
 			bRecalculateRadians = true;
 			bRecalculateSize = true;
 			fX = x;
 			return oVector;
 		}
+		/**
+		 * Sets the y value and returns the vector.
+		 * @memberof Vector
+		 * @param {Number} y
+		 * @returns {Vector}
+		 */
 		function setY(y){
 			bRecalculateRadians = true;
 			bRecalculateSize = true;
 			fY = y;
 			return oVector;
 		}
+
+		/**
+		 * Sets the x and y values and returns the vector.
+		 * @memberof Vector
+		 * @param {Number} x
+		 * @param {Number} y
+		 * @returns {Vector}
+		 */
 		function setXY(x,y){
 			bRecalculateRadians = true;
 			bRecalculateSize = true;
@@ -98,6 +140,13 @@ iddqd.ns('iddqd.vector',(function(){
 			fY = y;
 			return oVector;
 		}
+
+		/**
+		 * Copies the x and y value from the parsed vector and returns the vector.
+		 * @memberof Vector
+		 * @param {Vector} v
+		 * @returns {Vector}
+		 */
 		function setVector(v){
 			bRecalculateRadians = true;
 			bRecalculateSize = true;
@@ -106,7 +155,13 @@ iddqd.ns('iddqd.vector',(function(){
 			return oVector;
 		}
 
-		// size functions
+		// SIZE FUNCTIONS
+
+		/**
+		 * Returns the size of the vector
+		 * @memberof Vector
+		 * @returns {number}
+		 */
 		function size(){
 			if (bRecalculateSize) {
 				fSize = Math.sqrt(fX*fX+fY*fY);
@@ -114,6 +169,13 @@ iddqd.ns('iddqd.vector',(function(){
 			}
 			return fSize;
 		}
+
+		/**
+		 * Sets the size and returns the vector
+		 * @memberof Vector
+		 * @param {Number} f
+		 * @returns {Vector}
+		 */
 		function setSize(f){
 			normalize();
 			fX = fX * f;
@@ -121,6 +183,12 @@ iddqd.ns('iddqd.vector',(function(){
 			fSize = f;
 			return oVector;
 		}
+
+		/**
+		 * Normalizes the vector and returns it.
+		 * @memberof Vector
+		 * @returns {Vector}
+		 */
 		function normalize(){
 			if (size()!==0&&fSize!==1){ // todo: make faster
 				fX = fX / fSize;
@@ -129,16 +197,35 @@ iddqd.ns('iddqd.vector',(function(){
 			}
 			return oVector;
 		}
+
+		/**
+		 * Returns a new, normalized vector.
+		 * @memberof Vector
+		 * @returns {Vector}
+		 */
 		function normalized(){
 			return _vector(fX/size(),fY/size());
 		}
+
+		/**
+		 * Returns the distance between two vectors
+		 * @memberof Vector
+		 * @param {Vector} v
+		 * @returns {Number}
+		 */
 		function distance(v){
 			v = v.clone();
 			v.subtract(oVector);
 			return v.drop().size();
 		}
 
-		// rotation functions
+		// ROTATION FUNCTIONS
+
+		/**
+		 * Returns the rotation of the vector in radians.
+		 * @memberof Vector
+		 * @returns {number} A number from 0 to 2
+		 */
 		function radians(){
 			if (bRecalculateRadians) {
 				fRad = (fY>0?1:0)+Math.atan(-fX/fY)/Math.PI;
@@ -146,35 +233,85 @@ iddqd.ns('iddqd.vector',(function(){
 			}
 			return fRad;
 		}
+
+		/**
+		 * Returns the rotation of the vector in degrees.
+		 * @memberof Vector
+		 * @returns {number} A number from 0 to 360
+		 */
 		function degrees(){
 			return radians()*180;
 		}
+
+		/**
+		 * Returns the angle in radians.
+		 * @memberof Vector
+		 * @obsolete use radians
+		 * @returns {number}
+		 */
 		function angle(){
 			return radians();
 		}
-		function rotate(f){
-			fRad = radians()+f;
-			calculateXY();
-			return oVector;
-		}
-		function rotation(f){
-			fRad = f;
+
+		/**
+		 * Adds radians to the rotation of the vector and returns it.
+		 * @memberof Vector
+		 * @param {Number} radians
+		 * @returns {Vector}
+		 */
+		function rotate(radians){
+			fRad = radians()+radians;
 			calculateXY();
 			return oVector;
 		}
 
-		// normal calculations
-		// adding
+		/**
+		 * Sets the rotation of the vector and returns it.
+		 * @memberof Vector
+		 * @param {Number} radians
+		 * @returns {Vector}
+		 */
+		function rotation(radians){
+			fRad = radians;
+			calculateXY();
+			return oVector;
+		}
+
+		// NORMAL CALCULATIONS
+
+		// ADDING
+
+		/**
+		 * Translates the vector by adding either a number or a vector.
+		 * @memberof Vector
+		 * @param {Number|Vector} o
+		 * @returns {Vector}
+		 */
 		function add(o){
 			return isObject(o)?addVector(o):addNumber(o);
 		}
-		function addNumber(f1,f2){
-			fX = fX + f1;
-			fY = fY + (arguments.length===1?f1:f2);
-			bRecalculateRadians = true; // todo: could be unnescesary unless negative
+
+		/**
+		 * Translates the vector by addition. Presumes x is y if y value is not given.
+		 * @memberof Vector
+		 * @param {Number} x
+		 * @param {Number} [y]
+		 * @returns {Vector}
+		 */
+		function addNumber(x,y){
+			fX = fX + x;
+			fY = fY + (y===undefined?x:y);
+			bRecalculateRadians = true; // todo: could be unnecessary unless negative
 			bRecalculateSize = true;
 			return oVector;
 		}
+
+		/**
+		 * Translates the vector by adding another vector.
+		 * @memberof Vector
+		 * @param {Vector} v
+		 * @returns {Vector}
+		 */
 		function addVector(v){
 			fX = fX + v.getX();
 			fY = fY + v.getY();
@@ -182,17 +319,40 @@ iddqd.ns('iddqd.vector',(function(){
 			bRecalculateSize = true;
 			return oVector;
 		}
-		// subtraction
+
+		// SUBTRACTION
+
+		/**
+		 * Translates the vector by subtracting either a number or a vector.
+		 * @memberof Vector
+		 * @param {Number|Vector} o
+		 * @returns {Vector}
+		 */
 		function subtract(o){
 			return isObject(o)?subtractVector(o):subtractNumber(o);
 		}
-		function subtractNumber(f){
-			fX = fX - f;
-			fY = fY - f;
-			bRecalculateRadians = true; // todo: could be unnescesary unless negative
+
+		/**
+		 * Translates the vector by subtraction. Presumes x is y if y value is not given.
+		 * @memberof Vector
+		 * @param {Number} x
+		 * @param {Number} [y]
+		 * @returns {Vector}
+		 */
+		function subtractNumber(x,y){
+			fX = fX - x;
+			fY = fY - (y===undefined?x:y);
+			bRecalculateRadians = true; // todo: could be unnecessary unless negative
 			bRecalculateSize = true;
 			return oVector;
 		}
+
+		/**
+		 * Translates the vector by subtracting another vector.
+		 * @memberof Vector
+		 * @param {Vector} v
+		 * @returns {Vector}
+		 */
 		function subtractVector(v){
 			fX = fX - v.getX();
 			fY = fY - v.getY();
@@ -200,16 +360,39 @@ iddqd.ns('iddqd.vector',(function(){
 			bRecalculateSize = true;
 			return oVector;
 		}
-		// multiply
+
+		// MULTIPLY
+
+		/**
+		 * Multiplies the vector by either a number or a vector.
+		 * @memberof Vector
+		 * @param {Number|Vector} o
+		 * @returns {Vector}
+		 */
 		function multiply(o){
 			return isObject(o)?multiplyVector(o):multiplyNumber(o);
 		}
-		function multiplyNumber(f){
-			fX = fX * f;
-			fY = fY * f;
-			fSize = fSize * f;
+
+		/**
+		 * Multiplies the vector. Presumes x is y if y value is not given.
+		 * @memberof Vector
+		 * @param {Number} x
+		 * @param {Number} [y]
+		 * @returns {Vector}
+		 */
+		function multiplyNumber(x,y){
+			fX = fX * x;
+			fY = fY * (y===undefined?x:y);
+			fSize = fSize * x;
 			return oVector;
 		}
+
+		/**
+		 * Multiplies the vector by another vector.
+		 * @memberof Vector
+		 * @param {Vector} v
+		 * @returns {Vector}
+		 */
 		function multiplyVector(v){
 			fX = fX * v.getX();
 			fY = fY * v.getY();
@@ -217,17 +400,41 @@ iddqd.ns('iddqd.vector',(function(){
 			bRecalculateSize = true;
 			return oVector;
 		}
-		// divide
+
+		// DIVIDE
+
+		/**
+		 * Divides the vector by either a number or a vector.
+		 * @memberof Vector
+		 * @param {Number|Vector} o
+		 * @returns {Vector}
+		 */
 		function divide(o) {
 			return isObject(o)?divideVector(o):divideNumber(o);
 		}
-		function divideNumber(f) {
-			if (f===0) f = iLargest;
-			fX = fX / f;
-			fY = fY / f;
-			fSize = fSize / f;
+
+		/**
+		 * Divides the vector. Presumes x is y if y value is not given.
+		 * @memberof Vector
+		 * @param {Number} x
+		 * @param {Number} [y]
+		 * @returns {Vector}
+		 */
+		function divideNumber(x,y) {
+			if (x===0) x = iLargest;
+			if (y===0) y = iLargest;
+			fX = fX / x;
+			fY = fY / (y===undefined?x:y);
+			fSize = fSize / x;
 			return oVector;
 		}
+
+		/**
+		 * Divides the vector by another vector.
+		 * @memberof Vector
+		 * @param {Vector} v
+		 * @returns {Vector}
+		 */
 		function divideVector(v) {
 			fX = fX / (v.getX()|iLargest);
 			fY = fY / (v.getY()|iLargest);
@@ -236,7 +443,15 @@ iddqd.ns('iddqd.vector',(function(){
 			return oVector;
 		}
 
-		// average
+		// AVERAGE
+
+		/**
+		 * Calculates the average between two vectors
+		 * @memberof Vector
+		 * @param {Vector} v the other vector
+		 * @param {Number} [f=0.5] how much the other vector weighs
+		 * @returns {Vector}
+		 */
 		function average(v,f) {
 			if (f===undefined) f = 0.5;
 			multiplyNumber(1-f).add(v.clone().drop().multiplyNumber(f));

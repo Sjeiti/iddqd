@@ -1,4 +1,12 @@
 /* global ActiveXObject */
+/**
+ * Do an xhttp request
+ * @name iddqd.xhttp
+ * @method
+ * @param {string} url
+ * @param {Function} callback
+ * @param {Object} postData
+ **/
 iddqd.ns('iddqd.xhttp',(function(){
 	'use strict';
 	var XMLHttpFactories = [
@@ -28,6 +36,12 @@ iddqd.ns('iddqd.xhttp',(function(){
 		req.send(postData);
 	}
 
+	/**
+	 * Create an xhttp object
+	 * @name iddqd.xhttp
+	 * @method
+	 * @return {XMLHttpRequest}
+	 **/
 	function createXMLHTTPObject() {
 		var xmlhttp = false;
 		for (var i=0;i<XMLHttpFactories.length;i++) {

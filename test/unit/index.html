@@ -152,10 +152,15 @@
 			test('int', function(a) {
 				ok(iddqd.type(0)===iddqd.type.INT,'0');
 				ok(iddqd.type(1)===iddqd.type.INT,'1');
+				ok(iddqd.type(0xFF)===iddqd.type.INT,'0xFF');
+				ok(iddqd.type(1E4)===iddqd.type.INT,'1E4');
+				ok(iddqd.type(Number.MIN_VALUE)===iddqd.type.INT,'Number.MIN_VALUE');
+				ok(iddqd.type(Number.MAX_VALUE)===iddqd.type.INT,'Number.MAX_VALUE');
 			});
 			test('float', function(a) {
 				ok(iddqd.type(1.1)===iddqd.type.FLOAT,'1.1');
 				ok(iddqd.type(Math.PI)===iddqd.type.FLOAT,'Math.PI');
+				ok(iddqd.type(1E-4)===iddqd.type.FLOAT,'1E-4');
 			});
 			test('nan', function(a) {
 				ok(iddqd.type(NaN)===iddqd.type.NAN,'NaN');
@@ -164,8 +169,17 @@
 			test('infinite', function(a) {
 				ok(iddqd.type(Infinity)===iddqd.type.INFINITE,'Infinity');
 				ok(iddqd.type(2/0)===iddqd.type.INFINITE,'2/0');
+				ok(iddqd.type(Number.POSITIVE_INFINITY)===iddqd.type.INFINITE,'Number.POSITIVE_INFINITY');
+				ok(iddqd.type(Number.NEGATIVE_INFINITY)===iddqd.type.INFINITE,'Number.NEGATIVE_INFINITY');
 			});
-
+			test('regexp', function(a) {
+				ok(iddqd.type(/\s/gi)===iddqd.type.REGEXP,'/\s/gi');
+				ok(iddqd.type(new RegExp(''))===iddqd.type.REGEXP,'new RegExp');
+			});
+			test('date', function(a) {
+				ok(iddqd.type(new Date())===iddqd.type.DATE,'new Date');
+			});
+			
 			module('iddqd.native.string.js');
 			test('pad', function() {
 				ok(iddqd.native.string.pad.apply('a',[3,'b'])==='abb','pad');
