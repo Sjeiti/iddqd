@@ -1,3 +1,4 @@
+/* global signals */
 /**
  * Signal implementation for various generic events.
  * All signals are dead (no events attached) untill the first signal.add or signal.addOnce.
@@ -11,16 +12,18 @@
 
 // todo: hammer.js
 
-iddqd.ns('iddqd.signals',function(rv,signals,vector){
+iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	'use strict';
-	var oSignals = rv.signals = {}
-		,fnEmpty = rv.fn
-		,bTouch = rv.capabilities.touch
-		,requestAnimFrame = rv.requestAnimFrame
-		,addEvent = rv.addEvent
-		,loop = rv.loop
+	var vector = iddqd.vector
+		,oSignals = iddqd.signals = {}
+		,fnEmpty = iddqd.fn
+		,bTouch = iddqd.capabilities.touch
+//		,requestAnimFrame = iddqd.requestAnimFrame
+		,addEvent = iddqd.addEvent
+		,loop = iddqd.loop
 	;
 
+	iddqd.signals.add = addSignal;
 	function addSignal(name,init){
 		var oSignal = oSignals[name] = new signals.Signal()
 			,fnTmpAdd = oSignal.add
@@ -101,33 +104,33 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 			});
 		});
 
-	/**
-	 * Keyframe dispatcher using requestAnimFrame.<br/>
-	 * The callback for this signal is Function(deltaT)
-	 * @name iddqd.signals.animate
-	 * @type Signal
-	 */
-	addSignal('animate',function(signal){
-		var fDeltaT = 0
-			,iCurMillis
-			,iLastMillis = rv.millis()
-			,iMilliLen = 10
-			,aMillis = (function(a,n){
-				for (var i=0;i<iMilliLen;i++) a.push(n);
-				return a;
-			})([],iLastMillis);
-		function animate(){
-			iCurMillis = rv.millis();
-			aMillis.push(iCurMillis-iLastMillis);
-			aMillis.shift();
-			fDeltaT = 0;
-			for (var i=0;i<iMilliLen;i++) fDeltaT += aMillis[i];
-			iLastMillis = iCurMillis;
-			signal.dispatch(fDeltaT/iMilliLen,iCurMillis);
-			requestAnimFrame(animate);
-		}
-		animate();
-	});
+//	/**
+//	 * Keyframe dispatcher using requestAnimFrame.<br/>
+//	 * The callback for this signal is Function(deltaT)
+//	 * @name iddqd.signals.animate
+//	 * @type Signal
+//	 */
+//	addSignal('animate',function(signal){
+//		var fDeltaT = 0
+//			,iCurMillis
+//			,iLastMillis = iddqd.millis()
+//			,iMilliLen = 10
+//			,aMillis = (function(a,n){
+//				for (var i=0;i<iMilliLen;i++) a.push(n);
+//				return a;
+//			})([],iLastMillis);
+//		function animate(){
+//			iCurMillis = iddqd.millis();
+//			aMillis.push(iCurMillis-iLastMillis);
+//			aMillis.shift();
+//			fDeltaT = 0;
+//			for (var i=0;i<iMilliLen;i++) fDeltaT += aMillis[i];
+//			iLastMillis = iCurMillis;
+//			signal.dispatch(fDeltaT/iMilliLen,iCurMillis);
+//			requestAnimFrame(animate);
+//		}
+//		animate();
+//	});
 
 	/**
 	 * Wait a couple of frames before dispatching.
@@ -343,14 +346,14 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 		});
 	});*/
 //	addSignal('drag',function(signal){
-//		rv.onDOMReady(function(){
+//		iddqd.onDOMReady(function(){
 //			Hammer(document.body).on('drag', function(e) {
 //				console.log('drag',e); // log
 ////				signal.dispatch(e.gesture.touches);
 //			});
 //		});
 //	});
-//	rv.onDOMReady(function(){
+//	iddqd.onDOMReady(function(){
 //		addSignal('drag',function(signal){
 //			Hammer(document.body).on('drag', function(e) {
 //				console.log('drag',e); // log
@@ -581,9 +584,4 @@ iddqd.ns('iddqd.signals',function(rv,signals,vector){
 			signal.dispatch(sOldHash,sHash);
 		});
 	});
-
-},[
-	'iddqd'
-	,['signals','signals.min.js']
-	,'iddqd.vector'
-]);
+})(iddqd,signals));

@@ -1,14 +1,13 @@
 /**
  * Object methods
- * @name iddqd.native.object
- * @namespace iddqd.native.object
+ * @namespace iddqd.internal.native.object
  */
-iddqd.ns('iddqd.native.object',(function(){
+iddqd.ns('iddqd.internal.native.object',(function(internal){
 	'use strict';
-	return iddqd.primitive(Object,{
+	return internal(Object,{
 		/**
 		 * Extend an object
-		 * @name iddqd.native.object.extend
+		 * @name iddqd.internal.native.object.extend
 		 * @method
 		 * @param o {Object} Property object.
 		 * @returns {Object} Subject.
@@ -18,7 +17,7 @@ iddqd.ns('iddqd.native.object',(function(){
 		}
 		/**
 		 * Returns the first item in an object
-		 * @name iddqd.native.object.first
+		 * @name iddqd.internal.native.object.first
 		 * @method
 		 * @returns {object}
 		 */
@@ -26,4 +25,4 @@ iddqd.ns('iddqd.native.object',(function(){
 			for (var s in this) return this[s];
 		}
 	});
-})());
+})(iddqd.internal));

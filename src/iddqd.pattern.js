@@ -1,5 +1,17 @@
-
+/**
+ * Design patterns
+ * @namespace
+ */
 iddqd.ns('iddqd.pattern',{
+
+	/**
+	 * Creates an object pool for a factory method
+	 * Adds a drop function to each instance
+	 * @name iddqd.pattern.pool
+	 * @method
+	 * @param {Function} fnc The factory function we want to pool
+	 * @returns {Function} The pooled method
+	 */
 	pool: function(fnc){
 		'use strict';
 		/* jshint validthis:true */
@@ -20,6 +32,15 @@ iddqd.ns('iddqd.pattern',{
 			return oInstance;
 		};
 	}
+
+	/**
+	 * Memoisation function
+	 * Memoizes the return values to the functions argument values
+	 * @name iddqd.pattern.memoize
+	 * @method
+	 * @param {Function} fnc The function we want to memoize
+	 * @returns {Object} The memoized function
+	 */
 	,memoize: function(fnc){
 		'use strict';
 		var oCache = {};

@@ -1,13 +1,13 @@
 /**
  * Node methods
- * @namespace iddqd.host.node
+ * @namespace iddqd.internal.host.node
  */
-iddqd.ns('iddqd.host.node',(function(){
+iddqd.ns('iddqd.internal.host.node',(function(internal){
 	'use strict';
-	return iddqd.primitive(Node,{
+	return internal(Node,{
 		/**
 		 * Converts a node to an object (attribute and childnode collisions may occur)
-		 * @name iddqd.host.node.toObject
+		 * @name iddqd.internal.host.node.toObject
 		 * @method
 		 * @param {object} obj An optional pre-existing object to fill.
 		 * @returns {object}
@@ -29,7 +29,7 @@ iddqd.ns('iddqd.host.node',(function(){
 				var el = aChildNodes[i]
 					,sElNodeName = el.nodeName
 					,iNodeType = el.nodeType
-					,oNode = iddqd.host.node.toObject.apply(el);
+					,oNode = iddqd.internal.host.node.toObject.apply(el);
 				switch (iNodeType) {
 					case 1: // node
 						if (obj.hasOwnProperty(sElNodeName)) {
@@ -46,4 +46,4 @@ iddqd.ns('iddqd.host.node',(function(){
 			return obj;
 		}
 	});
-})());
+})(iddqd.internal));

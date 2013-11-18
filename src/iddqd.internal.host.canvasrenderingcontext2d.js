@@ -1,12 +1,16 @@
 /* global CanvasRenderingContext2D */
 // todo: document
-iddqd.ns('iddqd.host.canvasrenderingcontext2d',
-	(function(iddqd){
+/**
+ * CanvasRenderingContext2D methods
+ * @namespace iddqd.internal.host.canvasrenderingcontext2d
+ */
+iddqd.ns('iddqd.internal.host.canvasrenderingcontext2d',
+	(function(internal){
 		'use strict';
 		var aStyle = ['strokeStyle','fillStyle','font','lineWidth']
 			,oStoredStyle = {}
 		;
-		return iddqd.primitive(CanvasRenderingContext2D,{
+		return internal(CanvasRenderingContext2D,{
 			createGradient: function(isLinear,ysize,pos,color) {
 				var oGradient = isLinear?this.createLinearGradient(0,0,0,ysize):this.createRadialGradient(0,0,0,0,0,ysize)
 					,i = arguments.length-2
@@ -171,5 +175,5 @@ iddqd.ns('iddqd.host.canvasrenderingcontext2d',
 				return this;
 			}
 		});
-	})(iddqd)
+	})(iddqd.internal)
 );

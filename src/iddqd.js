@@ -8,22 +8,7 @@
  */
 if (window.iddqd===undefined) window.iddqd = (function() {
 	'use strict';
-	/**
-	 * Function that executes the callback asap.
-	 * @name iddqd.requestAnimFrame
-	 * @method
-	 */
-	var requestAnimFrame = (function(){
-			return window.requestAnimationFrame||
-				window.webkitRequestAnimationFrame||
-				window.mozRequestAnimationFrame||
-				window.oRequestAnimationFrame||
-				window.msRequestAnimationFrame||
-				function(callback){
-					window.setTimeout(callback, 1000/60);
-				};
-		})()
-		,oGetget = {}
+	var oGetget = {}
 		,bGetget = false
 		,oTmplCache = {}
 		// return object including exposed private methods
@@ -38,19 +23,12 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			,onDOMReady:onDOMReady
 			,loop:loop
 			,extend:extend
-			,augment:augment
-			,normalize:normalize
-			,primitive:primitive
 			,ns:ns
 			,fireEvent:fireEvent
 			,millis: millis
-			,requestAnimFrame:requestAnimFrame
-			,animate:animate
 			,getGet:getGet
 			,getLessVars:getLessVars
 			,loadScript: loadScript
-			//,namespace:namespace
-			,require:require
 			/**
 			 * Empty function.
 			 * @name iddqd.fn
@@ -141,7 +119,6 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			}
 		}
 		if (oReturn.DOMReady===true) {
-			console.log('istrue'); // log
 			doCallback();
 		} else {
 			if (document.addEventListener&&!state) document.addEventListener('DOMContentLoaded',doCallback,false);
@@ -186,167 +163,40 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		return obj;
 	}
 	/**
-	* Augment an objects prototype
-	 * @name iddqd.augment
-	 * @method
-	 * @param obj {Object} The object to augment.
-	 * @param augmentwith {Object} A key value pair ({name:Function})
-	 * @returns {Boolean} Success
-	*/
-	function augment(obj,augmentwith){
-		var oPrototype = obj.prototype||Object.getPrototypeOf(obj)
-			,bSuccess = false;
-		if (oPrototype===undefined) {
-			console.warn('Object has no prototype to augment, use extend instead.');
-		} else {
-			loop(augmentwith,function(name,fnc){
-				if (name!=='toString'&&name!=='normalize'&&name!=='augment') {
-					if (oPrototype.hasOwnProperty(name)) {
-						if (oPrototype[name]!==augmentwith[name]) {
-							console.warn('Attempting to augment with an existing propery: \''+name+'\' in \''+obj+'\'.');
-						}
-					} else {
-						oPrototype[name] = fnc;
-						bSuccess = true;
-					}
-				}
-			});
-		}
-		return bSuccess;
-	}
-	/**
-	 * Normalizes a namespace so methods can be called without applying.
-	 * @name iddqd.normalize
-	 * @method
-	 * @param namespace {Object} The object to augment.
-	 */
-	function normalize(namespace){
-		loop(namespace,function(name,fnc){
-			if (name!=='augment'&&name!=='normalize'&&name!=='toString'&&!fnc.normalized) {
-				namespace[name] = function(s){
-					return fnc.apply(s);
-				};
-				namespace[name].normalized = true;
-			}
-		});
-	}
-
-	/**
-	 * Adds augment and normalize methods to host- and/or native objects.
-	 * @name iddqd.primitive
-	 * @method
-	 * @param {object} primitiveObject The host- or native object.
-	 * @param {object} namespace The namespace to add the methods to.
-	 * @returns {object} The namespace
-	 * @example
-iddqd.ns('foo',(function(){
-	return iddqd.primitive(Math,{
-		// keys and properties in this object will be added through foo.augment() and foo.normalize()
-		answerToLifeTheUniverseAndEverything: function(){
-			return 42;
-		}
-	});
-})());
-	 */
-	function primitive(primitiveObject,namespace){
-		namespace.augment = function() {
-			return augment(primitiveObject,namespace);
-		};
-		namespace.normalize = function(){
-			normalize(namespace);
-		};
-		return namespace;
-	}
-
-	// todo: namespace
-	/*function namespace(namespace,includes,fn){
-
-	}*/
-	/**
 	 * Create namespaces. If only the first 'namespace' parameter is set it will return the namespace if it exists or null if it doesn't.
 	 * @name iddqd.ns
 	 * @method
 	 * @param {String} namespace The namespace we're creating or expanding
 	 * @param {Object} object The object with which to extend the namespace
-	 * @param {Array} [dependencies=null] An array of dependencies
 	 */
-	function ns(namespace,object,dependencies){
+	function ns(namespace,object){
 		var oBase = window
 			,aNS = namespace.split('.')
 			,s
-//				,bProceed = true
 		;
-		if (dependencies&&dependencies.length) {
-//				bProceed = false;
-//				console.log('dependencies',dependencies.length); // log
-			var aApply = new Array(dependencies.length)
-				,iApply = dependencies.length
-//					,fnCallback = function(i,s){
-//						aApply
-//						console.log('script loaded',i,ns(s).toString())
-//					}
-			;
-			loop(dependencies,function(i,s){
-				//
-				var bIsString = typeof(s)=='string'
-					,sObject = bIsString?s:s[0]
-					,sFileName = bIsString?s+'.js':s[1]
-				;
-				//
-				require(sFileName,sObject,(function(i,s){return function(){
-					iApply--;
-					aApply[i] = ns(s);
-					if (iApply===0) {
-						ns(namespace,object.apply(object,aApply));
-					}//console.log('all loaded',aApply); // log
-//						console.log('script loaded',i,ns(s).toString())
-				};})(i,sObject));
-			});
-//				if ()
-//				while(s=dependencies.shift()){
-//					require(s,(function(s){return function(){console.log('script loaded',ns(s).toString())}})(s));
-//				}
-		} else {
-			while(s=aNS.shift()){
-				if (object) {
-					if (aNS.length===0) {
-						var oExists = oBase.hasOwnProperty(s)?oBase[s]:null;
-						oBase[s] = object;
-						if (!object.hasOwnProperty('toString')) object.toString = (function(s){return function(){return '[object '+s+']';};})(s);
-						if (oExists) {
-							console.warn('Overwriting '+s+' in '+namespace);
-							extend(oBase[s],oExists);
-						}
-					} else if (!oBase.hasOwnProperty(s)) {
-					//} else if (!Object.prototype.hasOwnProperty.call(oBase,s)) { // ie8 fix
-						oBase[s] = {};
+		while(s=aNS.shift()){
+			if (object) {
+				if (aNS.length===0) {
+					var oExists = oBase.hasOwnProperty(s)?oBase[s]:null;
+					oBase[s] = object;
+					if (!object.hasOwnProperty('toString')) object.toString = (function(s){return function(){return '[object '+s+']';};})(s);
+					if (oExists) {
+						console.warn('Overwriting '+s+' in '+namespace);
+						extend(oBase[s],oExists);
 					}
-					oBase = oBase[s];
-				} else if (oBase.hasOwnProperty(s)) {
+				} else if (!oBase.hasOwnProperty(s)) {
 				//} else if (!Object.prototype.hasOwnProperty.call(oBase,s)) { // ie8 fix
-					oBase = oBase[s];
-				} else {
-					return;
+					oBase[s] = {};
 				}
+				oBase = oBase[s];
+			} else if (oBase.hasOwnProperty(s)) {
+			//} else if (!Object.prototype.hasOwnProperty.call(oBase,s)) { // ie8 fix
+				oBase = oBase[s];
+			} else {
+				return;
 			}
-			return oBase;
 		}
-	}
-	/**
-	 * Inject javascript
-	 * @name iddqd.require
-	 * @method
-	 * @param {String} file The source location of the file.
-	 * @param {String} namespace The namespace we're creating or expanding
-	 * @param {Function} [loadCallback=null] A callback function for when the file is loaded.
-	 */
-	function require(file,namespace,loadCallback){
-		// todo: check this in conjunction with ns
-		if (ns(namespace)) {
-			loadCallback();
-		} else {
-			loadScript(file,loadCallback);
-		}
+		return oBase;
 	}
 	/**
 	 * Load javascript file
@@ -415,39 +265,6 @@ iddqd.ns('foo',(function(){
 	 */
 	function millis(){
 		return Date.now();
-	}
-	/**
-	 * Animates something
-	 * @name iddqd.animate
-	 * @method
-	 * @param {Number} duration Length of animation in milliseconds.
-	 * @param {Function} step Function called each step with a progress parameter (a 0-1 float).
-	 * @param {Function} complete Callback function when animation finishes.
-	 * @return {Object} An animation object with a cancel function.
-	 */
-	function animate(duration,step,complete){
-		var t = millis()
-			,fnAnim = oReturn.requestAnimFrame
-			,bRunning = true
-			,fnRun = function(){
-				if (bRunning) {
-					var iTCurrent = millis()-t;
-					if (iTCurrent<duration) {
-						step(iTCurrent/duration);
-						fnAnim(fnRun);
-					} else {
-						step(1);
-						complete&&complete();
-					}
-				}
-			};
-		function cancel(){
-			bRunning = false;
-		}
-		fnRun();
-		return {
-			cancel: cancel
-		};
 	}
 	/**
 	 * Returns get vars object
@@ -544,19 +361,9 @@ iddqd.ns('foo',(function(){
 			return !target.dispatchEvent(oEvt);
 		}
 	}
+	//
 	return oReturn;
 })();
 
-// no files exist for the namespaces below
-
-/**
- * Host object methods
- * @namespace iddqd.host
- * @summary Host object methods
- */
-
-/**
- * Native object methods
- * @namespace iddqd.native
- * @summary Native object methods
- */
+// orphan namespaces below
+/** @namespace iddqd.network */

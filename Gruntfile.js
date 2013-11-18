@@ -11,31 +11,43 @@ module.exports = function (grunt) {
 		,oJsDoc = grunt.file.readJSON(sJsDoc)
 		,aFiles = [
 			'src/iddqd.js'
-			,'src/iddqd.type.js'
-			,'src/iddqd.json.js'
-			,'src/iddqd.native.string.js'
-			,'src/iddqd.host.node.js'
+
+			,'src/iddqd.pattern.js'
 			,'src/iddqd.signals.js'
+
+			,'src/iddqd.type.js'
+
+			,'src/iddqd.animate.js'
+
+			,'src/iddqd.internal.js'
+			,'src/iddqd.internal.host.canvasrenderingcontext2d.js'
+			,'src/iddqd.internal.host.htmlelement.js'
+			,'src/iddqd.internal.host.node.js'
+			,'src/iddqd.internal.native.array.js'
+			,'src/iddqd.internal.native.number.js'
+			,'src/iddqd.internal.native.object.js'
+			,'src/iddqd.internal.native.string.js'
+
+			,'src/iddqd.network.jsonp.js'
+			,'src/iddqd.network.xhttp.js'
 			,'src/iddqd.prng.js'
-			,'src/iddqd.xhttp.js'
 
 			,'src/iddqd.vector.js'
 			,'src/iddqd.color.js'
 			,'src/iddqd.json.js'
-			,'src/iddqd.jsonp.js'
 
 			,'src/iddqd.capabilities.js' // todo: merge these two?
 			,'src/iddqd.environment.js'
 
 			,'src/iddqd.cookie.js'
-//			,'src/iddqd.style.js'
 			,'src/iddqd.storage.js'
+
+//			,'src/iddqd.style.js'
 //			,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
 			,'src/iddqd.loadImage.js' // todo: put loadimage and sizeimage under image ns
 			,'src/iddqd.scroll.js'
-			,'src/iddqd.pattern.js'
 			,'src/iddqd.panorama.js'
-			,'src/iddqd.log.js'
+//			,'src/iddqd.log.js'
 		]
 		,sMain = fs.readFileSync(aFiles[0]).toString()
 		,oBanner = readBanner(sMain)

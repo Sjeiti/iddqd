@@ -1,13 +1,13 @@
 /* global ActiveXObject */
 /**
  * Do an xhttp request
- * @name iddqd.xhttp
+ * @name iddqd.network.xhttp
  * @method
  * @param {string} url
  * @param {Function} callback
  * @param {Object} postData
  **/
-iddqd.ns('iddqd.xhttp',(function(){
+iddqd.ns('iddqd.network.xhttp',(function(){
 	'use strict';
 	var XMLHttpFactories = [
 		function () {return new XMLHttpRequest();},

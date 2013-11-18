@@ -1,14 +1,13 @@
 /**
  * HTMLElement methods
- * @name iddqd.host.htmlelement
- * @namespace iddqd.host.htmlelement
+ * @namespace iddqd.internal.host.htmlelement
  */
-iddqd.ns('iddqd.host.htmlelement',(function(){
+iddqd.ns('iddqd.internal.host.htmlelement',(function(internal){
 	'use strict';
-	return iddqd.primitive(HTMLElement,{
+	return internal(HTMLElement,{
 		/**
 		 * Create a new childnode onto the element
-		 * @name iddqd.host.htmlelement.addChild
+		 * @name iddqd.internal.host.htmlelement.addChild
 		 * @method
 		 * @param {string} elementName Name of the new node.
 		 * @param {object} attributes An object with attributes to set on the new node.
@@ -25,7 +24,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		}
 		/**
 		 * Create a new childnode next to the element
-		 * @name iddqd.host.htmlelement.addSibling
+		 * @name iddqd.internal.host.htmlelement.addSibling
 		 * @method
 		 * @param {string} elementName Name of the new node.
 		 * @param {object} attributes An object with attributes to set on the new node.
@@ -46,7 +45,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		}
 		/**
 		 * Set attributes on an HTMLElement.
-		 * @name iddqd.host.htmlelement.setAttributes
+		 * @name iddqd.internal.host.htmlelement.setAttributes
 		 * @method
 		 * @param {object} attributes An object with attributes to set.
 		 * @returns {HTMLElement} The subject HTMLElement.
@@ -57,7 +56,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		}
 		/**
 		 * Remove an HTMLElement.
-		 * @name iddqd.host.htmlelement.remove
+		 * @name iddqd.internal.host.htmlelement.remove
 		 * @method
 		 * @returns {HTMLElement} The removed HTMLElement.
 		 */
@@ -67,7 +66,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		}
 		/**
 		 * Remove all the children.
-		 * @name iddqd.host.htmlelement.empty
+		 * @name iddqd.internal.host.htmlelement.empty
 		 * @method
 		 * @returns {HTMLElement} The subject HTMLElement.
 		 */
@@ -77,7 +76,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		}
 		/**
 		 * Set the style of an HTMLElement.
-		 * @name iddqd.host.htmlelement.css
+		 * @name iddqd.internal.host.htmlelement.css
 		 * @method
 		 * @param {object} rules An object with style rules to set.
 		 * @returns {HTMLElement} The subject HTMLElement.
@@ -112,7 +111,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		}*/
 		/**
 		 * Checks if the element descends from another element.
-		 * @name iddqd.host.htmlelement.descendsFrom
+		 * @name iddqd.internal.host.htmlelement.descendsFrom
 		 * @method
 		 * @param {HTMLElement} parentNode The parent.
 		 * @returns {boolean} Is descendant.
@@ -126,7 +125,7 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 		}
 		/**
 		 * Checks if width and height are set.
-		 * @name iddqd.host.htmlelement.visible
+		 * @name iddqd.internal.host.htmlelement.visible
 		 * @method
 		 * @returns {boolean} Is visible.
 		 */
@@ -134,4 +133,4 @@ iddqd.ns('iddqd.host.htmlelement',(function(){
 			return this.offsetWidth>0||this.offsetHeight>0;
 		}
 	});
-})());
+})(iddqd.internal));

@@ -1,4 +1,11 @@
-iddqd.ns('iddqd.jsonp',(function(){
+/**
+ * Do a jsonp request
+ * @name iddqd.network.jsonp
+ * @method
+ * @param {string} uri
+ * @param {Function} callback
+ **/
+iddqd.ns('iddqd.network.jsonp',(function(){
 	'use strict';
 	var iNr = 2222;
 	return function(uri,callback){

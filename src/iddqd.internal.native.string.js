@@ -1,13 +1,13 @@
 /**
  * String methods
- * @namespace iddqd.native.string
+ * @namespace iddqd.internal.native.string
  */
-iddqd.ns('iddqd.native.string',(function(iddqd){
+iddqd.ns('iddqd.internal.native.string',(function(internal){
 	'use strict';
-	return iddqd.primitive(String,{
+	return internal(String,{
 		/**
 		 * Pads a string left or right
-		 * @name iddqd.native.string.pad
+		 * @name iddqd.internal.native.string.pad
 		 * @method
 		 * @param {Number} length Final length of the total string.
 		 * @param {String} chr Character to pad the string with.
@@ -31,7 +31,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Tries to determine the type of the string and returns it.
-		 * @name iddqd.native.string.toType
+		 * @name iddqd.internal.native.string.toType
 		 * @method
 		 * @returns {Object} Returns a string, number or boolean.
 		 */
@@ -50,7 +50,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts string to XML
-		 * @name iddqd.native.string.toXML
+		 * @name iddqd.internal.native.string.toXML
 		 * @method
 		 * @returns {Document} Returns an XML Document
 		 */
@@ -68,21 +68,22 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts an XML string to an object
-		 * @name iddqd.native.string.toXMLObj
+		 * @name iddqd.internal.native.string.toXMLObj
 		 * @method
 		 * @returns {Object}
 		 */
 		,toXMLObj: function(){
-			if (!iddqd.host||!iddqd.host.node||!iddqd.host.node.toObject) {
+			var host = iddqd.internal.host;
+			if (!host||!host.node||!host.node.toObject) {
 				console.warn('The required function iddqd.host.node.toObject does not exist');
 				return false;
 			} else {
-				return iddqd.host.node.toObject.apply(iddqd.native.string.toXML.apply(this).childNodes[0]);
+				return host.node.toObject.apply(iddqd.internal.native.string.toXML.apply(this).childNodes[0]);
 			}
 		}
 		/**
 		 * Generates a random, but pronounceable string
-		 * @name iddqd.native.string.generate
+		 * @name iddqd.internal.native.string.generate
 		 * @method
 		 * @param length {Number} Length of the string
 		 * @param cut {Boolean} Cut string to length
@@ -118,7 +119,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Capitalizes the first character of the string
-		 * @name iddqd.native.string.nameCase
+		 * @name iddqd.internal.native.string.nameCase
 		 * @method
 		 * @returns {string}
 		 */
@@ -127,7 +128,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts the string to camelCase notation
-		 * @name iddqd.native.string.camelCase
+		 * @name iddqd.internal.native.string.camelCase
 		 * @method
 		 * @returns {string}
 		 */
@@ -136,7 +137,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts the string to dashed notation
-		 * @name iddqd.native.string.dash
+		 * @name iddqd.internal.native.string.dash
 		 * @method
 		 * @returns {string}
 		 */
@@ -147,7 +148,7 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 		}
 		/**
 		 * Converts the string to underscored notation
-		 * @name iddqd.native.string.underscore
+		 * @name iddqd.internal.native.string.underscore
 		 * @method
 		 * @returns {string}
 		 */
@@ -157,4 +158,4 @@ iddqd.ns('iddqd.native.string',(function(iddqd){
 			return this==sCamel?sUnSpc:sCamel;
 		}
 	});
-})(iddqd));
+})(iddqd.internal));

@@ -1,6 +1,8 @@
-/*! Date */
 // todo: document
-iddqd.ns('iddqd.native.date',(function(rv){
+/**
+ * @namespace iddqd.internal.native.date
+ */
+iddqd.ns('iddqd.internal.native.date',(function(rv){
 	'use strict';
 	var oDateProto = Date.prototype
 		,fnOldToString = oDateProto.toString
