@@ -30,6 +30,7 @@ module.exports = function (grunt) {
 
 			,'src/iddqd.math.prng.js'
 			,'src/iddqd.math.vector.js'
+			,'src/iddqd.math.color.js'
 
 			,'src/iddqd.network.jsonp.js'
 			,'src/iddqd.network.xhttp.js'
@@ -43,7 +44,6 @@ module.exports = function (grunt) {
 			,'src/iddqd.json.js'
 
 			// types
-			,'src/iddqd.color.js'
 
 			,'src/iddqd.capabilities.js' // todo: merge these two?
 			,'src/iddqd.environment.js'
