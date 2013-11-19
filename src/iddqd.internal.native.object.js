@@ -9,11 +9,11 @@ iddqd.ns('iddqd.internal.native.object',(function(internal){
 		 * Extend an object
 		 * @name iddqd.internal.native.object.extend
 		 * @method
-		 * @param o {Object} Property object.
+		 * @param withObject {Object} Property object.
 		 * @returns {Object} Subject.
 		 */
-		extend: function(o){
-			return iddqd.extend(this,o);
+		extend: function(withObject){
+			return iddqd.extend(this,withObject);
 		}
 		/**
 		 * Returns the first item in an object

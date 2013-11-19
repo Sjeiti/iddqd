@@ -1,7 +1,9 @@
-///**
-// * Foobar
-// * @namespace iddqd.animate
-// */
+/**
+ * Animation methods
+ * The namespace is really the exposed private method {@link iddqd.animate.animate animate}
+ * @summary Animation methods
+ * @namespace iddqd.animate
+ */
 iddqd.ns('iddqd.animate',(function(iddqd){
 	'use strict';
 	/**
@@ -22,8 +24,10 @@ iddqd.ns('iddqd.animate',(function(iddqd){
 	;
 	/**
 	 * Animates something
-	 * @name iddqd.animate
+	 * @name animate
+	 * @memberof iddqd.animate
 	 * @method
+	 * @private
 	 * @param {Number} duration Length of animation in milliseconds.
 	 * @param {Function} step Function called each step with a progress parameter (a 0-1 float).
 	 * @param {Function} complete Callback function when animation finishes.

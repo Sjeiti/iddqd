@@ -1,6 +1,7 @@
 /**
  * Design patterns
- * @namespace
+ * @namespace iddqd.pattern
+ * @summary Design patterns
  */
 iddqd.ns('iddqd.pattern',{
 

@@ -2,7 +2,7 @@
  * A collection
  * @namespace iddqd
  * @summary A collection
- * @version 2.0.0
+ * @version 2.0.21
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
  */
@@ -366,4 +366,13 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 })();
 
 // orphan namespaces below
-/** @namespace iddqd.network */
+/**
+ * Networking methods
+ * @namespace iddqd.network
+ * @summary Networking methods
+ */
+/**
+ * Mathematical methods
+ * @namespace iddqd.math
+ * @summary Mathematical methods
+ */

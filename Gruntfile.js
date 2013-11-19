@@ -28,25 +28,33 @@ module.exports = function (grunt) {
 			,'src/iddqd.internal.native.object.js'
 			,'src/iddqd.internal.native.string.js'
 
+			,'src/iddqd.math.prng.js'
+			,'src/iddqd.math.vector.js'
+
 			,'src/iddqd.network.jsonp.js'
 			,'src/iddqd.network.xhttp.js'
-			,'src/iddqd.prng.js'
 
-			,'src/iddqd.vector.js'
-			,'src/iddqd.color.js'
+			,'src/iddqd.storage.js'
+			,'src/iddqd.storage.cookie.js'
+
+			,'src/iddqd.util.scroll.js' // todo: not scroll
+
+			// data
 			,'src/iddqd.json.js'
+
+			// types
+			,'src/iddqd.color.js'
 
 			,'src/iddqd.capabilities.js' // todo: merge these two?
 			,'src/iddqd.environment.js'
 
-			,'src/iddqd.cookie.js'
-			,'src/iddqd.storage.js'
+			// custom
+			,'src/iddqd.panorama.js'
 
 //			,'src/iddqd.style.js'
 //			,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
 			,'src/iddqd.loadImage.js' // todo: put loadimage and sizeimage under image ns
-			,'src/iddqd.scroll.js'
-			,'src/iddqd.panorama.js'
+
 //			,'src/iddqd.log.js'
 		]
 		,sMain = fs.readFileSync(aFiles[0]).toString()
@@ -106,6 +114,20 @@ module.exports = function (grunt) {
 			files: aFiles
 		},
 
+
+		qunit: {
+////			options: { jshintrc: '.jshintrc' },
+//			files: aFiles
+//			,tests: 'test/unit/test.js'
+			all: {
+				options: {
+					urls: [
+						'http://localhost/libs/js/iddqd/test/unit/index.html'
+					]
+				}
+			}
+		},
+
 		jsdoc : {
 			dist : {
 				src: aFiles,
@@ -122,8 +144,10 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-jsdoc');
+	grunt.loadNpmTasks('grunt-contrib-qunit');
 
-	grunt.registerTask('default',['jshint','jsdoc']);
+	grunt.registerTask('default',['jshint','qunit','jsdoc']);
+	grunt.registerTask('test',['qunit']);
 	grunt.registerTask('doc',['jsdoc']);
 
 };

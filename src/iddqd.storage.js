@@ -1,4 +1,45 @@
+/**
+ * @summary Storage methods
+ * @namespace iddqd.storage
+ */
 
+/**
+ * @summary LocalStorage methods
+ * @namespace iddqd.storage.local
+ */
+/**
+ * @method iddqd.storage.local.get
+ * @param {String} key
+ * @returns {Object}
+ */
+/**
+ * @method iddqd.storage.local.set
+ * @param {String} key
+ * @param {Object} value
+ */
+/**
+ * @method iddqd.storage.local.clear
+ * @param {String} key
+ */
+
+/**
+ * @summary SessionStorage methods
+ * @namespace iddqd.storage.session
+ */
+/**
+ * @method iddqd.storage.session.get
+ * @param {String} key
+ * @returns {Object}
+ */
+/**
+ * @method iddqd.storage.session.set
+ * @param {String} key
+ * @param {Object} value
+ */
+/**
+ * @method iddqd.storage.session.clear
+ * @param {String} key
+ */
 iddqd.ns('iddqd.storage',(function(iddqd){
 	'use strict';
 	var bCanStore = window.Storage!==undefined

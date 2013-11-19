@@ -1,22 +1,23 @@
 /**
- * A simple pseudo random number generator
- * @namespace iddqd.prng
+ * A simple seeded pseudo random number generator
+ * @namespace iddqd.math.prng
+ * @summary A simple seeded pseudo random number generator
  */
-iddqd.ns('iddqd.prng',(function(){
+iddqd.ns('iddqd.math.prng',(function(){
 	'use strict';
 	var iMersenne = 2147483647
 		,oReturn = {
 			/**
 			 * The random seed
-			 * @name iddqd.prng.seed
+			 * @memberof iddqd.math.prng
 			 * @type {number}
 			 */
 			seed: 123
 			/**
 			 * Generate random number between 0 and 2147483647
-			 * @name iddqd.prng.rnd
+			 * @name iddqd.math.prng.rnd
 			 * @method
-			 * @return {number}
+			 * @return {number} An integer between 0 and 2147483647
 			 */
 			,rnd: function(seed) {
 				setSeed(seed);
@@ -25,18 +26,18 @@ iddqd.ns('iddqd.prng',(function(){
 			}
 			/**
 			 * Generate random number between 0 and 1
-			 * @name iddqd.prng.random
+			 * @name iddqd.math.prng.random
 			 * @method
-			 * @return {number}
+			 * @return {number} A floating point between 0 and 1
 			 */
 			,random: function(seed) {
 				setSeed(seed);
 				return oReturn.rnd()/iMersenne;
 			}
 		}
-		,setSeed = function(seed){
-			if (seed!==undefined) oReturn.seed = seed;
-		}
 	;
+	function setSeed(seed){
+		if (seed!==undefined) oReturn.seed = seed;
+	}
 	return oReturn;
 })());
