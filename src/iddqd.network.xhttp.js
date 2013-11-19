@@ -38,7 +38,7 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 
 	/**
 	 * Create an xhttp object
-	 * @name iddqd.xhttp
+	 * @name iddqd.network.xhttp
 	 * @method
 	 * @return {XMLHttpRequest}
 	 **/

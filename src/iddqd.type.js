@@ -1,12 +1,13 @@
 /**
  * Type checking, also checks untyped types like integer and float.
  * @name iddqd.type
- * @method
+ * @function
  * @param {*} obj
  * @returns {Function} A constant, ie: iddqd.type.BOOLEAN
  **/
 iddqd.ns('iddqd.type',(function(iddqd,undefined){
 	'use strict';
+	// todo: constants don't show in jsdoc
 		/** @constant {object} iddqd.type.UNDEFINED */
 	var  UNDEFINED =	getConstant('undefined')
 		/** @constant {object} iddqd.type.NULL */

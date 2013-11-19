@@ -1,19 +1,20 @@
 /* global signals */
 /**
  * Signal implementation for various generic events.
- * All signals are dead (no events attached) untill the first signal.add or signal.addOnce.
- * @author Ron Valstar (http://www.sjeiti.com/)
+ * All signals are dead (no events attached) until the first signal.add or signal.addOnce.
+ * @summary Signal implementation for various generic events.
  * @namespace iddqd.signals
- * @requires signals.js http://millermedeiros.github.com/js-signals/
- * @requires iddqd.js
- * @requires iddqd.vector.js
- * @requires iddqd.capabilities.js
  */
+// * @requires signals.js http://millermedeiros.github.com/js-signals/
+// * @requires iddqd.js
+// * @requires iddqd.vector.js
+// * @requires iddqd.capabilities.js
 
 // todo: hammer.js
 
 iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	'use strict';
+
 	var vector = iddqd.vector
 		,oSignals = iddqd.signals = {}
 		,fnEmpty = iddqd.fn

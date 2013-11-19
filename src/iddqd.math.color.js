@@ -14,10 +14,10 @@ iddqd.ns('iddqd.math.color',function(undefined){
 			,g: undefined
 			,b: undefined
 			,hex: undefined
+			,get: getColor
 			,set: setColor
-			,get: function(){return iClr;}
 			,randomize: randomize
-			,clone: function(){return iddqd.color(iClr);}
+			,clone: clone
 			,rgba: rgba
 			,add: addColor
 			,subtract: subtract
@@ -98,12 +98,21 @@ iddqd.ns('iddqd.math.color',function(undefined){
 		oReturn.hex = '#'+iClr.toString(16).pad(iLen,'0',true);
 	}
 
-	function rgba(alpha) {
-		if (alpha!==undefined) iA = alpha;
-		oReturn.rgba = 'rgba('+iR+','+iG+','+iB+','+iA+')';
-		return oReturn.rgba;
+	/**
+	 * Returns the color integer value
+	 * @memberof colorInstance
+	 * @returns {number}
+	 */
+	function getColor(){
+		return iClr;
 	}
 
+	/**
+	 * Set the color
+	 * @memberof colorInstance
+	 * @param {Number} i A hexadecimal integer ie 0xFF0000
+	 * @returns {colorInstance}
+	 */
 	function setColor(i) {
 		oReturn.integer = iClr = i;
 		makeInt2RGB();
@@ -111,11 +120,37 @@ iddqd.ns('iddqd.math.color',function(undefined){
 		return oReturn;
 	}
 
+	/**
+	 * Randomizes the color
+	 * @memberof colorInstance
+	 * @returns {colorInstance}
+	 */
 	function randomize() {
 		oReturn.integer = iClr = 0xFFFFFF*Math.random()<<0;
 		makeInt2RGB();
 		makeInt2Hex();
 		return oReturn;
+	}
+
+	/**
+	 * Clones the color
+	 * @memberof colorInstance
+	 * @returns {colorInstance}
+	 */
+	function clone(){
+		return iddqd.math.color(iClr);
+	}
+
+	/**
+	 * Sets the color alpha value
+	 * @memberof colorInstance
+	 * @param {Number} alpha The alpha value
+	 * @returns {String}
+	 */
+	function rgba(alpha) {
+		if (alpha!==undefined) iA = alpha;
+		oReturn.rgba = 'rgba('+iR+','+iG+','+iB+','+iA+')';
+		return oReturn.rgba;
 	}
 
 	function addColor(c) {
