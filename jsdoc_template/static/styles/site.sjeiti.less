@@ -179,7 +179,7 @@ h1.page-title {
 h2 {
 	font: bold 16px/16px Arial, sans;
 }
-.subsection-title {
+h3.subsection-title {
 	position: relative;
 	padding: 6px 0;
 	font: bold 16px/16px Arial, sans;
@@ -229,7 +229,7 @@ h4.name {
 article {
 	dt,dd { .spacing(); }
 	.dl-methods>dd { margin-bottom: 40px; }
-	dl.details * { display: inline-block; }
+	//dl.details * { display: inline-block; } // todo: fucks up table.props
 	dl dl, .dl-namespaces {
 		margin: 5px 0 5px;
 		dt {
@@ -265,7 +265,7 @@ article {
 	}
 }
 
-table.params {
+table.params, table.props {
 	border: 1px solid #CCC;
 	background-color: #FAFAFA;
 	border-spacing: 0;

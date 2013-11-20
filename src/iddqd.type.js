@@ -4,39 +4,38 @@
  * @function
  * @param {*} obj
  * @returns {Function} A constant, ie: iddqd.type.BOOLEAN
- **/
+ * @property {object} iddqd.type.UNDEFINED
+ * @property {object} iddqd.type.NULL
+ * @property {object} iddqd.type.OBJECT
+ * @property {object} iddqd.type.ARRAY
+ * @property {object} iddqd.type.NODE
+ * @property {object} iddqd.type.EVENT
+ * @property {object} iddqd.type.FUNCTION
+ * @property {object} iddqd.type.STRING
+ * @property {object} iddqd.type.BOOLEAN
+ * @property {object} iddqd.type.INT
+ * @property {object} iddqd.type.FLOAT
+ * @property {object} iddqd.type.NAN
+ * @property {object} iddqd.type.INFINITE
+ * @property {object} iddqd.type.REGEXP
+ * @property {object} iddqd.type.DATE
+ */
 iddqd.ns('iddqd.type',(function(iddqd,undefined){
 	'use strict';
-	// todo: constants don't show in jsdoc
-		/** @constant {object} iddqd.type.UNDEFINED */
 	var  UNDEFINED =	getConstant('undefined')
-		/** @constant {object} iddqd.type.NULL */
 		,NULL =			getConstant('null')
-		/** @constant {object} iddqd.type.OBJECT */
 		,OBJECT =		getConstant('object')
-		/** @constant {object} iddqd.type.ARRAY */
 		,ARRAY =		getConstant('array')
-		/** @constant {object} iddqd.type.NODE */
 		,NODE =			getConstant('node')
-		/** @constant {object} iddqd.type.EVENT */
 		,EVENT =		getConstant('event')
-		/** @constant {object} iddqd.type.FUNCTION */
 		,FUNCTION =		getConstant('function')
-		/** @constant {object} iddqd.type.STRING */
 		,STRING =		getConstant('string')
-		/** @constant {object} iddqd.type.BOOLEAN */
 		,BOOLEAN =		getConstant('boolean')
-		/** @constant {object} iddqd.type.INT */
 		,INT =			getConstant('int')
-		/** @constant {object} iddqd.type.FLOAT */
 		,FLOAT =		getConstant('float')
-		/** @constant {object} iddqd.type.NAN */
 		,NAN =			getConstant('NaN')
-		/** @constant {object} iddqd.type.INFINITE */
 		,INFINITE =		getConstant('Infinite')
-		/** @constant {object} iddqd.type.REGEXP */
 		,REGEXP =		getConstant('regexp')
-		/** @constant {object} iddqd.type.DATE */
 		,DATE =			getConstant('date')
 		// Error
 		,aEventProperties = [
