@@ -1,7 +1,7 @@
-/* global signals */
 /**
- * Signal implementation for various generic events.
- * All signals are dead (no events attached) until the first signal.add or signal.addOnce.
+ * Signal implementation for various generic events.<br/>
+ * Implements {@link http://millermedeiros.github.com/js-signals js-signals} by Miller Demeiros.<br/>
+ * Signals can be created at their proper namespace or module by calling {@link iddqd.signals.create} (for instance see {@link iddqd.animate.js}).
  * @summary Signal implementation for various generic events.
  * @namespace iddqd.signals
  */
@@ -24,8 +24,18 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 		,loop = iddqd.loop
 	;
 
-	iddqd.signals.add = addSignal;
-	function addSignal(name,init){
+	/**
+	 * Creates a signal.<br/>
+	 * The signals is dead (no events attached) until the first signal.add or signal.addOnce is called.<br/>
+	 * @name iddqd.signals.create
+	 * @method
+	 * @param {String} name The name of the signal to add to the iddqd.signal namespace.
+	 * @param {Function} init The initialisation method, called after the first signal.add or signal.addOnce.
+	 * @returns {Signal} The signal
+	 */
+	iddqd.signals.create = createSignal;
+	function createSignal(name,init){
+		// todo: what if the signal already exists
 		var oSignal = oSignals[name] = new signals.Signal()
 			,fnTmpAdd = oSignal.add
 			,fnTmpAddOnce = oSignal.addOnce
@@ -43,6 +53,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 			fnInited();
 			return oSignal.addOnce.apply(this,arguments);
 		};
+		return oSignal;
 	}
 
 	// signals start here
@@ -54,7 +65,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	 * @name iddqd.signals.DOMReady
 	 * @type Signal
 	 */
-	addSignal('DOMReady',function(signal){
+	createSignal('DOMReady',function(signal){
 		var fnDispatch = function(){
 			// override 'add' and 'addOnce' before dispatch since DOMReady can only be fired once
 			signal.add = signal.addOnce = function(fn){fn();};
@@ -73,7 +84,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	 * @name iddqd.signals.readyState
 	 * @type Signal
 	 */
-	addSignal('readyState',function (signal) {
+	createSignal('readyState',function (signal) {
 		document.onreadystatechange = function () {
 			signal.dispatch(document.readyState);
 		};
@@ -85,7 +96,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 		 * @name iddqd.signals.resize
 		 * @type Signal
 		 */
-		addSignal('resize',function(signal){
+		createSignal('resize',function(signal){
 			var w = window,
 				d = document,
 				e = d.documentElement,
@@ -111,7 +122,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 //	 * @name iddqd.signals.animate
 //	 * @type Signal
 //	 */
-//	addSignal('animate',function(signal){
+//	createSignal('animate',function(signal){
 //		var fDeltaT = 0
 //			,iCurMillis
 //			,iLastMillis = iddqd.millis()
@@ -158,7 +169,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 			,addOnce: fnAdd
 		};
 	})();
-	/*addSignal('frames',function(signal){
+	/*createSignal('frames',function(signal){
 		var fnOldAdd = signal.add
 			,fnOldAddOnce = signal.addOnce
 			,fnCount = function(){
@@ -182,7 +193,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	 * @name iddqd.signals.orientation
 	 * @type Signal
 	 */
-	addSignal('orientation',function(signal){
+	createSignal('orientation',function(signal){
 		if(bTouch) {
 			var iOrientation = window.orientation;
 			addEvent(window,'orientationchange',function(){
@@ -198,7 +209,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	 * @name iddqd.signals.mousewheel
 	 * @type Signal
 	 */
-	addSignal('mousewheel',function(signal){
+	createSignal('mousewheel',function(signal){
 		addEvent(window,'mousewheel',function(e){
 			signal.dispatch(e.wheelDelta,e);
 		});
@@ -210,7 +221,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	 * @name iddqd.signals.scroll
 	 * @type Signal
 	 */
-	addSignal('scroll',function(signal){
+	createSignal('scroll',function(signal){
 		addEvent(window,'scroll',function(e){
 			signal.dispatch(e,document.body.scrollLeft,document.body.scrollTop);
 		});
@@ -221,7 +232,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	function keypress(){
 		oSignals.keypress.dispatch(aKeys);
 	}
-	addSignal('keydown',function(signal){
+	createSignal('keydown',function(signal){
 		addEvent(document,'keydown',function(e){
 			var iKeyCode = e.keyCode;
 			aKeys[iKeyCode] = true;
@@ -232,11 +243,11 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 			oSignals.keyup.add(fnEmpty).detach();
 		});
 	});
-	addSignal('keypress',function(){
+	createSignal('keypress',function(){
 		oSignals.keyup.add(fnEmpty).detach();
 		oSignals.keydown.add(fnEmpty).detach();
 	});
-	addSignal('keyup',function(signal){
+	createSignal('keyup',function(signal){
 		addEvent(document,'keyup',function(e){
 			var iKeyCode = e.keyCode;
 			aKeys[iKeyCode] = false;
@@ -294,23 +305,23 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 //		}
 //		return oTouches;
 //	}
-//	addSignal('drag',function(signal){
+//	createSignal('drag',function(signal){
 //		Hammer(document).on('drag', function(e) {
 //			signal.dispatch(hammerEventToTouches(e,iDragTypeDrag));
 //		});
 //	});
 //	oSignals.drag.touch = touch;
-//	addSignal('dragstart',function(signal){
+//	createSignal('dragstart',function(signal){
 //		Hammer(document).on('dragstart', function(e) {
 //			signal.dispatch(hammerEventToTouches(e,iDragTypeStart));
 //		});
 //	});
-//	addSignal('dragend',function(signal){
+//	createSignal('dragend',function(signal){
 //		Hammer(document).on('dragend', function(e) {
 //			signal.dispatch(hammerEventToTouches(e,iDragTypeEnd));
 //		});
 //	});
-	/*addSignal('dragstart',function(signal){
+	/*createSignal('dragstart',function(signal){
 		Hammer(document).on('dragstart', function(e) {
 			var aTouches = e.gesture.touches
 					,oTouches = {};
@@ -331,7 +342,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 			signal.dispatch(oTouches);
 		});
 	});*/
-	/*addSignal('dragend',function(signal){
+	/*createSignal('dragend',function(signal){
 		Hammer(document).on('dragend', function(e) {
 			var aTouches = e.gesture.touches
 					,oTouches = {};
@@ -346,7 +357,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 			signal.dispatch(oTouches);
 		});
 	});*/
-//	addSignal('drag',function(signal){
+//	createSignal('drag',function(signal){
 //		iddqd.onDOMReady(function(){
 //			Hammer(document.body).on('drag', function(e) {
 //				console.log('drag',e); // log
@@ -355,7 +366,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 //		});
 //	});
 //	iddqd.onDOMReady(function(){
-//		addSignal('drag',function(signal){
+//		createSignal('drag',function(signal){
 //			Hammer(document.body).on('drag', function(e) {
 //				console.log('drag',e); // log
 ////				signal.dispatch(e.gesture.touches);
@@ -430,21 +441,21 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	 * @name iddqd.signals.dragstart
 	 * @type Signal
 	 */
-	addSignal('dragstart',fnInit);
+	createSignal('dragstart',fnInit);
 	/**
 	 * Signal for dragging.<br/>
 	 * The callback for this signal is Function(oTouches)
 	 * @name iddqd.signals.drag
 	 * @type Signal
 	 */
-	addSignal('drag',fnInit);
+	createSignal('drag',fnInit);
 	/**
 	 * Signal for end of drag.<br/>
 	 * The callback for this signal is Function(oDelete,oTouches)
 	 * @name iddqd.signals.drag
 	 * @type Signal
 	 */
-	addSignal('dragend',fnInit);
+	createSignal('dragend',fnInit);
 	/**
 	 * Stop page scrolling when dragging
 	 * @name iddqd.signals.drag.stopPageScroll
@@ -561,7 +572,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 //		 * @name iddqd.signals.swipe
 //		 * @type Signal
 //		 */
-//	addSignal('swipe',function(signal){
+//	createSignal('swipe',function(signal){
 //			oSignals.dragstart.add(function(added,touches){
 //				console.log('dragend',added,touches); // log
 //			});
@@ -576,7 +587,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 	 * @name iddqd.signals.hash
 	 * @type Signal
 	 */
-	addSignal('hash',function(signal){
+	createSignal('hash',function(signal){
 		var oLoc = window.location
 			,sHash = oLoc.hash.substr(1);
 		addEvent(window,'hashchange',function(){

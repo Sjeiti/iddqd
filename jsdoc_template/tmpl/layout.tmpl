@@ -89,14 +89,20 @@
 
 	<script>
 		$( function () {
-			$( "#toc" ).toc( {
-				selectors   : "h1,h2,h3,h4,dt>a",
-				showAndHide : false,
-				scrollTo    : 60
-			} );
-			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
-			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			if ($( "#toc>ul" ).html()==='') $( "#toc" ).detach();
+			var sPath = location.pathname.split('/').pop()
+				,isIndex = sPath===''||sPath==='index.html';
+			if (isIndex) {
+				$( "#toc" ).detach();
+			}else{
+				$( "#toc" ).toc( {
+					selectors   : "h1,h2,h3,h4,dt>a",
+					showAndHide : false,
+					scrollTo    : 60
+				} );
+				$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+				$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+				if ($( "#toc>ul" ).html()==='') $( "#toc" ).detach();
+			}
 		} );
 	</script>
 
@@ -129,6 +135,18 @@
 		} );
 	</script>
 	<?js } ?>
+
+	<script>
+		$( function () {
+			console.log('location.hash',location.hash); // log
+			if (location.hash) {
+				setTimeout(function(){
+					$(location.hash).addClass('highlight');
+					$.scrollTo(location.hash, 500, {axis:'y',offset:-50});
+				},500);
+			}
+		} );
+	</script>
 </div>
 </body>
 </html>

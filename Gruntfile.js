@@ -130,13 +130,12 @@ module.exports = function (grunt) {
 
 		jsdoc : {
 			dist : {
-				src: aFiles,
+				src: aFiles.concat(['README.md']),
 				options: {
 					destination: 'doc'
 					,template: 'jsdoc_template'
 					,configure: sJsDoc
-					,mainpagetitle: 'harhar' // todo find out why this has no effect
-					,readme: 'README.md'
+//					,mainpagetitle: 'harhar' // todo find out why this has no effect
 				}
 			}
 		}

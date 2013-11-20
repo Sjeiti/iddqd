@@ -1,12 +1,10 @@
-/* global require */
-/* global process */
-/* global exports */
 "use strict";
 /**
  * @module template/publish
  * @type {*}
  */
 /*global env: true */
+
 var template = require( 'jsdoc/template' ),
 	fs = require( 'jsdoc/fs' ),
 	_ = require( 'underscore' ),
@@ -192,7 +190,7 @@ function generate( docType, title, docs, filename, resolveLinks ) {
 	};
 
 	var outpath = path.join( outdir, filename ),
-		html = view.render( 'container.tmpl', docData );
+		html = view.render( 'container.tmpl', docData );//+JSON.stringify(docData);
 
 	if ( resolveLinks ) {
 		html = helper.resolveLinks( html ); // turn {@link foo} into <a href="foodoc.html">foo</a>
@@ -579,7 +577,7 @@ exports.publish = function ( taffyData, opts, tutorials ) {
 	var files = find( {kind : 'file'} ),
 		packages = find( {kind : 'package'} );
 
-	generate( 'index', 'Index',//+JSON.stringify(files)
+	generate( 'index', '',
 		packages.concat(
 			[
 				{kind : 'mainpage', readme : opts.readme, longname : (opts.mainpagetitle) ? opts.mainpagetitle : 'Main Page'}

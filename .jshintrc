@@ -1,11 +1,9 @@
 {
     "globals": {
-//		"_": false,
-		"iddqd": true
-//		"tinysort": true,
-//		"GLOBAL": true,
-//		"require": true,
-//		"module": true
+		"iddqd": true,
+		"require": true,
+		"exports": true,
+		"signals": true
 	},
     "strict": true,
     "browser": true,
@@ -27,5 +25,4 @@
     "expr": true,
     "noempty": false,
     "laxbreak": true
-//	"W008": false :: .345
 }

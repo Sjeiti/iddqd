@@ -354,34 +354,41 @@ label.code {
 	pre { margin-top:0; }
 }
 pre {
-//	overflow: auto;
-	code {
-//	overflow: auto;
-		word-wrap: normal;
-//		span { white-space: nowrap; }
-//		span { overflow: hidden; }
-	}
-
     position: relative;
 	padding: @codeLH;
 	background: #333;
 	.shadowBox(inset 8px 4px 32px 0 #222);
-	color: #999;
-	border-color: #222;
 	margin-bottom: 20px;
 //	font: @codeFS e('/') @codeLH @fontMono;
+	overflow: hidden;
 	overflow-x: auto;
     code.rainbow {
+		overflow: hidden;
 
 		tab-size: 4;
 		-moz-tab-size: 4;
 		-o-tab-size: 4;
 
 		display: block;
-		width: 300%; // arbitary number to prevent line-breaks
+		width: 200%; // arbitary number to prevent line-breaks
 
 		color: #fff;
 		.comment {		color: #FC2; }
+
+		word-wrap: break-word;
+
+		.line {
+			color: #666;
+			&.highlight {
+				background-color: yellow;
+			}
+			&:before {
+			}
+			&:after {
+				width: 1024px;
+				border-bottom: 1px solid #222;
+			}
+		}
 
 		/*.constant { color: #458383; }*/
 		/*.storage { color: #EC7600; }*/

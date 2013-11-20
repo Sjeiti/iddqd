@@ -1,6 +1,7 @@
 /**
  * A collection
  * @namespace iddqd
+ * @name iddqd
  * @summary A collection
  * @version 2.0.21
  * @author Ron Valstar (http://www.sjeiti.com/)

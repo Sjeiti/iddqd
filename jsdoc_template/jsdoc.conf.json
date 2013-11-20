@@ -2,15 +2,17 @@
 	"tags": {
 		"allowUnknownTags": true
 	},
-	"plugins": [
+	"plugins": [],
+	"nogins": [
 		"plugins/markdown"
 	],
 	"templates": {
-		"cleverLinks": false,
+		"cleverLinks": true,
 		"monospaceLinks": false,
 		"default": {
 			"outputSourceFiles": true
 		},
+		"systemName": "iddqd",
 		"footer": "",
 		"copyright": "Ron Valstar <ron@ronvalstar.nl>",
 		"navType": "vertical",
