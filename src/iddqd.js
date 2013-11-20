@@ -30,6 +30,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			,getGet:getGet
 			,getLessVars:getLessVars
 			,loadScript: loadScript
+			,uses: uses
 			/**
 			 * Empty function.
 			 * @name iddqd.fn
@@ -101,6 +102,31 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// evil hack to enforce stacktrace http://stackoverflow.com/a/12348004/695734
+	(function() {
+		/*jshint unused: false */
+		/*jshint -W021 */
+		function x(a,b,c) {
+			function d(e,f) {
+				d = f;
+			}
+			c = (b = Error)[a = 'prepareStackTrace'];
+			b.captureStackTrace(b[a] = d,x);
+			d.stack;
+			b[a] = c;
+			return d;
+		}
+		/*jshint unused: true */
+		/*jshint +W021 */
+	})();
+
+	function uses(o,customError){
+		if (o===undefined) {
+			throw new Error(customError||'\'o\' is undefined.');
+		}
+		return o;
+	}
 
 	/**
 	 * Method with callback function to be executed when DOM has finished loading. If DOM has already finished callback is executed immediately.

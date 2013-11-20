@@ -12,10 +12,11 @@
 
 // todo: hammer.js
 
-iddqd.ns('iddqd.signals',(function(iddqd,signals){
+iddqd.ns('iddqd.signals',(function(iddqd,uses){
 	'use strict';
 
-	var vector = iddqd.vector
+	var signals = uses(window.signals,'signals.js is not included (http://millermedeiros.github.com/js-signals/)')
+		,vector = uses(iddqd.vector)
 		,oSignals = iddqd.signals = {}
 		,fnEmpty = iddqd.fn
 		,bTouch = iddqd.capabilities.touch
@@ -596,4 +597,4 @@ iddqd.ns('iddqd.signals',(function(iddqd,signals){
 			signal.dispatch(sOldHash,sHash);
 		});
 	});
-})(iddqd,signals));
+})(iddqd,iddqd.uses));

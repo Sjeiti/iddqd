@@ -19,9 +19,16 @@
  * @property {object} iddqd.type.INFINITE
  * @property {object} iddqd.type.REGEXP
  * @property {object} iddqd.type.DATE
+ * @example
+ var type = iddqd.type;
+ type(0)===type.INT;
+ type('')===type.STRING;
+ type(null)===type.NULL;
+ type({})===type.OBJECT;
  */
 iddqd.ns('iddqd.type',(function(iddqd,undefined){
 	'use strict';
+	// using objects for constants for speed (see http://jsperf.com/equality-checking-different-types)
 	var  UNDEFINED =	getConstant('undefined')
 		,NULL =			getConstant('null')
 		,OBJECT =		getConstant('object')

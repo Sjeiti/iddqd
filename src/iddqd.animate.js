@@ -4,7 +4,7 @@
  * @summary Animation methods
  * @namespace iddqd.animate
  */
-iddqd.ns('iddqd.animate',(function(iddqd){
+iddqd.ns('iddqd.animate',(function(iddqd,uses){
 	'use strict';
 	/**
 	 * Function that executes the callback asap.
@@ -21,6 +21,7 @@ iddqd.ns('iddqd.animate',(function(iddqd){
 					window.setTimeout(callback, 1000/60);
 				};
 		})()
+		,signals = uses(iddqd.signals)
 	;
 	/**
 	 * Animates something
@@ -63,7 +64,7 @@ iddqd.ns('iddqd.animate',(function(iddqd){
 	 * @name iddqd.signals.animate
 	 * @type Signal
 	 */
-	iddqd.signals.create('animate',function(signal){
+	signals.create('animate',function(signal){
 		var fDeltaT = 0
 			,iCurMillis
 			,iLastMillis = iddqd.millis()
@@ -88,4 +89,4 @@ iddqd.ns('iddqd.animate',(function(iddqd){
 
 	animate.nextFrame = nextFrame;
 	return animate;
-})(iddqd));
+})(iddqd,iddqd.uses));
