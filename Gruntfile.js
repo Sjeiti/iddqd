@@ -52,8 +52,8 @@ module.exports = function (grunt) {
 			,'src/iddqd.panorama.js'
 
 //			,'src/iddqd.style.js'
+			,'src/iddqd.image.js'
 //			,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
-			,'src/iddqd.loadImage.js' // todo: put loadimage and sizeimage under image ns
 
 //			,'src/iddqd.log.js'
 		]

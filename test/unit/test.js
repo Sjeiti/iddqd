@@ -1,9 +1,9 @@
-/* global qunit */
 /* global module */
 /* global test */
+/* global asyncTest */
 /* global ok */
-/* global CustomEvent */
-/* jshint ignore:start */
+/* global start */
+/*jshint -W058 */
 (function(undefined){
 
 	'use strict';
@@ -48,7 +48,7 @@
 		})(),'object values');
 		ok((function(){
 			var a = {a:2,c:4,b:1}, sResult = '';
-			iddqd.loop(a,function(i,s){
+			iddqd.loop(a,function(i){
 				sResult += i;
 			});
 			return sResult==='acb';
@@ -89,6 +89,7 @@
 		})(),'augment');
 	});*/
 	test('iddqd.ns', function(){
+		/* global a */
 		ok((iddqd.ns('a',{b:{},c:true}),a.c),'namespace create');
 		ok((iddqd.ns('a.b.c',{d:true}),a.b.c.d),'namespace append');
 		ok((iddqd.ns('a.b',{d:true}),a.b.d),'namespace overwrite');
@@ -159,7 +160,7 @@
 		ok(iddqd.type(Number.NEGATIVE_INFINITY)===iddqd.type.INFINITE,'Number.NEGATIVE_INFINITY');
 	});
 	test('regexp', function() {
-		ok(iddqd.type(/\s/gi)===iddqd.type.REGEXP,'/\s/gi');
+		ok(iddqd.type(/\s/gi)===iddqd.type.REGEXP,'/\\s/gi');
 		ok(iddqd.type(new RegExp(''))===iddqd.type.REGEXP,'new RegExp');
 	});
 	test('date', function() {
@@ -177,7 +178,7 @@
 	test('toType', function() {
 		ok(iddqd.internal.native.string.toType.apply('a')==='a','toType string');
 		ok(iddqd.internal.native.string.toType.apply('1')===1,'toType number');
-		ok(iddqd.internal.native.string.toType.apply('0.1')===.1,'toType number');
+		ok(iddqd.internal.native.string.toType.apply('0.1')===0.1,'toType number');
 		ok(iddqd.internal.native.string.toType.apply('true')===true,'toType boolean');
 	});
 	test('toXML', function() {
@@ -233,6 +234,53 @@
 
 	// todo etc
 
-})();
+	module('iddqd.image.js');
+	asyncTest('iddqd.image.load uri',function () {
+		var sImageUri = 'data/image320.jpg'
+			,sImageName = sImageUri.split('/').pop()
+			,oImageLoad = iddqd.image.load(sImageUri,loadCallback);
+		ok(!!oImageLoad.load,'oImageLoad.load');
+		ok(oImageLoad.getResult()===undefined,'oImageLoad.getResult undefined');
+		console.log('oImageLoad',oImageLoad); // log
+		function loadCallback(imageLoaded){
+			ok(true,'loadCallback');
+			ok(oImageLoad.getResult()===imageLoaded,'oImageLoad.getResult');
+			ok(imageLoaded.width===320,'width');
+			ok(imageLoaded.height===256,'height');
+			ok(imageLoaded.uri===sImageUri,'uri');
+			ok(imageLoaded.name===sImageName,'name');
+			ok(imageLoaded.type==='jpeg','type');
+			start();
+		}
+	});
+	asyncTest('iddqd.image.load anonymous',function () {
+		var sImageUri = 'data/image.php?img=image320.jpg&foobar'
+			,sImageName = sImageUri.split('/').pop()
+			,oImageLoad = iddqd.image.load(sImageUri,loadCallback);
+		ok(!!oImageLoad.load,'oImageLoad.load');
+		ok(oImageLoad.getResult()===undefined,'oImageLoad.getResult undefined');
+		function loadCallback(imageLoaded){
+			ok(true,'loadCallback');
+			ok(oImageLoad.getResult()===imageLoaded,'oImageLoad.getResult');
+			ok(imageLoaded.width===320,'width');
+			ok(imageLoaded.height===256,'height');
+			ok(imageLoaded.uri===sImageUri,'uri');
+			ok(imageLoaded.name===sImageName,'name');
+			ok(imageLoaded.type==='jpeg','type');
+			start();
+		}
+	});
+	asyncTest('iddqd.image.load error',function () {
+		var sImageUri = 'data/image.gif'
+			,oImageLoad = iddqd.image.load(sImageUri,iddqd.fn,loadError);
+		ok(!!oImageLoad.load,'oImageLoad.load');
+		ok(oImageLoad.getResult()===undefined,'oImageLoad.getResult undefined');
+		function loadError(error){
+			ok(true,'loadError');
+			ok(iddqd.type(error)===iddqd.type.EVENT,'event');
+			ok(error.type==='error','type is error');
+			start();
+		}
+	});
 
-/* jshint ignore:end */
+})();

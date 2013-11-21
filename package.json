@@ -1,6 +1,6 @@
 {
 	"name": "iddqd",
-	"version": "2.0.21",
+	"version": "2.0.23",
 	"devDependencies": {
 		"grunt": "~0.4.1",
 		"grunt-contrib-jshint": "~0.6.2",

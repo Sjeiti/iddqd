@@ -56,7 +56,6 @@ iddqd.ns('iddqd.type',(function(iddqd,undefined){
 			,'srcElement'
 			,'defaultPrevented'
 			,'timeStamp'
-			,'returnValue'
 		]
 	;
 	function getConstant(name) {

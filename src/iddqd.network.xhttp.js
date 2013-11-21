@@ -6,6 +6,7 @@
  * @param {string} url
  * @param {Function} callback
  * @param {Object} postData
+ * @returns {XMLHttpRequest}
  **/
 iddqd.ns('iddqd.network.xhttp',(function(){
 	'use strict';
@@ -22,23 +23,25 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 		var method = (postData) ? "POST" : "GET";
 		req.open(method,url,true);
 		//req.setRequestHeader('User-Agent','XMLHTTP/1.0');
-		if (postData)
+		if (postData) {
 			req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+		}
 		req.onreadystatechange = function () {
-			if (req.readyState != 4) return;
-			if (req.status != 200 && req.status != 304) {
+			if (req.readyState!=4) return;
+			if (req.status!=200 && req.status!=304) {
 				alert('HTTP error ' + req.status);
 				return;
 			}
 			callback(req);
 		};
-		if (req.readyState == 4) return;
+		if (req.readyState==4) return;
 		req.send(postData);
+		return req;
 	}
 
 	/**
 	 * Create an xhttp object
-	 * @name iddqd.network.xhttp
+	 * @name iddqd.network.xhttp.create
 	 * @method
 	 * @return {XMLHttpRequest}
 	 **/
@@ -54,8 +57,29 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 		}
 		return xmlhttp;
 	}
-
-	sendRequest.createObject = createXMLHTTPObject;
+	sendRequest.create = createXMLHTTPObject;
 
 	return sendRequest;
 })());
+//[
+//	'Content-length'
+//	//
+//	,'Cache-Control'
+//	,'Content-Language'
+//	,'Content-Type'
+//	,'Expires'
+//	,'Last-Modified'
+//	,'Pragma'
+//	,'Pragma'
+//	//
+//	,'Access-Control-Request-Method'
+//	,'Access-Control-Request-Headers'
+//	,'Access-Control-Allow-Origin'
+//	,'Access-Control-Allow-Credentials'
+//	,'Access-Control-Expose-Headers'
+//	,'Access-Control-Max-Age'
+//	,'Access-Control-Allow-Methods'
+//	,'Access-Control-Allow-Headers'
+//	//
+//	,'Content-Transfer-Encoding'
+//]

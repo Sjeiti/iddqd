@@ -16,7 +16,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 	'use strict';
 
 	var signals = uses(window.signals,'signals.js is not included (http://millermedeiros.github.com/js-signals/)')
-		,vector = uses(iddqd.vector)
+		,vector = uses(iddqd.math.vector)
 		,oSignals = iddqd.signals = {}
 		,fnEmpty = iddqd.fn
 		,bTouch = iddqd.capabilities.touch
