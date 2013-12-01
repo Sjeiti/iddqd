@@ -106,7 +106,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 				iH = w.innerHeight|| e.clientHeight|| g.clientHeight;
 //			var iW = window.innerWidth
 //				,iH = window.innerHeight;
-			addEvent(window,'resize', function(e){
+			window.addEventListener('resize', function(e){
 				var  iOldW = iW
 					,iOldH = iH;
 //				iW = window.innerWidth;
@@ -114,7 +114,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 				iW = w.innerWidth || e.clientWidth || g.clientWidth;
 				iH = w.innerHeight|| e.clientHeight|| g.clientHeight;
 				signal.dispatch(iOldW,iOldH,iW,iH);
-			});
+			},false);
 		});
 
 //	/**
@@ -211,9 +211,9 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 	 * @type Signal
 	 */
 	createSignal('mousewheel',function(signal){
-		addEvent(window,'mousewheel',function(e){
+		window.addEventListener('mousewheel',function(e){
 			signal.dispatch(e.wheelDelta,e);
-		});
+		},false);
 	});
 
 	/**
@@ -223,9 +223,9 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 	 * @type Signal
 	 */
 	createSignal('scroll',function(signal){
-		addEvent(window,'scroll',function(e){
+		window.addEventListener('scroll',function(e){
 			signal.dispatch(e,document.body.scrollLeft,document.body.scrollTop);
-		});
+		},false);
 	});
 
 	////////////////////////////////// keydown, keypress, keyup
@@ -234,7 +234,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 		oSignals.keypress.dispatch(aKeys);
 	}
 	createSignal('keydown',function(signal){
-		addEvent(document,'keydown',function(e){
+		document.addEventListener('keydown',function(e){
 			var iKeyCode = e.keyCode;
 			aKeys[iKeyCode] = true;
 			oSignals.animate.add(keypress);
@@ -249,7 +249,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 		oSignals.keydown.add(fnEmpty).detach();
 	});
 	createSignal('keyup',function(signal){
-		addEvent(document,'keyup',function(e){
+		document.addEventListener('keyup',function(e){
 			var iKeyCode = e.keyCode;
 			aKeys[iKeyCode] = false;
 			oSignals.animate.remove(keypress);
@@ -403,7 +403,9 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 		,fnInit = function(){
 			if (!bInited) {
 //					console.log('init',bTouch); // log
-				addEvent(document,'mousemove,mousedown,mouseup',handleDrag);
+				document.addEventListener('mousemove',handleDrag,false);
+				document.addEventListener('mousedown',handleDrag,false);
+				document.addEventListener('mouseup',handleDrag,false);
 				if (bTouch) {
 //						alert('document.body'+(!!document.body)); // log
 //						addEvent(document.body,'touchstart,touchmove,touchend',handleDrag);
@@ -591,10 +593,10 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 	createSignal('hash',function(signal){
 		var oLoc = window.location
 			,sHash = oLoc.hash.substr(1);
-		addEvent(window,'hashchange',function(){
+		window.addEventListener('hashchange',function(){
 			var sOldHash = sHash;
 			sHash = oLoc.hash.substr(1);
 			signal.dispatch(sOldHash,sHash);
-		});
+		},false);
 	});
 })(iddqd,iddqd.uses));

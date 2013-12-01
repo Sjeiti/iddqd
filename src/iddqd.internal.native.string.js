@@ -78,7 +78,8 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 				console.warn('The required function iddqd.host.node.toObject does not exist');
 				return false;
 			} else {
-				return host.node.toObject.apply(iddqd.internal.native.string.toXML.apply(this).childNodes[0]);
+				// todo: no apply
+				return host.node.toObject(iddqd.internal.native.string.toXML(this).childNodes[0]);
 			}
 		}
 		/**
@@ -156,6 +157,17 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 			var sCamel = this.replace(/[A-Z]/g, function($1){return "_"+$1.toLowerCase();});
 			var sUnSpc = this.replace(/[\s\-]/g, '_');
 			return this==sCamel?sUnSpc:sCamel;
+		}
+		// todo: doc, http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+		,hashCode: function(){
+			var sHash = 0;
+			if (this.length===0) return sHash;
+			for (var i=0, l=this.length; i<l; i++) {
+				var sChar = this.charCodeAt(i);
+				sHash = ((sHash<<5)-sHash)+sChar;
+				sHash = sHash&sHash;
+			}
+			return sHash;
 		}
 	});
 })(iddqd.internal));

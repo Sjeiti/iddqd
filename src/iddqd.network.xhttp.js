@@ -60,7 +60,6 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 	sendRequest.create = createXMLHTTPObject;
 
 	return sendRequest;
-})());
 //[
 //	'Content-length'
 //	//
@@ -83,3 +82,4 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 //	//
 //	,'Content-Transfer-Encoding'
 //]
+})());

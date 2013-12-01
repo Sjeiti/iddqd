@@ -169,47 +169,66 @@
 
 	module('iddqd.internal.native.string.js');
 	test('pad', function() {
-		ok(iddqd.internal.native.string.pad.apply('a',[3,'b'])==='abb','pad');
-		ok(iddqd.internal.native.string.pad.apply('a',[3,'bc'])==='abc','pad');
-		ok(iddqd.internal.native.string.pad.apply('a',[3,'b',true])==='bba','pad left');
-		ok(iddqd.internal.native.string.pad.apply('aac',[3,'b'])==='aac','pad');
-		ok(iddqd.internal.native.string.pad.apply('aaac',[3,'b'])==='aaac','pad');
+		var pad = iddqd.internal.native.string.pad;
+		ok(pad('a',3,'b')==='abb','pad');
+		ok(pad('a',3,'bc')==='abc','pad');
+		ok(pad('a',3,'b',true)==='bba','pad left');
+		ok(pad('aac',3,'b')==='aac','pad');
+		ok(pad('aaac',3,'b')==='aaac','pad');
+//		ok(iddqd.internal.native.string.pad.apply('a',[3,'b'])==='abb','pad');
+//		ok(iddqd.internal.native.string.pad.apply('a',[3,'bc'])==='abc','pad');
+//		ok(iddqd.internal.native.string.pad.apply('a',[3,'b',true])==='bba','pad left');
+//		ok(iddqd.internal.native.string.pad.apply('aac',[3,'b'])==='aac','pad');
+//		ok(iddqd.internal.native.string.pad.apply('aaac',[3,'b'])==='aaac','pad');
 	});
 	test('toType', function() {
-		ok(iddqd.internal.native.string.toType.apply('a')==='a','toType string');
-		ok(iddqd.internal.native.string.toType.apply('1')===1,'toType number');
-		ok(iddqd.internal.native.string.toType.apply('0.1')===0.1,'toType number');
-		ok(iddqd.internal.native.string.toType.apply('true')===true,'toType boolean');
+		var toType = iddqd.internal.native.string.toType;
+		ok(toType('a')==='a','toType string');
+		ok(toType('1')===1,'toType number');
+		ok(toType('0.1')===0.1,'toType number');
+		ok(toType('true')===true,'toType boolean');
 	});
 	test('toXML', function() {
-		ok(!!iddqd.internal.native.string.toXML.apply('<foo bar="baz">qux</foo>'),'toXML');
+//		ok(!!iddqd.internal.native.string.toXML.apply('<foo bar="baz">qux</foo>'),'toXML');
+		ok(!!iddqd.internal.native.string.toXML('<foo bar="baz">qux</foo>'),'toXML');
 	});
 	test('toXMLObj', function() {
-		ok(iddqd.internal.native.string.toXMLObj.apply('<foo bar="baz">qux</foo>').bar==='baz','toXMLObj');
+//		ok(iddqd.internal.native.string.toXMLObj.apply('<foo bar="baz">qux</foo>').bar==='baz','toXMLObj');
+		console.log('toXML',iddqd.internal.native.string.toXML('<foo bar="baz">qux</foo>')); // log)
+		console.log('toXMLObj',iddqd.internal.native.string.toXMLObj('<foo bar="baz">qux</foo>')); // log)
+		ok(iddqd.internal.native.string.toXMLObj('<foo bar="baz">qux</foo>').bar==='baz','toXMLObj');
 	});
 	test('generate', function() {
 		ok(!!iddqd.internal.native.string.generate(),'generate');
 	});
 	test('nameCase', function() {
-		ok(iddqd.internal.native.string.nameCase.apply('foo bar')==='Foo Bar','nameCase');
+		ok(iddqd.internal.native.string.nameCase('foo bar')==='Foo Bar','nameCase');
 	});
 	test('camelCase', function() {
-		ok(iddqd.internal.native.string.camelCase.apply('foo bar baz')==='fooBarBaz','camelCase');
-		ok(iddqd.internal.native.string.camelCase.apply('foo-bar-baz')==='fooBarBaz','camelCase');
-		ok(iddqd.internal.native.string.camelCase.apply('foo_bar_baz')==='fooBarBaz','camelCase');
+		var camelCase = iddqd.internal.native.string.camelCase;
+		ok(camelCase('foo bar baz')==='fooBarBaz','camelCase');
+		ok(camelCase('foo-bar-baz')==='fooBarBaz','camelCase');
+		ok(camelCase('foo_bar_baz')==='fooBarBaz','camelCase');
 	});
 	test('dash', function() {
-		ok(iddqd.internal.native.string.dash.apply('foo bar baz')==='foo-bar-baz','dash');
-		ok(iddqd.internal.native.string.dash.apply('fooBarBaz')==='foo-bar-baz','dash');
-		ok(iddqd.internal.native.string.dash.apply('foo_bar_baz')==='foo-bar-baz','dash');
+		var dash = iddqd.internal.native.string.dash;
+		ok(dash('foo bar baz')==='foo-bar-baz','dash');
+		ok(dash('fooBarBaz')==='foo-bar-baz','dash');
+		ok(dash('foo_bar_baz')==='foo-bar-baz','dash');
 	});
 	test('underscore', function() {
-		ok(iddqd.internal.native.string.underscore.apply('foo bar baz')==='foo_bar_baz','underscore');
-		ok(iddqd.internal.native.string.underscore.apply('fooBarBaz')==='foo_bar_baz','underscore');
-		ok(iddqd.internal.native.string.underscore.apply('foo-bar-baz')==='foo_bar_baz','underscore');
+		var underscore = iddqd.internal.native.string.underscore;
+		ok(underscore('foo bar baz')==='foo_bar_baz','underscore');
+		ok(underscore('fooBarBaz')==='foo_bar_baz','underscore');
+		ok(underscore('foo-bar-baz')==='foo_bar_baz','underscore');
 	});
 	test('augment', function() {
 		ok(iddqd.internal.native.string.augment(),('').nameCase,'augment');
+		ok('a'.pad(3,'b')==='abb','pad');
+		ok('a'.pad(3,'bc')==='abc','pad');
+		ok('a'.pad(3,'b',true)==='bba','pad left');
+		ok('aac'.pad(3,'b')==='aac','pad');
+		ok('aaac'.pad(3,'b')==='aaac','pad');
 	});
 	test('normalize', function() {
 		iddqd.internal.native.string.normalize();

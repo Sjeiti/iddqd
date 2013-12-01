@@ -1,11 +1,11 @@
 /**
  * scroll
  * @author Ron Valstar (http://www.sjeiti.com/)
- * @namespace iddqd.util.scroll
+ * @namespace iddqd.ui.scroll
  * @requires iddqd.js
  */
 // todo: document and test
-iddqd.ns('iddqd.util.scroll',function addScroll(elm,baseSize){
+iddqd.ns('iddqd.ui.scroll',function addScroll(elm,baseSize){
 	'use strict';
 	//
 	var	mParent = elm.parentNode

@@ -10,6 +10,9 @@ module.exports = function (grunt) {
 		,sJsDoc = 'jsdoc_template/jsdoc.conf.json'
 		,oJsDoc = grunt.file.readJSON(sJsDoc)
 		,aFiles = [
+
+			// todo: cryptography
+			
 			'src/iddqd.js'
 
 			,'src/iddqd.pattern.js'
@@ -38,7 +41,7 @@ module.exports = function (grunt) {
 			,'src/iddqd.storage.js'
 			,'src/iddqd.storage.cookie.js'
 
-			,'src/iddqd.util.scroll.js' // todo: not scroll
+			,'src/iddqd.ui.scroll.js' // todo: not scroll
 
 			// data
 			,'src/iddqd.json.js'
@@ -128,6 +131,13 @@ module.exports = function (grunt) {
 			}
 		},
 
+		uglify: {
+			iddqd: {
+				src: aFiles,
+				dest: 'dist/iddqd.min.js'
+			}
+		},
+
 		jsdoc : {
 			dist : {
 				src: aFiles.concat(['README.md']),
@@ -144,6 +154,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-jsdoc');
 	grunt.loadNpmTasks('grunt-contrib-qunit');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	grunt.registerTask('default',['jshint','qunit','jsdoc']);
 	grunt.registerTask('test',['qunit']);

@@ -54,7 +54,7 @@ iddqd.ns('iddqd.storage',(function(iddqd){
 		var oTarget = bCanStore?(s=='local'?localStorage:sessionStorage):{clear:iddqd.fn};
 		oReturn[s] = {
 			get:	function(key){return oTarget[key]&&JSON.parse(oTarget[key]);} // todo: add default value
-			,set:	function(key,value){oTarget[key] = JSON.stringify(value);}
+			,set:	function(key,value){return oTarget[key] = JSON.stringify(value);} // todo: added return, update jsdoc
 			,clear: function(key){
 				if (key) delete oTarget[key];
 				else oTarget.clear();

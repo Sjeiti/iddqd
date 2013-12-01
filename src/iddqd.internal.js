@@ -45,7 +45,7 @@ myString.wrap('(',')');
 							console.warn('Attempting to augment with an existing propery: \''+name+'\' in \''+obj+'\'.');
 						}
 					} else {
-						oPrototype[name] = fnc;
+						oPrototype[name] = fnc.org===undefined?fnc:fnc.org;
 						bSuccess = true;
 					}
 				}
@@ -77,10 +77,12 @@ bar.wrap(myString,'(',')');
 	function normalize(namespace){
 		loop(namespace,function(name,fnc){
 			if (name!=='augment'&&name!=='normalize'&&name!=='toString'&&!fnc.normalized) {
+				var fnOrg = namespace[name];
 				namespace[name] = function(s){
-					return fnc.apply(s);
+					return fnc.apply(s,Array.prototype.splice.apply(arguments,[1]));
 				};
 				namespace[name].normalized = true;
+				namespace[name].org = fnOrg;
 			}
 		});
 	}
@@ -113,6 +115,7 @@ iddqd.ns('foo',(function(){
 		namespace.normalize = function(){
 			normalize(namespace);
 		};
+		normalize(namespace);
 		return namespace;
 	}
 

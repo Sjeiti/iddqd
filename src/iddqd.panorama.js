@@ -3,18 +3,19 @@
 /**
  * Iwan Baan :: panorama
  * @namespace iddqd.panorama
- * @version 0.2.0
+ * @version 0.3.1
  * @author Ron Valstar <ron@ronvalstar.nl>
  * @licence MIT: http://www.opensource.org/licenses/mit-license.php
  * @requires createPanoViewer Krpano function (currently using Krpano 1.16.7 (build 2013-09-11))
  * @copyright Ron Valstar <ron@ronvalstar.nl>
  */
-iddqd.ns('iddqd.panorama',(function(rv){
+iddqd.ns('iddqd.panorama',(function(iddqd,uses){
 	'use strict';
 	//
-	rv.htmlelement.init();
-	//
-	var iTimeInit = rv.millis()
+	var xhttp = uses(iddqd.network.xhttp)
+		,htmlelement = uses(iddqd.internal.host.htmlelement)
+		,Signal = uses(signals.Signal)
+		,iTimeInit = iddqd.millis()
 		,oDomParser = new DOMParser()
 		,oReturn = {
 			create:create
@@ -61,8 +62,11 @@ iddqd.ns('iddqd.panorama',(function(rv){
 			,'hotspotLoad' // todo: doesn't fire?
 		]
 	;
+	//
+	htmlelement.augment();
+	//
 	aKrpanoEvents.forEach(function(functionName){
-		var oSignal = new signals.Signal()
+		var oSignal = new Signal()
 			,oFunction = function (){oSignal.dispatch.apply(oSignal,arguments);}
 		;
 		oReturn[functionName] = oFunction;
@@ -100,7 +104,7 @@ iddqd.ns('iddqd.panorama',(function(rv){
 					instance.addClass('panorama');
 					if (callback) callback(instance);
 				}
-				,onerror:	rv.fn
+				,onerror:	iddqd.fn
 				,html5:		'prefer'
 				,consolelog:true
 				,passQueryParameters:false
@@ -141,7 +145,7 @@ iddqd.ns('iddqd.panorama',(function(rv){
 		//
 		if (oViewer.isHTML5possible()) {
 			oViewer.embed();
-			rv.xhttp(xml,function(o) {
+			xhttp(xml,function(o) {
 				oReturn.xmlLoaded.dispatch(oViewer.vars.id,oDomParser.parseFromString(o.response,"text/xml"));
 			});
 		} else {
@@ -152,7 +156,7 @@ iddqd.ns('iddqd.panorama',(function(rv){
 	}
 	function parseSingalsToViewer(viewer){
 		aKrpanoEvents.forEach(function(functionName){
-			var oSignal = new signals.Signal()
+			var oSignal = new Signal()
 				,oFunction = function (id){
 					if (id==viewer.vars.id) {
 						Array.prototype.shift.apply(arguments);
@@ -169,8 +173,8 @@ iddqd.ns('iddqd.panorama',(function(rv){
 	}
 
 	function logTime(s,args){
-		console.log('',s,rv.millis()-iTimeInit,args); // log
+		console.log('',s,iddqd.millis()-iTimeInit,args); // log
 	}
 
 	return oReturn;
-})(iddqd));
+})(iddqd,iddqd.uses));

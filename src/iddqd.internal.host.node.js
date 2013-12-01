@@ -29,7 +29,7 @@ iddqd.ns('iddqd.internal.host.node',(function(internal){
 				var el = aChildNodes[i]
 					,sElNodeName = el.nodeName
 					,iNodeType = el.nodeType
-					,oNode = iddqd.internal.host.node.toObject.apply(el);
+					,oNode = iddqd.internal.host.node.toObject(el);
 				switch (iNodeType) {
 					case 1: // node
 						if (obj.hasOwnProperty(sElNodeName)) {
