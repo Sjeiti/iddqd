@@ -1,169 +1,62 @@
+/**
+ * Namespace to manipulate existing stylesheets.
+ * @name style
+ * @namespace iddqd.style
+ * @requires iddqd
+ */
+iddqd.ns('iddqd.style',(function(iddqd) {
+	'use strict';
 
-/*! iddqd.style */
-// todo: document
-iddqd.ns('iddqd.style',(function(rv) {
-
-
-/*
-//		var geta = document.getElementsByTagName;
-//var mBody = document.getElementsByTagName('body')[0];
-//alert(mBody===document.body);
-document.addEventListener('ready',function(e){
-alert(953);
-});
-//mBody.addEventListener('load',function(e){
-//alert(953);
-//});
-//trace(mBody);
-//document.body.addEventListener('load',function(e){
-//alert(953);
-//});
-		window.addEventListener('load',function(e){
-			//alert('load');
-			var aP = document.getElementsByTagName('head');
-			aP = document.getElementsByTagName('body');
-			if (aP.length===0) aP = document.getElementsByTagName('body');
-			var mStyle;
-			if (aP.length!==0) mStyle = aP[0].addChild('style',{title:sId});
-			//if (aP.length!==0) aP[0].addChild('link',{type:'text/css',title:sId,href:'data:text/css,a{color:red;}'});
-			//mStyle.createTextNode('ul{border:1px solid #f00;}');
-			mStyle.innerHTML = 'ul{border:1px solid #f00;}';
-		});
-*/
+	// StyleSheet.addRule shim
 	if (document.styleSheets[0].addRule===undefined) {
-		StyleSheet.prototype.addRule = function(selector,value){
+		window.StyleSheet.prototype.addRule = function(selector,value){
 			return this.insertRule(selector + '{' + value + '}', this.cssRules.length);
-		}
+		};
 	}
 
-	var transitionEnd = (function(){
-		/*var mElm = document.createElement('div')
-			,sReturn = '';
-		rv.loop({
-			transition:			'transitionEnd'
-			,OTransition:		'oTransitionEnd'
-			,MSTransition:		'msTransitionEnd'
-			,MozTransition:		'transitionend'
-			,WebkitTransition:	'webkitTransitionEnd'
-    	},function(interface,event){
-			if (mElm.style[interface]!==undefined) sReturn = event;
-		});
-		return sReturn;*/
-		var sInterface
-			,mElm = document.createElement('fakeelement')
-			,oTransitions = {
-				transition:'transitionend'
-				,OTransition:'oTransitionEnd'
-				,MozTransition:'transitionend'
-				,WebkitTransition:'webkitTransitionEnd'
-			}
-		;
-		for(sInterface in oTransitions){
-			if( mElm.style[sInterface]!==undefined){
-				return oTransitions[sInterface];
-			}
-		}
-	})();
-	console.log('transitionEnd',transitionEnd); // log
-
 	var aSheets = document.styleSheets
-		// ie rearanges selectors: span#a.c.d.b becomes span.b.c.d#a
-		/*,addRule = function(sheet,selector,value){
-			var sReturn;
-			if (sheet.addRule) {
-				sReturn = sheet.addRule(selector,value);
-			} else {
-				sReturn = sheet.insertRule(selector + '{' + value + '}', sheet.cssRules.length);
-			}
-			return sReturn;
-		}*/
 		,bReversedSelectors = (function(){
 			var oSheet = aSheets[0]
 				,aRules = oSheet.cssRules
 				,iNumRules = aRules.length
 				,sSelector = 'span#a.c.d.b'
-				,iAdd = oSheet.addRule(sSelector, 'font-weight:inherit')
-				,sSelectorResult = aRules[iNumRules].selectorText
-				,bIsReversed = sSelectorResult!=sSelector
+				,sSelectorResult
+				,bIsReversed
 			;
+			oSheet.addRule(sSelector, 'font-weight:inherit');
+				sSelectorResult = aRules[iNumRules].selectorText;
+				bIsReversed = sSelectorResult!=sSelector;
 			oSheet.deleteRule(iNumRules);
 			return bIsReversed;
 		})()
-		// make span#a.c.d.b into span.b.c.d#a
-		,getReverse = function(selector){ // todo: memoize
-			/*var aParts = or.split(/\s?>\s?|\s/);
-			rv.loop(aParts,function(i,sub){
-				var aWords = sub.match(/([#.]?\w+)/g).sort() // ["#a", ".b", ".c", ".d", "span"]
-					,iWords = aWords.length
-					,sId = ''
-					,sEl = '';
-				if (aWords[0].substr(0,1)=='#') sId = aWords.shift();
-				if (aWords[iWords-1].substr(0,1)!='.') sEl = aWords.pop();
-				aWords.unshift(sEl);
-				aWords.push(sId);
-				aParts[i] = aWords.join('');
-			});*/
-			var oSheet = aSheets[0]
-				,aRules = oSheet.cssRules
-				,iNumRules = aRules.length
-				,iAdd = oSheet.addRule(selector, 'font-weight:inherit')
-				,sSelectorResult = aRules[iNumRules].selectorText
+		,transitionEnd = (function(){// todo: check this
+			/*var mElm = document.createElement('div')
+				,sReturn = '';
+			rv.loop({
+				transition:			'transitionEnd'
+				,OTransition:		'oTransitionEnd'
+				,MSTransition:		'msTransitionEnd'
+				,MozTransition:		'transitionend'
+				,WebkitTransition:	'webkitTransitionEnd'
+			},function(interface,event){
+				if (mElm.style[interface]!==undefined) sReturn = event;
+			});
+			return sReturn;*/
+			var sInterface
+				,mElm = document.createElement('fakeelement')
+				,oTransitions = {
+					transition:'transitionend'
+					,OTransition:'oTransitionEnd'
+					,MozTransition:'transitionend'
+					,WebkitTransition:'webkitTransitionEnd'
+				}
 			;
-			oSheet.deleteRule(iNumRules);
-			return sSelectorResult;
-		}
-		,fnSelect = function select(or){
-			if (bReversedSelectors) or = getReverse(or);
-			var aStyles = [];
-			for (var i = 0;i<aSheets.length;i++) {
-				var oSheet = aSheets[i]
-					,sStyleHref = oSheet.href;
-				if (sStyleHref&&sStyleHref.indexOf(location.origin)===0) {
-					var aRules = oSheet.cssRules;
-					if (aRules) {
-						for (var j = 0;j<aRules.length;j++) {
-							var oRule = aRules[j];
-							if (oRule.constructor===CSSStyleRule) {
-
-								/*console.log('oRule',oRule.selectorText.split(' {').shift()==or,oRule.selectorText,' ',or); // log
-								$.each(oRule,function(i,s){
-									console.log('   oRule ',i,' ',s); // log
-								});*/
-
-		//						console.log(j,oRule); // log
-			//						if (oRule.selectors===undefined) oRule.selectors = oRule.selectorText.replace(/\s*,\s*/g,',').split(',');
-			//if (j===43) console.log('oRule.selectors.indexOf(or)>0:',oRule.selectorText,or,oRule.selectorText.indexOf(or)); // TRACE ### oRule.selectors.indexOf(or)>0
-
-		//							if (oRule.selectors.indexOf(or)>0) aStyles.push(oRule);
-		//							if (oRule.selectorText.split(' {').shift().indexOf(or)>=0) aStyles.push(oRule);
-									if (oRule.selectorText.split(' {').shift()==or) aStyles.push(oRule);
-								}
-			//console.log(j,oRule.constructor===CSSStyleRule);
-						}
-					}
+			for(sInterface in oTransitions){
+				if( mElm.style[sInterface]!==undefined){
+					return oTransitions[sInterface];
 				}
 			}
-			return aStyles;
-		}
-		,fnChangeRule = function changeRule(selector,rules) {
-			var aSel = fnSelect(selector.replace('>',' > ').replace('  ',' '));
-			for (var s in rules){
-				for (var j = 0;j<aSel.length;j++) {
-					var oRule = aSel[j];
-					var oStyle = oRule.style;
-					oStyle.removeProperty(s);
-					oStyle[s] = rules[s];
-				}
-			}
-			return aSel;
-		}
-		,fnAddRule = function addRule(selector,rules) {
-			var sRules = '';
-			rv.loop(rules,function(prop,val){sRules+=prop+':'+val+';'});
-			var oSheet = aSheets[0];
-			oSheet.addRule(selector,sRules);
-			return oSheet.cssRules[oSheet.cssRules.length-1];
-		}
+		})()
 		/*,oPrefix = (function () {
 			var oStyles = window.getComputedStyle(document.documentElement, '')
 				,sPre = (Array.prototype.slice
@@ -181,23 +74,136 @@ alert(953);
 		})()*/
 		,prefixes = ['','-webkit-','-moz-','-ms-','-o-']
 		,aStyles = Array.prototype.slice.call(window.getComputedStyle(document.documentElement,''))
-		,styleName = function(style){
-			for (var i=0,l=prefixes.length;i<l;i++) {
-				var sPrefix = prefixes[i];
-				if (aStyles.indexOf(sPrefix+style)!==-1) {
-					style = sPrefix+style;
-					break;
+
+	;
+
+	/**
+	 * Reverses a selector (because IE rearanges selectors)
+	 * Turns span#a.c.d.b into span.b.c.d#a
+	 * @param {String} selector
+	 * @returns {String} Reversed selector
+	 */
+	function getReverse(selector){ // todo: memoize
+		/*var aParts = or.split(/\s?>\s?|\s/);
+		rv.loop(aParts,function(i,sub){
+			var aWords = sub.match(/([#.]?\w+)/g).sort() // ["#a", ".b", ".c", ".d", "span"]
+				,iWords = aWords.length
+				,sId = ''
+				,sEl = '';
+			if (aWords[0].substr(0,1)=='#') sId = aWords.shift();
+			if (aWords[iWords-1].substr(0,1)!='.') sEl = aWords.pop();
+			aWords.unshift(sEl);
+			aWords.push(sId);
+			aParts[i] = aWords.join('');
+		});*/
+		var oSheet = aSheets[0]
+			,aRules = oSheet.cssRules
+			,iNumRules = aRules.length
+			,sSelectorResult
+		;
+		oSheet.addRule(selector, 'font-weight:inherit');
+		sSelectorResult = aRules[iNumRules].selectorText;
+		oSheet.deleteRule(iNumRules);
+		return sSelectorResult;
+	}
+
+	/**
+	 * Get an array of CSSStyleRules for the selector string.
+	 * @param {String} selector
+	 * @returns {CSSStyleRule[]}
+	 */
+	function select(selector){
+		if (bReversedSelectors) selector = getReverse(selector);
+		var aStyles = [];
+		for (var i = 0;i<aSheets.length;i++) {
+			var oSheet = aSheets[i]
+				,sStyleHref = oSheet.href;
+			if (sStyleHref&&sStyleHref.indexOf(location.origin)===0) {
+				var aRules = oSheet.cssRules;
+				if (aRules) {
+					for (var j = 0;j<aRules.length;j++) {
+						var oRule = aRules[j];
+						if (oRule.constructor===window.CSSStyleRule) {
+
+							/*console.log('oRule',oRule.selectorText.split(' {').shift()==or,oRule.selectorText,' ',or); // log
+							$.each(oRule,function(i,s){
+								console.log('   oRule ',i,' ',s); // log
+							});*/
+
+	//						console.log(j,oRule); // log
+		//						if (oRule.selectors===undefined) oRule.selectors = oRule.selectorText.replace(/\s*,\s*/g,',').split(',');
+		//if (j===43) console.log('oRule.selectors.indexOf(or)>0:',oRule.selectorText,or,oRule.selectorText.indexOf(or)); // TRACE ### oRule.selectors.indexOf(or)>0
+
+	//							if (oRule.selectors.indexOf(or)>0) aStyles.push(oRule);
+	//							if (oRule.selectorText.split(' {').shift().indexOf(or)>=0) aStyles.push(oRule);
+								if (oRule.selectorText.split(' {').shift()==selector) aStyles.push(oRule);
+							}
+		//console.log(j,oRule.constructor===CSSStyleRule);
+					}
 				}
 			}
-			return style;
 		}
-	;
+		return aStyles;
+	}
+
+	/**
+	 * Change an existing selector with the rules parsed in the object.
+	 * @param {String} selector
+	 * @param {Object} rules
+	 * @returns {CSSStyleRule[]} The Array created by select
+	 */
+	function changeRule(selector,rules) {
+		var aSel = select(selector.replace('>',' > ').replace('  ',' '));
+		for (var s in rules){
+			for (var j = 0;j<aSel.length;j++) {
+				var oRule = aSel[j];
+				var oStyle = oRule.style;
+				oStyle.removeProperty(s);
+				oStyle[s] = rules[s];
+			}
+		}
+		return aSel;
+	}
+
+	// todo: check
+	/**
+	 * ?
+	 * @param style
+	 * @returns {*}
+	 */
+	function styleName(style){
+		for (var i=0,l=prefixes.length;i<l;i++) {
+			var sPrefix = prefixes[i];
+			if (aStyles.indexOf(sPrefix+style)!==-1) {
+				style = sPrefix+style;
+				break;
+			}
+		}
+		return style;
+	}
+
+	// todo: check
+	/**
+	 * Adds a new rule to the selector
+	 * @param selector
+	 * @param rules
+	 * @returns {CssRule}
+	 */
+	function addRule(selector,rules) {
+		var oSheet,sRules = '';
+		iddqd.loop(rules,function(prop,val){sRules+=prop+':'+val+';';});
+		oSheet = aSheets[0];
+		oSheet.addRule(selector,sRules);
+		return oSheet.cssRules[oSheet.cssRules.length-1];
+	}
+
+	// Expose private methods
 	return {
 		toString: function(){return '[iddqd.style]';}
-		,select: fnSelect
-		,changeRule: fnChangeRule
-		,addRule: fnAddRule
-//		,prefix: oPrefix
+		,select: select
+		,changeRule: changeRule
+		,addRule: addRule
+		//,prefix: oPrefix
 		,styleName: styleName
 		,transitionEnd: transitionEnd
 	};
