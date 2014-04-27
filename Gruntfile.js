@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 		,aFiles = [
 
 			// todo: cryptography
-			
+
 			'src/iddqd.js'
 
 			,'src/iddqd.pattern.js'
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
 			// custom
 			,'src/iddqd.panorama.js'
 
-//			,'src/iddqd.style.js'
+			,'src/iddqd.style.js'
 			,'src/iddqd.image.js'
 //			,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
 
@@ -117,6 +117,7 @@ module.exports = function (grunt) {
 			files: aFiles
 		},
 
+		// todo: add version_git
 
 		qunit: {
 ////			options: { jshintrc: '.jshintrc' },

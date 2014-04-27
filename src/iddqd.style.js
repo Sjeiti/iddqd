@@ -14,9 +14,11 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 		};
 	}
 
-	var aSheets = document.styleSheets
+	var forEach = Array.prototype.forEach
+		,aoStyleSheets = document.styleSheets
 		,bReversedSelectors = (function(){
-			var oSheet = aSheets[0]
+			// creates a new selector and checks if the rule comes out in reverse
+			var oSheet = aoStyleSheets[0]
 				,aRules = oSheet.cssRules
 				,iNumRules = aRules.length
 				,sSelector = 'span#a.c.d.b'
@@ -74,8 +76,8 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 		})()*/
 		,prefixes = ['','-webkit-','-moz-','-ms-','-o-']
 		,aStyles = Array.prototype.slice.call(window.getComputedStyle(document.documentElement,''))
-
 	;
+	console.log('bReversedSelectors',bReversedSelectors); // log
 
 	/**
 	 * Reverses a selector (because IE rearanges selectors)
@@ -84,19 +86,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	 * @returns {String} Reversed selector
 	 */
 	function getReverse(selector){ // todo: memoize
-		/*var aParts = or.split(/\s?>\s?|\s/);
-		rv.loop(aParts,function(i,sub){
-			var aWords = sub.match(/([#.]?\w+)/g).sort() // ["#a", ".b", ".c", ".d", "span"]
-				,iWords = aWords.length
-				,sId = ''
-				,sEl = '';
-			if (aWords[0].substr(0,1)=='#') sId = aWords.shift();
-			if (aWords[iWords-1].substr(0,1)!='.') sEl = aWords.pop();
-			aWords.unshift(sEl);
-			aWords.push(sId);
-			aParts[i] = aWords.join('');
-		});*/
-		var oSheet = aSheets[0]
+		var oSheet = aoStyleSheets[0]
 			,aRules = oSheet.cssRules
 			,iNumRules = aRules.length
 			,sSelectorResult
@@ -110,40 +100,32 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	/**
 	 * Get an array of CSSStyleRules for the selector string.
 	 * @param {String} selector
-	 * @returns {CSSStyleRule[]}
+	 * @returns {iddqd.style.rule}
 	 */
 	function select(selector){
-		if (bReversedSelectors) selector = getReverse(selector);
-		var aStyles = [];
-		for (var i = 0;i<aSheets.length;i++) {
-			var oSheet = aSheets[i]
-				,sStyleHref = oSheet.href;
-			if (sStyleHref&&sStyleHref.indexOf(location.origin)===0) {
-				var aRules = oSheet.cssRules;
-				if (aRules) {
-					for (var j = 0;j<aRules.length;j++) {
-						var oRule = aRules[j];
-						if (oRule.constructor===window.CSSStyleRule) {
-
-							/*console.log('oRule',oRule.selectorText.split(' {').shift()==or,oRule.selectorText,' ',or); // log
-							$.each(oRule,function(i,s){
-								console.log('   oRule ',i,' ',s); // log
-							});*/
-
-	//						console.log(j,oRule); // log
-		//						if (oRule.selectors===undefined) oRule.selectors = oRule.selectorText.replace(/\s*,\s*/g,',').split(',');
-		//if (j===43) console.log('oRule.selectors.indexOf(or)>0:',oRule.selectorText,or,oRule.selectorText.indexOf(or)); // TRACE ### oRule.selectors.indexOf(or)>0
-
-	//							if (oRule.selectors.indexOf(or)>0) aStyles.push(oRule);
-	//							if (oRule.selectorText.split(' {').shift().indexOf(or)>=0) aStyles.push(oRule);
-								if (oRule.selectorText.split(' {').shift()==selector) aStyles.push(oRule);
-							}
-		//console.log(j,oRule.constructor===CSSStyleRule);
+		selector = bReversedSelectors?getReverse(parseSelector(selector)):parseSelector(selector);
+		var aStyles = iddqd.style.rule();//getSelectArray();
+		forEach.apply(aoStyleSheets,[function(styleSheet){
+			var sStyleHref = styleSheet.href
+				,aRules = styleSheet.cssRules;
+			aRules && forEach.apply(aRules,[function (oRule) {
+				if (oRule.constructor===window.CSSStyleRule) {
+					if (oRule.selectorText.split(' {').shift()==selector) {
+						aStyles.push(oRule);
 					}
 				}
-			}
-		}
+			}]);
+		}]);
 		return aStyles;
+	}
+
+	/**
+	 * Parse a selector string correctly
+	 * @param {string} selector
+	 * @returns {string}
+	 */
+	function parseSelector(selector) {
+		return selector.replace('>',' > ').replace('  ',' ');
 	}
 
 	/**
@@ -153,16 +135,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	 * @returns {CSSStyleRule[]} The Array created by select
 	 */
 	function changeRule(selector,rules) {
-		var aSel = select(selector.replace('>',' > ').replace('  ',' '));
-		for (var s in rules){
-			for (var j = 0;j<aSel.length;j++) {
-				var oRule = aSel[j];
-				var oStyle = oRule.style;
-				oStyle.removeProperty(s);
-				oStyle[s] = rules[s];
-			}
-		}
-		return aSel;
+		return select(selector).set(rules);
 	}
 
 	// todo: check
@@ -192,7 +165,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	function addRule(selector,rules) {
 		var oSheet,sRules = '';
 		iddqd.loop(rules,function(prop,val){sRules+=prop+':'+val+';';});
-		oSheet = aSheets[0];
+		oSheet = aoStyleSheets[0];
 		oSheet.addRule(selector,sRules);
 		return oSheet.cssRules[oSheet.cssRules.length-1];
 	}
@@ -209,3 +182,35 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	};
 })(iddqd));
 /*align-items align-self animation-delay animation-direction animation-duration animation-fill-mode animation-iteration-count animation-name animation-play-state animation-timing-function backface-visibility background-attachment background-clip background-color background-image background-origin background-position background-repeat background-size border-bottom-color border-bottom-left-radius border-bottom-right-radius border-bottom-style border-bottom-width border-collapse border-image-outset border-image-repeat border-image-slice border-image-source border-image-width border-left-color border-left-style border-left-width border-right-color border-right-style border-right-width border-spacing border-top-color border-top-left-radius border-top-right-radius border-top-style border-top-width bottom box-shadow caption-side clear clip color content counter-increment counter-reset cursor direction display empty-cells flex-basis flex-direction flex-grow flex-shrink float font-family font-size font-size-adjust font-stretch font-style font-variant font-weight height ime-mode justify-content left letter-spacing line-height list-style-image list-style-position list-style-type margin-bottom margin-left margin-right margin-top marker-offset max-height max-width min-height min-width opacity order outline-color outline-offset outline-style outline-width overflow overflow-x overflow-y padding-bottom padding-left padding-right padding-top page-break-after page-break-before page-break-inside perspective perspective-origin pointer-events position quotes resize right table-layout text-align text-decoration text-indent text-overflow text-shadow text-transform top transform transform-origin transform-style transition-delay transition-duration transition-property transition-timing-function unicode-bidi vertical-align visibility white-space width word-break word-spacing word-wrap z-index -moz-appearance -moz-background-inline-policy -moz-binding -moz-border-bottom-colors -moz-border-left-colors -moz-border-right-colors -moz-border-top-colors -moz-box-align -moz-box-direction -moz-box-flex -moz-box-ordinal-group -moz-box-orient -moz-box-pack -moz-box-sizing -moz-column-count -moz-column-gap -moz-column-rule-color -moz-column-rule-style -moz-column-rule-width -moz-column-width -moz-float-edge -moz-font-feature-settings -moz-font-language-override -moz-force-broken-image-icon -moz-hyphens -moz-image-region -moz-orient -moz-outline-radius-bottomleft -moz-outline-radius-bottomright -moz-outline-radius-topleft -moz-outline-radius-topright -moz-stack-sizing -moz-tab-size -moz-text-align-last -moz-text-blink -moz-text-decoration-color -moz-text-decoration-line -moz-text-decoration-style -moz-text-size-adjust -moz-user-focus -moz-user-input -moz-user-modify -moz-user-select -moz-window-shadow clip-path clip-rule color-interpolation color-interpolation-filters dominant-baseline fill fill-opacity fill-rule filter flood-color flood-opacity image-rendering lighting-color marker-end marker-mid marker-start mask mask-type shape-rendering stop-color stop-opacity stroke stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-rendering vector-effect*/
+
+/**
+ * A array of CSSStyleRules enhanced with some methods.
+ * @name rule
+ * @namespace iddqd.style.rule
+ * @returns {CSSStyleRule[]}
+ */
+iddqd.ns('iddqd.style.rule',function() {
+	'use strict';
+
+	var aStyles = [];
+
+	aStyles.set = function(key,prop){
+		if (typeof key==='string') {
+			set.apply(aStyles,[key,prop]);
+		} else {
+			for (var s in key){
+				set.apply(aStyles,[s,key[s]]);
+			}
+		}
+	};
+
+	function set(key,prop){
+		aStyles.forEach(function(rule){
+			var oStyle = rule.style;
+			oStyle.removeProperty(key);
+			oStyle[key] = prop;
+		});
+	}
+
+	return aStyles;
+});
