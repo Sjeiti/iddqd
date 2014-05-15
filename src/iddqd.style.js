@@ -63,7 +63,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 			var aRules = styleSheet.cssRules;
 			aRules && forEach.apply(aRules,[function (oRule) {
 				if (oRule.constructor===window.CSSStyleRule) {
-					console.log('oRule.selectorText',oRule.selectorText); // log
+					//console.log('oRule.selectorText',oRule.selectorText); // log
 					if (oRule.selectorText.split(' {').shift()==selector) {
 						aStyles.push(oRule);
 					}
