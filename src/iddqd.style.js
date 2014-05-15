@@ -58,7 +58,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	 */
 	function select(selector){
 		selector = bReversedSelectors?getReverse(parseSelector(selector)):parseSelector(selector);
-		var aStyles = rule();
+		var aStyles = rule(selector);
 		forEach.apply(aoStyleSheets,[function(styleSheet){
 			var aRules = styleSheet.cssRules;
 			aRules && forEach.apply(aRules,[function (oRule) {
@@ -110,8 +110,9 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	 * A array of CSSStyleRules enhanced with some methods.
 	 * @returns {CSSStyleRule[]}
 	 */
-	function rule() {
+	function rule(selector) {
 		var aStyles = [];
+		aStyles.toString = function(){return 'object [style.rule:'+selector+']';}
 		aStyles.set = function (key,prop) {
 			if (typeof key==='string') {
 				set.apply(aStyles,[key,prop]);
