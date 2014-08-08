@@ -16,8 +16,8 @@ iddqd.ns('iddqd.image',(function(iddqd,uses,undefined){
 		 * @param {iddqd.image~loadError} loadError A method for error handling.
 		 * @return {iddqd.image~loadImage} A loadImage object.
 		 */
-		load: function(uri,loadCallback,loadError){
-			var xhttp = iddqd.network.xhttp // optional
+		load: function(uri,loadCallback,loadError,useXHTTP){
+			var xhttp = useXHTTP?iddqd.network.xhttp:undefined// todo: document optional
 				//
 				,mImgLoader = document.createElement('img')
 				,sUri = uri
@@ -52,6 +52,7 @@ iddqd.ns('iddqd.image',(function(iddqd,uses,undefined){
 				sUri = uri;
 				if (loadCallback!==undefined) fnCallback = loadCallback;
 				if (loadError!==undefined) fnError = loadError;
+
 				mImgLoader.setAttribute('src',sUri);
 				return oReturn;
 			}
@@ -95,6 +96,8 @@ iddqd.ns('iddqd.image',(function(iddqd,uses,undefined){
 						oResult.mime = req.getResponseHeader('Content-Type');
 						oResult.type = oResult.mime.split('/').pop();
 						doCallback(oResult);
+					},function(){
+						doCallback(oResult);
 					});
 				} else {
 					doCallback(oResult);
@@ -109,6 +112,7 @@ iddqd.ns('iddqd.image',(function(iddqd,uses,undefined){
 			 * @param {Error} err The load error
 			 */
 			function handleLoadError(err){
+				console.warn('iddqd.image.error',err); // log
 				fnError&&fnError(err);
 			}
 			function getCanvas(){
@@ -123,8 +127,10 @@ iddqd.ns('iddqd.image',(function(iddqd,uses,undefined){
 				return mCanvas;
 			}
 			function getContext(){
+				if (!mCanvas) getCanvas();
 				return oContext;
 			}
+			// todo: oContext.getImageData(0,0,iW,iH) and aPixels = oImgData.data
 			function getData(type){
 				return getCanvas().toDataURL('image/'+(type||'jpeg'));
 			}

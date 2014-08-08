@@ -39,6 +39,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			,fn: function(){}
 			,tmpl:tmpl
 			,es5:es5
+			,factory:factory
 		}
 		,sJSRoot = './'
 	;
@@ -240,7 +241,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	}
 	/**
 	 * Simple JavaScript Templating
-	 * John Resig - http://ejohn.org/ - MIT Licensed
+	 * John Resig - http://ejohn.org/blog/javascript-micro-templating/ - MIT Licensed
 	 * @name iddqd.tmpl
 	 * @method
 	 * @param {String} str ID of the template script element
@@ -250,6 +251,16 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 *	<% for ( var i = 0; i < users.length; i++ ) { %>
 	 *		<li><a href="<%=users[i].url%>"><%=users[i].name%></a></li>
 	 *	<% } %>
+	 *</script>
+	 *<script type="text/html" id="item_tmpl">
+	 *  <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
+	 *    <div class="grid_1 alpha right">
+	 *      <img class="righted" src="<%=profile_image_url%>"/>
+	 *    </div>
+	 *    <div class="grid_6 omega contents">
+	 *      <p><b><a href="/<%=from_user%>"><%=from_user%></a>:</b> <%=text%></p>
+	 *    </div>
+	 *  </div>
 	 *</script>
 	 */
 	function tmpl(str, data){
@@ -387,6 +398,16 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			oEvt.initEvent(evt,true,true); // event type,bubbling,cancelable
 			return !target.dispatchEvent(oEvt);
 		}
+	}
+
+	/**
+	 * A helper method for factory return objects so one can determine what factory an object was created with.
+	 * @param {Function} factory
+	 * @param {object} [init]
+	 * @returns {Object}
+	 */
+	function factory(factory,init){
+		return extend(init||{},{factory:factory});
 	}
 	//
 	return oReturn;

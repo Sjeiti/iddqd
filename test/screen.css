@@ -1,0 +1,6 @@
+a.foo {
+	color: orange;
+}
+p.foo a.foo {
+	color: purple;
+}

@@ -72,7 +72,8 @@ iddqd.ns('iddqd.animate',(function(iddqd,uses){
 			,aMillis = (function(a,n){
 				for (var i=0;i<iMilliLen;i++) a.push(n);
 				return a;
-			})([],iLastMillis);
+			})([],iLastMillis)
+			,iFrameNr = 0;
 		function animate(){
 			iCurMillis = iddqd.millis();
 			aMillis.push(iCurMillis-iLastMillis);
@@ -80,7 +81,7 @@ iddqd.ns('iddqd.animate',(function(iddqd,uses){
 			fDeltaT = 0;
 			for (var i=0;i<iMilliLen;i++) fDeltaT += aMillis[i];
 			iLastMillis = iCurMillis;
-			signal.dispatch(fDeltaT/iMilliLen,iCurMillis);
+			signal.dispatch(fDeltaT/iMilliLen,iCurMillis,iFrameNr);
 			nextFrame(animate);
 		}
 		animate();

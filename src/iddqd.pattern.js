@@ -4,6 +4,7 @@
  * @summary Design patterns
  */
 iddqd.ns('iddqd.pattern',(function(){
+	'use strict';
 	/**
 	 * Creates an object pool for a factory method
 	 * Adds a drop function to each instance
@@ -13,7 +14,6 @@ iddqd.ns('iddqd.pattern',(function(){
 	 * @returns {Function} The pooled method
 	 */
 	function pool(fnc){
-		'use strict';
 		/* jshint validthis:true */
 		var aPool = [];
 		function drop(){
@@ -43,7 +43,6 @@ iddqd.ns('iddqd.pattern',(function(){
 	 * @returns {Object} The memoized function
 	 */
 	function memoize(fnc,storage,async){
-		'use strict';
 		var oCache = storage||{}
 			,sKeySuffix = 0
 			,sFnc
@@ -80,7 +79,7 @@ iddqd.ns('iddqd.pattern',(function(){
 						fnc.apply(fnc,arguments);
 					}
 				}
-			}
+			};
 		}
 		return function () {
 			var sKey = sKeySuffix+JSON.stringify(arguments);

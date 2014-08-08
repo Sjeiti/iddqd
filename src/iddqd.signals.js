@@ -34,7 +34,6 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 	 * @param {Function} init The initialisation method, called after the first signal.add or signal.addOnce.
 	 * @returns {Signal} The signal
 	 */
-	iddqd.signals.create = createSignal;
 	function createSignal(name,init){
 		// todo: what if the signal already exists
 		var oSignal = oSignals[name] = new signals.Signal()
@@ -56,6 +55,7 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 		};
 		return oSignal;
 	}
+	oSignals.create = createSignal;
 
 	// signals start here
 
@@ -91,31 +91,96 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 		};
 	});
 
-		/**
-		 * Dispatched when the viewport resizes.<br/>
-		 * The callback for this signal is Function(oldWidth,oldHeight,newWidth,newHeight)
-		 * @name iddqd.signals.resize
-		 * @type Signal
-		 */
-		createSignal('resize',function(signal){
-			var w = window,
-				d = document,
-				e = d.documentElement,
-				g = d.getElementsByTagName('body')[0],
-				iW = w.innerWidth || e.clientWidth || g.clientWidth,
-				iH = w.innerHeight|| e.clientHeight|| g.clientHeight;
-//			var iW = window.innerWidth
-//				,iH = window.innerHeight;
-			window.addEventListener('resize', function(e){
-				var  iOldW = iW
-					,iOldH = iH;
-//				iW = window.innerWidth;
-//				iH = window.innerHeight;
-				iW = w.innerWidth || e.clientWidth || g.clientWidth;
-				iH = w.innerHeight|| e.clientHeight|| g.clientHeight;
-				signal.dispatch(iOldW,iOldH,iW,iH);
-			},false);
-		});
+	/**
+	 * Dispatched when the viewport resizes.<br/>
+	 * The callback for this signal is Function(oldWidth,oldHeight,newWidth,newHeight)
+	 * @name iddqd.signals.resize
+	 * @type Signal
+	 */
+	createSignal('resize',function(signal){
+		var w = window,
+			d = document,
+			e = d.documentElement,
+			g = d.getElementsByTagName('body')[0],
+			iW = w.innerWidth || e.clientWidth || g.clientWidth,
+			iH = w.innerHeight|| e.clientHeight|| g.clientHeight;
+//		var iW = window.innerWidth
+//			,iH = window.innerHeight;
+		window.addEventListener('resize', function(e){
+			var  iOldW = iW
+				,iOldH = iH;
+//			iW = window.innerWidth;
+//			iH = window.innerHeight;
+			iW = w.innerWidth || e.clientWidth || g.clientWidth;
+			iH = w.innerHeight|| e.clientHeight|| g.clientHeight;
+			signal.dispatch(iOldW,iOldH,iW,iH);
+		},false);
+	});
+
+	/**
+	 * Checks stylesheets for horizontal breakpoints
+	 * @name iddqd.signals.breakpoint
+	 * @type Signal
+	 */
+	oSignals.breakpoint = new signals.Signal();
+	window.addEventListener('load',function(){
+		/*global CSSMediaRule*/
+		var signal = oSignals.breakpoint
+			,forEach = Array.prototype.forEach
+			,aSizes = [Number.MAX_VALUE]
+			,iSizes
+			,iCurrent = -1
+		;
+		signal.current = iCurrent;
+		forEach.apply(document.styleSheets,[function(styleSheet){
+			if (styleSheet.href!==null) {
+				forEach.apply(styleSheet.rules,[function(rule){
+					if (rule.constructor===CSSMediaRule) {
+						forEach.apply(rule.media,[function(medium){
+							var aMatch = medium.match(/\(([^\)]+)\)/g);
+							aMatch&&aMatch.forEach(function(match){
+								var aWidth = match.match(/width/)
+									,aDigit = match.match(/\d+/)
+									,bMax = !!match.match(/max/)
+								;
+								if (aWidth&&aDigit) {
+									var iSize = parseInt(aDigit.pop()) + (bMax?1:0);
+									if (aSizes.indexOf(iSize)===-1) aSizes.push(iSize);
+								}
+							});
+						}]);
+					}
+				}]);
+			}
+		}]);
+		aSizes.sort(function(a,b){return a>b?1:-1;});
+		iSizes = aSizes.length;
+		signal.points = aSizes;
+		//
+		if (iSizes!==0) {
+			window.addEventListener('resize',handleResize);
+			handleResize();
+		} else {
+			console.warn('No breakpoints found');
+		}
+		//
+		function handleResize(){
+			var iWindowWidth = window.innerWidth;
+			var iCheckSize = aSizes[0];
+			for (var i=0;i<iSizes;i++) {
+				iCheckSize = aSizes[i];
+				if (iWindowWidth<iCheckSize) {
+					break;
+				}
+			}
+			if (iCheckSize!==iCurrent) {
+				var iOld = iCurrent;
+				iCurrent = iCheckSize;
+				signal.current = iCurrent;
+				signal.dispatch(iCurrent,iOld);
+			}
+		}
+	},false);
 
 //	/**
 //	 * Keyframe dispatcher using requestAnimFrame.<br/>
@@ -244,9 +309,10 @@ iddqd.ns('iddqd.signals',(function(iddqd,uses){
 			oSignals.keyup.add(fnEmpty).detach();
 		});
 	});
-	createSignal('keypress',function(){
+	createSignal('keypress',function(signal){
 		oSignals.keyup.add(fnEmpty).detach();
 		oSignals.keydown.add(fnEmpty).detach();
+		signal.keys = aKeys;
 	});
 	createSignal('keyup',function(signal){
 		document.addEventListener('keyup',function(e){

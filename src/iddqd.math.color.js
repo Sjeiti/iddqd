@@ -6,14 +6,16 @@
  * @param {Number} x
  * @returns {colorInstance}
  */
-iddqd.ns('iddqd.math.color',function(undefined){
+iddqd.ns('iddqd.math.color',function(){
 	'use strict';
-	var oReturn = {
-			 integer: undefined
-			,r: undefined
-			,g: undefined
-			,b: undefined
-			,hex: undefined
+	var undef = (function(a){return a;})()
+		,string = iddqd.internal.native.string
+		,oReturn = {
+			integer: undef
+			,r: undef
+			,g: undef
+			,b: undef
+			,hex: undef
 			,get: getColor
 			,set: setColor
 			,randomize: randomize
@@ -95,7 +97,10 @@ iddqd.ns('iddqd.math.color',function(undefined){
 	}
 
 	function makeInt2Hex() {
-		oReturn.hex = '#'+iClr.toString(16).pad(iLen,'0',true);
+//		console.log('iLen',iLen); // log
+//		oReturn.hex = '#'+iClr.toString(16).pad(iLen,'0',true);
+//		oReturn.hex = '#'+string.pad(iClr.toString(16),iLen,'0',true);
+		oReturn.hex = '#'+string.pad(iClr.toString(16),iLen,'0',true);
 	}
 
 	/**

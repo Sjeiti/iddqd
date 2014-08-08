@@ -17,7 +17,7 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 		function () {return new ActiveXObject("Microsoft.XMLHTTP");}
 	];
 
-	function sendRequest(url,callback,postData) {
+	function sendRequest(url,callback,errorCallback,postData) {
 		var req = createXMLHTTPObject();
 		if (!req) return;
 		var method = (postData) ? "POST" : "GET";
@@ -29,7 +29,7 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 		req.onreadystatechange = function () {
 			if (req.readyState!=4) return;
 			if (req.status!=200 && req.status!=304) {
-				alert('HTTP error ' + req.status);
+				errorCallback('HTTP error ' + req.status); // todo: check error stati and flow
 				return;
 			}
 			callback(req);

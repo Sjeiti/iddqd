@@ -302,4 +302,11 @@
 		}
 	});
 
+	//
+
+
+//	setTimeout(function(){
+//		console.log('tpl',iddqd.tmpl('tplfoo',{}));
+//	},1000);
+
 })();
