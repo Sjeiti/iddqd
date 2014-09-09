@@ -1,3 +1,4 @@
+// todo probably obsolete because background-size:cover
 
 /*! loadImage */
 /**

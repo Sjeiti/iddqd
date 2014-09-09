@@ -80,5 +80,17 @@ iddqd.ns('iddqd.internal.native.array',(function(internal) {
 			}
 			return this;
 		}
+		/**
+		 * Adds all array entries
+		 * @name iddqd.internal.native.array.sum
+		 * @method
+		 * @returns {array} The sum
+		 */
+		,sum: function() {
+			var fSum = 0
+				,l = this.length;
+			while (l--) fSum += this[l];
+			return fSum;
+		}
 	});
 })(iddqd.internal));

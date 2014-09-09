@@ -76,7 +76,13 @@ bar.wrap(myString,'(',')');
 	 */
 	function normalize(namespace){
 		loop(namespace,function(name,fnc){
-			if (name!=='augment'&&name!=='normalize'&&name!=='toString'&&!fnc.normalized) {
+			if (
+				typeof(fnc)==='function'
+				&&name!=='augment'
+				&&name!=='normalize'
+				&&name!=='toString'
+				&&!fnc.normalized
+			) {
 				var fnOrg = namespace[name];
 				namespace[name] = function(s){
 					return fnc.apply(s,Array.prototype.slice.apply(arguments,[1]));

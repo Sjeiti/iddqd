@@ -1,3 +1,4 @@
+// todo remove in favor of polyfill json.stringify and parse
 /**
  * A crude but tiny json parser
  * @namespace iddqd.json

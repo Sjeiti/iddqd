@@ -1,4 +1,5 @@
 /* global DocumentTouch */
+// todo document
 iddqd.ns('iddqd.capabilities',(function(){
 	'use strict';
 	var oInfo = window.navigator

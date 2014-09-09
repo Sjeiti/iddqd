@@ -1,8 +1,6 @@
 /**
  * @name log
  * @namespace iddqd.log
- * @version 1.1.0
- * @author Ron Valstar (http://www.iddqd.nl/)
  * @requires iddqd
  */
 iddqd.ns('iddqd.log',(function(rv){

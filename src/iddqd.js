@@ -30,7 +30,6 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			,getGet:getGet
 			,getLessVars:getLessVars
 			,loadScript: loadScript
-			,uses: uses
 			/**
 			 * Empty function.
 			 * @name iddqd.fn
@@ -38,7 +37,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			 * */
 			,fn: function(){}
 			,tmpl:tmpl
-			,es5:es5
+			,uses: uses
 			,factory:factory
 		}
 		,sJSRoot = './'
@@ -55,7 +54,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		location.origin = aLocHref.join('/');
 	}
 
-	// find js root
+	// find js root // todo: why?
 	loop(document.getElementsByTagName('script'),function(i,el){
 		var sSrc = el.attributes&&el.attributes.src&&el.attributes.src.value.split('?').shift()
 			,aMatch = sSrc&&sSrc.match(/^(.*)(iddqd\.js|iddqd\.min\.js)$/);
@@ -121,20 +120,13 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		/*jshint unused: true */
 		/*jshint +W021 */
 	})();
-
-	function uses(o,customError){
-		if (o===undefined) {
-			throw new Error(customError||'\'o\' is undefined.');
-		}
-		return o;
-	}
-
+	
 	/**
 	 * Method with callback function to be executed when DOM has finished loading. If DOM has already finished callback is executed immediately.
 	 * @name iddqd.onDOMReady
 	 * @method
-	 * @param callback Callback function.
-	 * @param state Listen to particular state
+	 * @param {Function} callback Callback function.
+	 * @param {string} state Listen to particular state
 	 */
 	function onDOMReady(callback,state) { // todo: add to signals
 		function doCallback(){
@@ -153,6 +145,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			else document.onreadystatechange = function(){ checkReadyState(doCallback); };
 		}
 	}
+	
 	/**
 	 * Traverse an object or array
 	 * @name iddqd.loop
@@ -177,6 +170,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			}
 		}
 	}
+	
 	/**
 	 * Extend an object
 	 * @name iddqd.extend
@@ -190,6 +184,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		//for (var s in fns) if (!obj[s]) obj[s] = fns[s];
 		return obj;
 	}
+	
 	/**
 	 * Create namespaces. If only the first 'namespace' parameter is set it will return the namespace if it exists or null if it doesn't.
 	 * @name iddqd.ns
@@ -226,6 +221,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		return oBase;
 	}
+	
 	/**
 	 * Load javascript file
 	 * @name iddqd.loadScript
@@ -239,6 +235,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		if (loadCallback) mScript.addEventListener('load',loadCallback);
 		(document.head||document.getElementsByTagName('head')[0]).appendChild(mScript);
 	}
+	
 	/**
 	 * Simple JavaScript Templating
 	 * John Resig - http://ejohn.org/blog/javascript-micro-templating/ - MIT Licensed
@@ -290,20 +287,15 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		return data ? fn( data ) : fn;
 	}
 
-	function es5(shimonly){
-		if (!!shimonly) {
-
-		}
-	}
-
 	/**
 	 * @name iddqd.millis
 	 * @method
 	 * @returns Returns the number of milliseconds elapsed since unix epoch.
 	 */
-	function millis(){
+	function millis(){//todo:make obsolete unless window.performance.now :: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 		return Date.now();
 	}
+	
 	/**
 	 * Returns get vars object
 	 * @name iddqd.getGet
@@ -321,6 +313,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		return oGetget;
 	}
+	
 	/**
 	 * Tries to pull your LESS/SASS/etc variables from CSS and parse them to Javascript
 	 * @name iddqd.getLessVars
@@ -383,6 +376,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		return oLess;
 	}
+	
 	/**
 	 * Fires an event
 	 * @name iddqd.fireEvent
@@ -401,6 +395,20 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	}
 
 	/**
+	 * Throw an error if an object doesn't exist.
+	 * @name iddqd.uses
+	 * @method
+	 * @param {Object} o The object to check.
+	 * @param {string} [customError] The error message to throw.
+	 */
+	function uses(o,customError){
+		if (o===undefined) {
+			throw new Error(customError||'\'o\' is undefined.');
+		}
+		return o;
+	}
+
+	/**
 	 * A helper method for factory return objects so one can determine what factory an object was created with.
 	 * @param {Function} factory
 	 * @param {object} [init]
@@ -409,7 +417,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	function factory(factory,init){
 		return extend(init||{},{factory:factory});
 	}
-	//
+	
 	return oReturn;
 })();
 

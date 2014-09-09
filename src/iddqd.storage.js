@@ -10,12 +10,14 @@
 /**
  * @method iddqd.storage.local.get
  * @param {String} key
+ * @param {Object} defaultValue
  * @returns {Object}
  */
 /**
  * @method iddqd.storage.local.set
  * @param {String} key
  * @param {Object} value
+ * @returns {Object} The value
  */
 /**
  * @method iddqd.storage.local.clear
@@ -29,12 +31,14 @@
 /**
  * @method iddqd.storage.session.get
  * @param {String} key
+ * @param {Object} defaultValue
  * @returns {Object}
  */
 /**
  * @method iddqd.storage.session.set
  * @param {String} key
  * @param {Object} value
+ * @returns {Object} The value
  */
 /**
  * @method iddqd.storage.session.clear
@@ -45,20 +49,23 @@ iddqd.ns('iddqd.storage',(function(iddqd){
 	var bCanStore = window.Storage!==undefined
 		,oReturn = {}
 	;
-//getItem(key) – retrieves the value for the given key or null if the key does not exist.
-//setItem(key, value) – sets the value for the given key.
-//removeItem(key) – removes the key completely.
-//key(position) – returns the key for the value in the given numeric position.
-//clear() – removes all key-value pairs.
-	iddqd.loop(['local','session'],function(i,s){
-		var oTarget = bCanStore?(s=='local'?localStorage:sessionStorage):{clear:iddqd.fn};
-		oReturn[s] = {
-			get:	function(key){return oTarget[key]&&JSON.parse(oTarget[key]);} // todo: add default value
-			,set:	function(key,value){return oTarget[key] = JSON.stringify(value);} // todo: added return, update jsdoc
-			,clear: function(key){
-				if (key) delete oTarget[key];
-				else oTarget.clear();
-			}
+	['local','session'].forEach(function(type){
+		var oType = bCanStore?(type=='local'?localStorage:sessionStorage):{clear:iddqd.fn};
+		function get(key,defaultValue) {
+			return this[key]&&JSON.parse(this[key])||defaultValue&&set.call(this,key,defaultValue);
+		}
+		function set(key,value) {
+			this[key] = JSON.stringify(value);
+			return value;
+		}
+		function clear(key) {
+			if (key) delete this[key];
+			else this.clear();
+		}
+		oReturn[type] = {
+			get: get.bind(oType)
+			,set: set.bind(oType) // todo: added return, update jsdoc
+			,clear: clear.bind(oType)
 		};
 	});
 	return oReturn;

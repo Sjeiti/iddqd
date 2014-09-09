@@ -2,7 +2,7 @@
 /**
  * @namespace iddqd.internal.native.date
  */
-iddqd.ns('iddqd.internal.native.date',(function(rv){
+iddqd.ns('iddqd.internal.native.date',(function(iddqd){
 	'use strict';
 	var oDateProto = Date.prototype
 		,fnOldToString = oDateProto.toString
@@ -23,6 +23,14 @@ iddqd.ns('iddqd.internal.native.date',(function(rv){
 		,iMinute = iSecond*60
 		,iHour = iMinute*60
 		,iDay = iHour*24
+		//
+		,oReturn = {
+			format: 'Y-m-d' // ISO 8601
+			,toFormatted: toFormatted
+			,overrideToString: overrideToString//todo ?
+			,toYYMMDD: toYYMMDD//todo ?
+			//,toString: toFormatted
+		}
 	;
 	function toYYMMDD(date,reverse){//this?
 		var aDate = date.split('-');
@@ -107,20 +115,21 @@ iddqd.ns('iddqd.internal.native.date',(function(rv){
 		// r	» RFC 2822 formatted date	Example: Thu, 21 Dec 2000 16:01:07 +0200
 		// U	Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)	See also time()
 		// Day	---	---
-		if (format===undefined) format = Date.format;
-		var sFormatted = '';
+		if (format===undefined) format = oReturn.format;
+		var that = this||new Date()
+			,sFormatted = '';
 		for (var i=0,l=format.length;i<l;i++) {
 			var s = format[i]
-				,iYear = this.getFullYear()
-				,iMonth = this.getMonth()
-				,iDate = this.getDate()
-				,iWeekDay = this.getDay()
-				,iYearDay = Math.floor(new Date(this-new Date(iYear,0,0)).getTime()/iDay)
-				,iHours = this.getHours()
+				,iYear = that.getFullYear()
+				,iMonth = that.getMonth()
+				,iDate = that.getDate()
+				,iWeekDay = that.getDay()
+				,iYearDay = Math.floor(new Date(that-new Date(iYear,0,0)).getTime()/iDay)
+				,iHours = that.getHours()
 				,iHoursMod = iHours%12
 				,iHours12 = iHoursMod===0?12:iHoursMod
-				,iMinutes = this.getMinutes()
-				,iSeconds = this.getSeconds()
+				,iMinutes = that.getMinutes()
+				,iSeconds = that.getSeconds()
 				,iWeek = Math.ceil((iYearDay-4)/7)//?
 				,bLeapYear = (iYear%4===0&&iYear%100!==0)||(iYear%400===0)
 				,pad = function pad(a,b){return(1e15+a+"").slice(-b);}
@@ -149,8 +158,8 @@ iddqd.ns('iddqd.internal.native.date',(function(rv){
 				case 'Y': sFormatted += iYear; break;
 				case 'y': sFormatted += String(iYear).substr(2,2); break;
 				// time
-				case 'a': sFormatted += iHours>12?'am':'pm'; break;
-				case 'A': sFormatted += iHours>12?'AM':'PM'; break;
+				case 'a': sFormatted += iHours<12?'am':'pm'; break;
+				case 'A': sFormatted += iHours<12?'AM':'PM'; break;
 				case 'B': sFormatted += ''; break;
 				case 'g': sFormatted += iHours12; break;
 				case 'G': sFormatted += iHours; break;
@@ -159,21 +168,12 @@ iddqd.ns('iddqd.internal.native.date',(function(rv){
 				case 'i': sFormatted += pad(iMinutes,2); break;
 				case 's': sFormatted += pad(iSeconds,2); break;
 				case 'u': sFormatted += ''; break;
-				// timezone
-
-
-
+				// todo:timezone
 				default:
 					sFormatted += s;
 			}
 		}
 		return sFormatted;
 	}
-	return {
-		init: function(){
-			rv.date.init = rv.fn;
-			rv.extend(Date,oExtendDate);
-			rv.extend(oDateProto,oExtendProto);
-		}
-	};
+	return iddqd.internal(Date,oReturn);
 })(iddqd));

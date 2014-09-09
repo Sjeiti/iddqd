@@ -1,3 +1,4 @@
+// todo document
 iddqd.ns('iddqd.environment',(function(){
 	'use strict';
 	var
@@ -18,17 +19,18 @@ iddqd.ns('iddqd.environment',(function(){
 	;
 	function addClassNames(){
 		var mHTML = document.body//querySelector('html')
-			,sPrefix = 'env_';
-		isIPad&&mHTML.addClass(sPrefix+'ipad');
-		isIPhone&&mHTML.addClass(sPrefix+'iphone');
-		isIPod&&mHTML.addClass(sPrefix+'ipod');
-		isAndroid&&mHTML.addClass(sPrefix+'android');
-		isBlackBerry&&mHTML.addClass(sPrefix+'blackberry');
-		isIEMobile&&mHTML.addClass(sPrefix+'iemobile');
-		isIOS&&mHTML.addClass(sPrefix+'ios');
-		isMobile&&mHTML.addClass(sPrefix+'mobile');
-		isPhoneGap&&mHTML.addClass(sPrefix+'phonegap');
-		isCordova&&mHTML.addClass(sPrefix+'cordova');
+			,sPrefix = 'env_'
+			,addBodyClass = mHTML.classList.add;
+		isIPad&&addBodyClass(sPrefix+'ipad');
+		isIPhone&&addBodyClass(sPrefix+'iphone');
+		isIPod&&addBodyClass(sPrefix+'ipod');
+		isAndroid&&addBodyClass(sPrefix+'android');
+		isBlackBerry&&addBodyClass(sPrefix+'blackberry');
+		isIEMobile&&addBodyClass(sPrefix+'iemobile');
+		isIOS&&addBodyClass(sPrefix+'ios');
+		isMobile&&addBodyClass(sPrefix+'mobile');
+		isPhoneGap&&addBodyClass(sPrefix+'phonegap');
+		isCordova&&addBodyClass(sPrefix+'cordova');
 	}
 	return {
 		isIPad:isIPad

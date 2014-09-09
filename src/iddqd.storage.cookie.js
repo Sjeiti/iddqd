@@ -13,7 +13,7 @@ iddqd.ns('iddqd.storage.cookie',(function(){
 	 * @returns {String}
 	 */
 	function get(name,defaultValue) {
-		if (defaultValue===undefined) defaultValue = null;
+		//if (defaultValue===undefined) defaultValue = null;
 		var nameEQ = name+'=';
 		var ca = document.cookie.split(';');
 		for(var i=0;i<ca.length;i++) {
@@ -39,6 +39,7 @@ iddqd.ns('iddqd.storage.cookie',(function(){
 			expires = ';expires='+date.toGMTString();
 		}
 		document.cookie = name+'='+value+expires+';path=/';
+		return value;
 	}
 
 	/**
@@ -57,7 +58,7 @@ iddqd.ns('iddqd.storage.cookie',(function(){
 	 * @param {Object} defaultValue The default value of the cookie
 	 * @returns {Object}
 	 */
-	function getO(name,defaultValue) {
+	function getO(name,defaultValue) { // todo: rem and add to get by default
 		return JSON.parse(get(name,JSON.stringify(defaultValue)));
 	}
 
