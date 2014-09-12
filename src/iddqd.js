@@ -25,20 +25,19 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			,loop:loop
 			,extend:extend
 			,ns:ns
+			,createElement: createElement
 			,fireEvent:fireEvent
 			,millis: millis
 			,getGet:getGet
-			,getLessVars:getLessVars
 			,loadScript: loadScript
+			,uses: uses
+			,factory:factory
 			/**
 			 * Empty function.
 			 * @name iddqd.fn
 			 * @method
 			 * */
 			,fn: function(){}
-			,tmpl:tmpl
-			,uses: uses
-			,factory:factory
 		}
 		,sJSRoot = './'
 	;
@@ -68,6 +67,10 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			window.console.log = function(){};
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// addEventListener polyfill 1.0 / Eirik Backer / MIT Licence
 	(function(win, doc){
@@ -100,7 +103,19 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	})(window, document);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// fix classlist add multiple
+	(function(m){
+		m.classList.add('a','b');
+		if (!m.classList.contains('b')) {
+			var tokenProto = DOMTokenList.prototype
+				,fnAdd = tokenProto.add
+				,fnRem = tokenProto.remove;
+			tokenProto.add =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnAdd.call(this,arguments[i]); };
+			tokenProto.remove =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnRem.call(this,arguments[i]); };
+		}
+	})(document.createElement('div'));
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// evil hack to enforce stacktrace http://stackoverflow.com/a/12348004/695734
@@ -120,7 +135,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		/*jshint unused: true */
 		/*jshint +W021 */
 	})();
-	
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Method with callback function to be executed when DOM has finished loading. If DOM has already finished callback is executed immediately.
 	 * @name iddqd.onDOMReady
@@ -145,7 +164,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			else document.onreadystatechange = function(){ checkReadyState(doCallback); };
 		}
 	}
-	
+
 	/**
 	 * Traverse an object or array
 	 * @name iddqd.loop
@@ -170,7 +189,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			}
 		}
 	}
-	
+
 	/**
 	 * Extend an object
 	 * @name iddqd.extend
@@ -184,7 +203,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		//for (var s in fns) if (!obj[s]) obj[s] = fns[s];
 		return obj;
 	}
-	
+
 	/**
 	 * Create namespaces. If only the first 'namespace' parameter is set it will return the namespace if it exists or null if it doesn't.
 	 * @name iddqd.ns
@@ -221,7 +240,29 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		return oBase;
 	}
-	
+
+	/**
+	 * Small utility method for quickly creating elements.
+	 * @name iddqd.createElement
+	 * @method
+	 * @param {String} [type='div'] The element type
+	 * @param {String|Array} classes An optional string or list of classes to be added
+	 * @param {HTMLElement} parent An optional parent to add the element to
+	 * @param {Function} click An optional click event handler
+	 * @returns {HTMLElement} Returns the newly created element
+	 */
+	function createElement(type,classes,parent,click){
+		var mElement = document.createElement(type||'div');
+		if (classes) {
+			var oClassList = mElement.classList
+				,aArguments = typeof(classes)==='string'?classes.split(' '):classes;
+			oClassList.add.apply(oClassList,aArguments);
+		}
+		parent&&parent.appendChild(mElement);
+		click&&mElement.addEventListener('click',click);
+		return mElement;
+	}
+
 	/**
 	 * Load javascript file
 	 * @name iddqd.loadScript
@@ -235,57 +276,6 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		if (loadCallback) mScript.addEventListener('load',loadCallback);
 		(document.head||document.getElementsByTagName('head')[0]).appendChild(mScript);
 	}
-	
-	/**
-	 * Simple JavaScript Templating
-	 * John Resig - http://ejohn.org/blog/javascript-micro-templating/ - MIT Licensed
-	 * @name iddqd.tmpl
-	 * @method
-	 * @param {String} str ID of the template script element
-	 * @param {Object} [data] A callback function for when the file is loaded.
-	 * @example
-	 *<script type="text/html" id="user_tmpl">
-	 *	<% for ( var i = 0; i < users.length; i++ ) { %>
-	 *		<li><a href="<%=users[i].url%>"><%=users[i].name%></a></li>
-	 *	<% } %>
-	 *</script>
-	 *<script type="text/html" id="item_tmpl">
-	 *  <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
-	 *    <div class="grid_1 alpha right">
-	 *      <img class="righted" src="<%=profile_image_url%>"/>
-	 *    </div>
-	 *    <div class="grid_6 omega contents">
-	 *      <p><b><a href="/<%=from_user%>"><%=from_user%></a>:</b> <%=text%></p>
-	 *    </div>
-	 *  </div>
-	 *</script>
-	 */
-	function tmpl(str, data){
-		/* jshint -W054 */
-		// Figure out if we're getting a template, or if we need to
-		// load the template - and be sure to cache the result.
-		var fn = !/\W/.test(str) ?
-			oTmplCache[str] = oTmplCache[str] ||
-			tmpl(document.getElementById(str).innerHTML) :
-			// Generate a reusable function that will serve as a template
-			// generator (and which will be cached).
-			new Function("obj",
-			"var p=[],print=function(){p.push.apply(p,arguments);};" +
-			// Introduce the data as local variables using with(){}
-			"with(obj){p.push('" +
-			// Convert the template into pure JavaScript
-			str
-				.replace(/[\r\t\n]/g, " ")
-				.split("<%").join("\t")
-				.replace(/((^|%>)[^\t]*)'/g, "$1\r")
-				.replace(/\t=(.*?)%>/g, "',$1,'")
-				.split("\t").join("');")
-				.split("%>").join("p.push('")
-				.split("\r").join("\\'")
-			+ "');}return p.join('');");
-		// Provide some basic currying to the user
-		return data ? fn( data ) : fn;
-	}
 
 	/**
 	 * @name iddqd.millis
@@ -295,7 +285,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	function millis(){//todo:make obsolete unless window.performance.now :: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 		return Date.now();
 	}
-	
+
 	/**
 	 * Returns get vars object
 	 * @name iddqd.getGet
@@ -313,70 +303,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		return oGetget;
 	}
-	
-	/**
-	 * Tries to pull your LESS/SASS/etc variables from CSS and parse them to Javascript
-	 * @name iddqd.getLessVars
-	 * @method
-	 * @param {String} id The css-id your variables are listed under.
-	 * @param {Boolean} [parseNumbers=true] Try to parse units as numbers.
-	 * @return {Object} A value object containing your LESS variables.
-	 * @example
-	 * less:
-	 *	&#64;foo: 123px;
-	 *	#less { .myFoo {width: @foo; } }
-	 *
-	 * javascript:
-	 *	getLessVars('less');
-	 *
-	 * returns:
-	 *	{myFoo:123}
-	 */
-	function getLessVars(id,parseNumbers) {
-		/*
-		 * http://www.w3.org/TR/css3-values/
-		 * even though rule.style(CSSStyleDeclaration) should contain custom properties it doesn't
-		 */
-		// todo: memoisation
-		var bNumbers = parseNumbers===undefined?true:parseNumbers
-			,oLess = {}
-			,rgId = /\#\w+/
-			,rgNum = /^[0-9]+$/
-			,rgUnit = /[a-z]+$/
-			,aUnits = 'em,ex,ch,rem,vw,vh,vmin,cm,mm,in,pt,pc,px,deg,grad,rad,turn,s,ms,Hz,kHz,dpi,dpcm,dppx'.split(',')
-			,rgKey = /\.(\w+)/
-			,rgValue = /:\s?(.*)\s?;\s?\}/
-			,sId = '#'+id
-			,oStyles = document.styleSheets;
-		for (var i=0,l=oStyles.length;i<l;i++) {
-			var oSheet = oStyles[i]
-				,sStyleHref = oSheet.href;
-			if (sStyleHref&&sStyleHref.indexOf(location.origin)===0) {
-				var oRules = oSheet.cssRules;// todo: IE8 err
-				if (oRules) { // if ! callback
-					for (var j=0,k=oRules.length;j<k;j++) {
-						var sRule = oRules[j].cssText
-							,aMatchId = sRule.match(rgId);
-						if (aMatchId&&aMatchId[0]==sId) {
-							var aKey = sRule.match(rgKey)
-								,aVal = sRule.match(rgValue);
-							if (aKey&&aVal) {
-								var sKey = aKey[1]
-									,oVal = aVal[1]
-									,aUnit = oVal.match(rgUnit);
-								if (bNumbers&&((aUnit&&aUnits.indexOf(aUnit[0])!==-1)||oVal.match(rgNum))) {
-									oVal = parseFloat(oVal);
-								}
-								oLess[sKey] = oVal;
-							}
-						}
-					}
-				}
-			}
-		}
-		return oLess;
-	}
-	
+
 	/**
 	 * Fires an event
 	 * @name iddqd.fireEvent
@@ -402,9 +329,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * @param {string} [customError] The error message to throw.
 	 */
 	function uses(o,customError){
-		if (o===undefined) {
-			throw new Error(customError||'\'o\' is undefined.');
-		}
+		if (o===undefined) throw new Error(customError||'\'o\' is undefined.');
 		return o;
 	}
 
@@ -417,7 +342,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	function factory(factory,init){
 		return extend(init||{},{factory:factory});
 	}
-	
+
 	return oReturn;
 })();
 

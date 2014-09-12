@@ -143,6 +143,18 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 		return el.currentStyle?el.currentStyle[styleProp]:document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
 	}
 
+	// todo: document
+	function getSheetByMedia(type) {
+		var oSheet;
+		for (var i=0,l=document.styleSheets.length;i<l;i++) {
+			oSheet = document.styleSheets[i];
+			for (var j=0,ll=oSheet.media.length;j<ll;j++) {
+				if (oSheet.media[j]===type) break;
+			}
+		}
+		return oSheet;
+	}
+
 	// Expose private methods
 	return {
 		toString: function(){return '[object rootStyle]';}
@@ -150,6 +162,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 		,changeRule: changeRule
 		,addRule: addRule
 		,get: getStyle
+		,getSheetByMedia: getSheetByMedia
 	};
 })(iddqd));
 /*align-items align-self animation-delay animation-direction animation-duration animation-fill-mode animation-iteration-count animation-name animation-play-state animation-timing-function backface-visibility background-attachment background-clip background-color background-image background-origin background-position background-repeat background-size border-bottom-color border-bottom-left-radius border-bottom-right-radius border-bottom-style border-bottom-width border-collapse border-image-outset border-image-repeat border-image-slice border-image-source border-image-width border-left-color border-left-style border-left-width border-right-color border-right-style border-right-width border-spacing border-top-color border-top-left-radius border-top-right-radius border-top-style border-top-width bottom box-shadow caption-side clear clip color content counter-increment counter-reset cursor direction display empty-cells flex-basis flex-direction flex-grow flex-shrink float font-family font-size font-size-adjust font-stretch font-style font-variant font-weight height ime-mode justify-content left letter-spacing line-height list-style-image list-style-position list-style-type margin-bottom margin-left margin-right margin-top marker-offset max-height max-width min-height min-width opacity order outline-color outline-offset outline-style outline-width overflow overflow-x overflow-y padding-bottom padding-left padding-right padding-top page-break-after page-break-before page-break-inside perspective perspective-origin pointer-events position quotes resize right table-layout text-align text-decoration text-indent text-overflow text-shadow text-transform top transform transform-origin transform-style transition-delay transition-duration transition-property transition-timing-function unicode-bidi vertical-align visibility white-space width word-break word-spacing word-wrap z-index -moz-appearance -moz-background-inline-policy -moz-binding -moz-border-bottom-colors -moz-border-left-colors -moz-border-right-colors -moz-border-top-colors -moz-box-align -moz-box-direction -moz-box-flex -moz-box-ordinal-group -moz-box-orient -moz-box-pack -moz-box-sizing -moz-column-count -moz-column-gap -moz-column-rule-color -moz-column-rule-style -moz-column-rule-width -moz-column-width -moz-float-edge -moz-font-feature-settings -moz-font-language-override -moz-force-broken-image-icon -moz-hyphens -moz-image-region -moz-orient -moz-outline-radius-bottomleft -moz-outline-radius-bottomright -moz-outline-radius-topleft -moz-outline-radius-topright -moz-stack-sizing -moz-tab-size -moz-text-align-last -moz-text-blink -moz-text-decoration-color -moz-text-decoration-line -moz-text-decoration-style -moz-text-size-adjust -moz-user-focus -moz-user-input -moz-user-modify -moz-user-select -moz-window-shadow clip-path clip-rule color-interpolation color-interpolation-filters dominant-baseline fill fill-opacity fill-rule filter flood-color flood-opacity image-rendering lighting-color marker-end marker-mid marker-start mask mask-type shape-rendering stop-color stop-opacity stroke stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-rendering vector-effect*/
