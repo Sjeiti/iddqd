@@ -11,7 +11,6 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	'use strict';
 	var oGetget = {}
 		,bGetget = false
-		,oTmplCache = {}
 		// return object including exposed private methods
 		,oReturn = {
 			toString: function(){return '[object iddqd]';}
@@ -42,84 +41,101 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		,sJSRoot = './'
 	;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	(function init(){
+		fixLocationOrigin();
+		fixConsoleLog();
+		fixAddEventListener();
+		fixClassList();
+		fixStackTrace();
+		findJavascriptRoot(); // todo: remove?
+	})();
 
-	// set location origin
-	if (location.origin===undefined) {
-		var aLocHref = location.href.split('/');
-		aLocHref.length = 3;
-		location.origin = aLocHref.join('/');
-	}
 
-	// find js root // todo: why?
-	loop(document.getElementsByTagName('script'),function(i,el){
-		var sSrc = el.attributes&&el.attributes.src&&el.attributes.src.value.split('?').shift()
-			,aMatch = sSrc&&sSrc.match(/^(.*)(iddqd\.js|iddqd\.min\.js)$/);
-		if (aMatch) sJSRoot = aMatch[1]; // log
-	});
-
-	// console.log override for IE
-	if (!window.console) {
-		window.console = {};
-		if (!window.console.log) {
-			window.console.log = function(){};
+	/**
+	 * Add location.origin when missing
+	 * @name iddqd.fixLocationOrigin
+	 * @method
+	 * @private
+	 */
+	function fixLocationOrigin(){
+		if (location.origin===undefined) {
+			var aLocHref = location.href.split('/');
+			aLocHref.length = 3;
+			location.origin = aLocHref.join('/');
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// addEventListener polyfill 1.0 / Eirik Backer / MIT Licence
-	(function(win, doc){
-		/* jshint validthis: true */
-		if(win.addEventListener) return; // No need to polyfill
-		function docHijack(p){var old = doc[p];doc[p] = function(v){return addListen(old(v));};}
-		function addEvent(on, fn, self){
-			return (self = this).attachEvent('on' + on, function(ee){
-				var e = ee || win.event;
-				e.preventDefault  = e.preventDefault  || function(){e.returnValue = false;};
-				e.stopPropagation = e.stopPropagation || function(){e.cancelBubble = true;};
-				fn.call(self, e);
-			});
+	/**
+	 * Create empty method when console.log and console.warn are missing
+	 * @name iddqd.fixConsoleLog
+	 * @method
+	 * @private
+	 */
+	function fixConsoleLog(){
+		if (!window.console) {
+			window.console = {};
+			if (!window.console.log) window.console.log = oReturn.fn;
+			if (!window.console.warn) window.console.warn = oReturn.fn;
 		}
-		function addListen(obj, i){
-			if(i = obj.length)while(i--)obj[i].addEventListener = addEvent;
-			else obj.addEventListener = addEvent;
-			return obj;
-		}
-		addListen([doc, win]);
-		if('Element' in win) { // IE8
-			win.Element.prototype.addEventListener = addEvent;
-		}else { //IE < 8
-			doc.attachEvent('onreadystatechange', function(){addListen(doc.all);}); // Make sure we also init at domReady
-			docHijack('getElementsByTagName');
-			docHijack('getElementById');
-			docHijack('createElement');
-			addListen(doc.all);
-		}
-	})(window, document);
+	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * AddEventListener polyfill 1.0 / Eirik Backer / MIT Licence
+	 * @name iddqd.fixAddEventListener
+	 * @method
+	 * @private
+	 */
+	function fixAddEventListener(){
+		(function(win, doc){
+			/* jshint validthis: true */
+			if(win.addEventListener) return; // No need to polyfill
+			function docHijack(p){var old = doc[p];doc[p] = function(v){return addListen(old(v));};}
+			function addEvent(on, fn, self){
+				return (self = this).attachEvent('on' + on, function(ee){
+					var e = ee || win.event;
+					e.preventDefault  = e.preventDefault  || function(){e.returnValue = false;};
+					e.stopPropagation = e.stopPropagation || function(){e.cancelBubble = true;};
+					fn.call(self, e);
+				});
+			}
+			function addListen(obj, i){
+				if(i = obj.length)while(i--)obj[i].addEventListener = addEvent;
+				else obj.addEventListener = addEvent;
+				return obj;
+			}
+			addListen([doc, win]);
+			if('Element' in win) { // IE8
+				win.Element.prototype.addEventListener = addEvent;
+			}else { //IE < 8
+				doc.attachEvent('onreadystatechange', function(){addListen(doc.all);}); // Make sure we also init at domReady
+				docHijack('getElementsByTagName');
+				docHijack('getElementById');
+				docHijack('createElement');
+				addListen(doc.all);
+			}
+		})(window, document);
+	}
 
-	// fix classlist add multiple
-	(function(m){
-		m.classList.add('a','b');
-		if (!m.classList.contains('b')) {
-			var tokenProto = DOMTokenList.prototype
-				,fnAdd = tokenProto.add
-				,fnRem = tokenProto.remove;
-			tokenProto.add =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnAdd.call(this,arguments[i]); };
-			tokenProto.remove =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnRem.call(this,arguments[i]); };
-		}
-	})(document.createElement('div'));
+	function fixClassList(){
+		(function(m){
+			m.classList.add('a','b');
+			if (!m.classList.contains('b')) {
+				var tokenProto = DOMTokenList.prototype
+					,fnAdd = tokenProto.add
+					,fnRem = tokenProto.remove;
+				tokenProto.add =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnAdd.call(this,arguments[i]); };
+				tokenProto.remove =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnRem.call(this,arguments[i]); };
+			}
+		})(document.createElement('div'));
+	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// evil hack to enforce stacktrace http://stackoverflow.com/a/12348004/695734
-	(function() {
+	/**
+	 * Evil hack to enforce stacktrace http://stackoverflow.com/a/12348004/695734
+	 * @name iddqd.fixStackTrace
+	 * @method
+	 * @private
+	 */
+	function fixStackTrace(){
 		/*jshint unused: false */
 		/*jshint -W021 */
 		function x(a,b,c) {
@@ -134,7 +150,15 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		}
 		/*jshint unused: true */
 		/*jshint +W021 */
-	})();
+	}
+
+	function findJavascriptRoot(){
+		loop(document.getElementsByTagName('script'),function(i,el){
+			var sSrc = el.attributes&&el.attributes.src&&el.attributes.src.value.split('?').shift()
+				,aMatch = sSrc&&sSrc.match(/^(.*)(iddqd\.js|iddqd\.min\.js)$/);
+			if (aMatch) sJSRoot = aMatch[1];
+		});
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -278,12 +302,13 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	}
 
 	/**
+	 * Returns the number of milliseconds elapsed since unix epoch.
 	 * @name iddqd.millis
 	 * @method
-	 * @returns Returns the number of milliseconds elapsed since unix epoch.
+	 * @returns {Number} Returns an integer or float depending on window.performance.now().
 	 */
-	function millis(){//todo:make obsolete unless window.performance.now :: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
-		return Date.now();
+	function millis(){
+		return window.performance&&window.performance.now?window.performance.now():Date.now();
 	}
 
 	/**
