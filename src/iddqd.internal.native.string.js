@@ -169,8 +169,8 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 			}
 			return sHash;
 		}
-		,toSlug: function(str) {
-			str = str.replace(/^\s+|\s+$/g,''); // trim
+		,toSlug: function() {
+			var str = this.replace(/^\s+|\s+$/g,''); // trim
 			str = str.toLowerCase();
 
 			// remove accents, swap ñ for n, etc
