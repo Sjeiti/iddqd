@@ -10,15 +10,18 @@
  * @requires iddqd.animate
  */
 iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
+	// todo: html/body add scroll target
 	var animate = iddqd.uses(iddqd.animate)
 		,oAnimate
-		,mBody;
+		,mBody
+		,mHTML;
 	function scrollToAnchor(anchorElement,millis,offset,easingMethod){
 		// todo: add optional size param to divide millis by so animation always has same speed
 		var sHref = anchorElement.getAttribute('href')
 			,sId = sHref.split('#').pop()
 			,mHref = document.getElementById(sId);
 		if (!mBody) mBody = document.body;
+		if (!mHTML) mHTML = document.querySelector('html');
 		anchorElement.addEventListener('click',handleClick);
 		function handleClick(e){
 			var iFrom = mBody.scrollTop
@@ -31,7 +34,8 @@ iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
 		}
 	}
 	function animateBody(from,to,step){
-		mBody.scrollTop = from + step*(to-from);
+		//mBody.scrollTop = from + step*(to-from);
+		mHTML.scrollTop = from + step*(to-from);
 	}
 	return scrollToAnchor;
 })());
