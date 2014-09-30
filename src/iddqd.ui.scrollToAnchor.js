@@ -10,7 +10,6 @@
  * @requires iddqd.animate
  */
 iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
-	// todo: html/body add scroll target
 	var animate = iddqd.uses(iddqd.animate)
 		,oAnimate
 		,mBody
@@ -24,8 +23,8 @@ iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
 		if (!mHTML) mHTML = document.querySelector('html');
 		anchorElement.addEventListener('click',handleClick);
 		function handleClick(e){
-			var iFrom = mBody.scrollTop
-				,iTo = mHref.offsetTop + (offset||0);
+			var iFrom = mBody.scrollTop||mHTML.scrollTop// window.scrollY
+				,iTo = getOffset(mHref).top + (offset||0);
 			oAnimate&&oAnimate.cancel();
 			oAnimate = animate(millis||500,function(step){
 				animateBody(iFrom,iTo,easingMethod?easingMethod(step):step);
@@ -33,9 +32,25 @@ iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
 			e.preventDefault();
 		}
 	}
+	// todo: move getOffset to generic ns (utils)
+	function getOffset( el ) {
+		var x = 0
+			,y = 0;
+		while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+			x += el.offsetLeft - el.scrollLeft;
+			y += el.offsetTop - el.scrollTop;
+			el = el.offsetParent;
+		}
+		return { top: y, left: x };
+	}
 	function animateBody(from,to,step){
-		//mBody.scrollTop = from + step*(to-from);
-		mHTML.scrollTop = from + step*(to-from);
+		var iY = from + step*(to-from);
+		if (window.scrollTo) {
+			window.scrollTo(0,iY);
+		} else {
+			mBody.scrollTop = iY;
+			mHTML.scrollTop = iY;
+		}
 	}
 	return scrollToAnchor;
 })());
