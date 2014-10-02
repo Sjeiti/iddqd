@@ -118,13 +118,15 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 
 	function fixClassList(){
 		(function(m){
-			m.classList.add('a','b');
-			if (!m.classList.contains('b')) {
-				var tokenProto = DOMTokenList.prototype
-					,fnAdd = tokenProto.add
-					,fnRem = tokenProto.remove;
-				tokenProto.add =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnAdd.call(this,arguments[i]); };
-				tokenProto.remove =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnRem.call(this,arguments[i]); };
+			if (m.classList) {
+				m.classList.add('a','b');
+				if (!m.classList.contains('b')) { // otherwise IE9 fails
+					var tokenProto = DOMTokenList.prototype
+						,fnAdd = tokenProto.add
+						,fnRem = tokenProto.remove;
+					tokenProto.add =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnAdd.call(this,arguments[i]); };
+					tokenProto.remove =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnRem.call(this,arguments[i]); };
+				}
 			}
 		})(document.createElement('div'));
 	}
