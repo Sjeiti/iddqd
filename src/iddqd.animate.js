@@ -58,13 +58,14 @@ iddqd.ns('iddqd.animate',(function(iddqd,uses){
 		};
 	}
 
+	// todo: check to refactor following to own file
 	/**
 	 * Keyframe dispatcher using requestAnimationFrame.
 	 * The callback for this signal is Function(deltaT)
 	 * @name iddqd.signals.animate
 	 * @type Signal
 	 */
-	iddqd.signal.animate = signal(function(signal){
+	iddqd.signals.animate = signal(function(signal){
 		var fDeltaT = 0
 			,iCurMillis
 			,iLastMillis = iddqd.millis()
