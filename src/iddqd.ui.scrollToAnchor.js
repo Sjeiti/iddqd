@@ -33,15 +33,19 @@ iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
 		}
 	}
 	// todo: move getOffset to generic ns (utils)
-	function getOffset( el ) {
-		var x = 0
-			,y = 0;
-		while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-			x += el.offsetLeft - el.scrollLeft;
-			y += el.offsetTop - el.scrollTop;
-			el = el.offsetParent;
+	function getOffset(el){
+		var left = 0
+			,top = 0;
+		if (el.offsetParent) {
+			do {
+				left += el.offsetLeft;
+				top += el.offsetTop;
+			} while (el = el.offsetParent);
 		}
-		return { top: y, left: x };
+		return {
+			left: left
+			,top: top
+		};
 	}
 	function animateBody(from,to,step){
 		var iY = from + step*(to-from);
