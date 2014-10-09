@@ -45,9 +45,10 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		fixLocationOrigin();
 		fixConsoleLog();
 		fixAddEventListener();
-		fixClassList();
 		fixStackTrace();
 		findJavascriptRoot(); // todo: remove?
+		fixClassList();
+		overloadClassListContains();
 	})();
 
 
@@ -116,21 +117,6 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		})(window, document);
 	}
 
-	function fixClassList(){
-		(function(m){
-			if (m.classList) {
-				m.classList.add('a','b');
-				if (!m.classList.contains('b')) { // otherwise IE9 fails
-					var tokenProto = DOMTokenList.prototype
-						,fnAdd = tokenProto.add
-						,fnRem = tokenProto.remove;
-					tokenProto.add =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnAdd.call(this,arguments[i]); };
-					tokenProto.remove =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnRem.call(this,arguments[i]); };
-				}
-			}
-		})(document.createElement('div'));
-	}
-
 	/**
 	 * Evil hack to enforce stacktrace http://stackoverflow.com/a/12348004/695734
 	 * @name iddqd.fixStackTrace
@@ -160,6 +146,42 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 				,aMatch = sSrc&&sSrc.match(/^(.*)(iddqd\.js|iddqd\.min\.js)$/);
 			if (aMatch) sJSRoot = aMatch[1];
 		});
+	}
+
+	/**
+	 * Fixes the overload for DOMTokenList.prototype.add in IE9 (and possible others)
+	 */
+	function fixClassList(){
+		(function(m){
+			if (m.classList) {
+				m.classList.add('a','b');
+				if (!m.classList.contains('b')) {
+					var tokenProto = DOMTokenList.prototype
+						,fnAdd = tokenProto.add
+						,fnRem = tokenProto.remove;
+					tokenProto.add =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnAdd.call(this,arguments[i]); };
+					tokenProto.remove =	function(){ for (var i=0,l=arguments.length;i<l;i++) fnRem.call(this,arguments[i]); };
+				}
+			}
+		})(document.createElement('div'));
+	}
+
+	/**
+	 * Overloads DOMTokenList.prototype.contains
+	 */
+	function overloadClassListContains(){
+		function contains(){
+			var bContains = true;
+			for (var i=0,l=arguments.length;i<l&&bContains;i++) {
+				if (!fnContains.call(this,arguments[i])) bContains = false;
+			}
+			return bContains;
+		}
+		if (DOMTokenList) {
+			var oDOMTokenListPrototype = DOMTokenList.prototype
+				,fnContains = oDOMTokenListPrototype.contains;
+			oDOMTokenListPrototype.contains = contains;
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
