@@ -1,3 +1,31 @@
+/**
+ * Signal for start of drag.<br/>
+ * The callback for this signal is Function(oAdd,oTouches)
+ * @name iddqd.signal.dragstart
+ * @type Signal
+ */
+/**
+ * Signal for dragging.<br/>
+ * The callback for this signal is Function(oTouches)
+ * @name iddqd.signal.drag
+ * @type Signal
+ */
+/**
+ * Signal for end of drag.<br/>
+ * The callback for this signal is Function(oDelete,oTouches)
+ * @name iddqd.signal.dragend
+ * @type Signal
+ */
+/**
+ * Stop page scrolling when dragging
+ * @name iddqd.signal.drag.stopPageScroll
+ * @type Boolean
+ */
+/**
+ * todo: ?
+ * @name iddqd.signal.drag.touch
+ * @type Function
+ */
 iddqd.ns('iddqd.signal.drag',(function(){
 	'use strict';
 
@@ -25,34 +53,6 @@ iddqd.ns('iddqd.signal.drag',(function(){
 			}
 		}
 	;
-	/**
-	 * Signal for start of drag.<br/>
-	 * The callback for this signal is Function(oAdd,oTouches)
-	 * @name iddqd.signal.dragstart
-	 * @type Signal
-	 */
-	/**
-	 * Signal for dragging.<br/>
-	 * The callback for this signal is Function(oTouches)
-	 * @name iddqd.signal.drag
-	 * @type Signal
-	 */
-	/**
-	 * Signal for end of drag.<br/>
-	 * The callback for this signal is Function(oDelete,oTouches)
-	 * @name iddqd.signal.dragend
-	 * @type Signal
-	 */
-	/**
-	 * Stop page scrolling when dragging
-	 * @name iddqd.signal.drag.stopPageScroll
-	 * @type Boolean
-	 */
-	/**
-	 * todo: ?
-	 * @name iddqd.signal.drag.touch
-	 * @type Function
-	 */
 	extend(signal,{
 		dragstart: signal(init)
 		,drag: extend(signal(init),{

@@ -3,14 +3,11 @@
 module.exports = function (grunt) {
 	/* jshint strict: false */
 
-	var fs = require('fs')
+    // Load grunt tasks automatically
+    require('load-grunt-tasks')(grunt);
+	grunt.loadTasks('gruntTasks');
 
-		,sPackage = 'package.json'
-		,oPackage = grunt.file.readJSON(sPackage)
-		,sJsDoc = 'jsdoc_template/jsdoc.conf.json'
-		,oJsDoc = grunt.file.readJSON(sJsDoc)
-		,aFiles = [
-
+	var aFiles = [
 			// todo: cryptography
 
 			'src/iddqd.js'
@@ -56,73 +53,38 @@ module.exports = function (grunt) {
 
 			,'src/iddqd.style.js'
 			,'src/iddqd.image.js'
-//			,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
+			//,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
 
-//			,'src/iddqd.log.js'
+			//,'src/iddqd.log.js'
 		]
-		,sMain = fs.readFileSync(aFiles[0]).toString()
-		,oBanner = readBanner(sMain)
 	;
-
-	// update package.json with jsdoc data
-	var oMap = {namespace:'name',name:'title',title:'description'};
-	for (var bannerKey in oBanner) {
-		var sPackageKey = oMap[bannerKey]||bannerKey
-			,oValP = oPackage[sPackageKey]
-			,oValB = oBanner[bannerKey];
-		if (oValP!==undefined&&oValP!==oValB) {
-			grunt.log.writeln('Updated package '+sPackageKey+' from',oValP,'to',oValB,' (',sPackage,')');
-			oPackage[sPackageKey] = oValB;
-		}
-		fs.writeFileSync(sPackage,JSON.stringify(oPackage,null,'\t'));
-	}
-
-	// update jsdoc.conf.json with jsdoc data
-	oJsDoc.templates.systemName = oBanner.name;
-	oJsDoc.templates.copyright = oBanner.copyright;
-	oJsDoc.templates.theme = 'sjeiti';
-	// ok: Flatly Spacelab Cerulean United
-	// not ok: Amelia Cosmo Cyborg Journal Readable Simplex Slate Superhero Spruce
-	fs.writeFileSync(sJsDoc,JSON.stringify(oJsDoc,null,'\t'));
-
-
-	/**
-	 * Convert initial jsdoc comments to object
-	 * @param source source file
-	 * @returns {{title: *}} jsdoc as object
-	 */
-	function readBanner(source){
-		var sBanner = source.match(/\/\*\*([\s\S]*?)\*\//g)[0]
-			,aLines = sBanner.split(/[\n\r]/g)
-			,aMatchName = sBanner.match(/(\s?\*\s?([^@]+))/g)
-			,sName = aMatchName.shift().replace(/[\/\*\s\r\n]+/g,' ').trim()
-			,oBanner = {title:sName};
-		for (var i = 0, l = aLines.length; i<l; i++) {
-			var sLine = aLines[i]
-				,aMatchKey = sLine.match(/(\s?\*\s?@([^\s]*))/);
-			if (aMatchKey) {
-				var sKey = aMatchKey[2];
-				oBanner[sKey] = sLine.split(sKey).pop().trim();
-			}
-		}
-		return oBanner;
-	}
 
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+
+		watch: {
+			/*js: {
+				files: ['src/js*//*.js'],
+				tasks: ['js'],
+				options: { spawn: false }
+			},*/
+			revision: {
+				files: ['.git/COMMIT_EDITMSG']
+				,tasks: ['version_git']
+				,options: { spawn: false }
+			}
+		},
 
 		jshint: {
 			options: { jshintrc: '.jshintrc' },
 			files: aFiles
 		},
 
-		// todo: add version_git
-
 		qunit: {
-////			options: { jshintrc: '.jshintrc' },
-//			files: aFiles
-//			,tests: 'test/unit/test.js'
+			//options: { jshintrc: '.jshintrc' },
+			//files: aFiles
+			//,tests: 'test/unit/test.js'
 			all: {
 				options: {
 					urls: [
@@ -139,23 +101,41 @@ module.exports = function (grunt) {
 			}
 		},
 
+		jsdoc_json: {
+			package: {
+				src: 'src/iddqd.js'
+				,dest: 'package.json'
+				,map: {namespace:'name',name:'title',title:'description'}
+			}
+			,jsdoc : {
+				src: 'src/iddqd.js'
+				,dest: 'jsdoc_template/jsdoc.conf.json'
+				,map: {name:'templates.systemName',copyright:'templates.copyright',author:'foo'}
+				// ok: Flatly Spacelab Cerulean United
+				// not ok: Amelia Cosmo Cyborg Journal Readable Simplex Slate Superhero Spruce
+			}
+		},
+
 		jsdoc : {
 			dist : {
 				src: aFiles.concat(['README.md']),
 				options: {
 					destination: 'doc'
 					,template: 'jsdoc_template'
-					,configure: sJsDoc
-//					,mainpagetitle: 'harhar' // todo find out why this has no effect
+					,configure: 'jsdoc_template/jsdoc.conf.json'
+					//,mainpagetitle: 'harhar' // todo find out why this has no effect
 				}
+			}
+		}
+
+		,version_git: {
+			main: {
+				files: {src:['src/iddqd.js']}
 			}
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-jsdoc');
-	grunt.loadNpmTasks('grunt-contrib-qunit');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+//	grunt.loadNpmTasks('grunt-jsdoc');
 
 	grunt.registerTask('default',['jshint','qunit','jsdoc']);
 	grunt.registerTask('test',['qunit']);

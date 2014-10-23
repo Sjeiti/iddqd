@@ -14,12 +14,12 @@
 		},
 		"systemName": "iddqd",
 		"footer": "",
-		"copyright": "Ron Valstar <ron@ronvalstar.nl>",
 		"navType": "vertical",
 		"theme": "sjeiti",
 		"linenums": true,
 		"collapseSymbols": false,
-		"inverseNav": true
+		"inverseNav": true,
+		"copyright": "Ron Valstar <ron@ronvalstar.nl>"
 	},
 	"markdown": {
 		"parser": "gfm",
