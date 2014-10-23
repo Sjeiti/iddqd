@@ -212,7 +212,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 		loop(oTouches,function(id,o){
 			if (aIds.indexOf(parseInt(id,10))===-1) {
 				oDead[id] = o;
-				oTouches.remove(id);
+				oTouches.remove&&oTouches.remove(id); // todo: check
 					//delete oTouches[id];
 					//iTouchNum--;
 			}
