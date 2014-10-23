@@ -65,7 +65,7 @@ iddqd.ns('iddqd.animate',(function(iddqd,uses){
 	 * @name iddqd.signals.animate
 	 * @type Signal
 	 */
-	iddqd.signals.animate = signal(function(signal){
+	iddqd.signal.animate = signal(function(signal){
 		var fDeltaT = 0
 			,iCurMillis
 			,iLastMillis = iddqd.millis()
