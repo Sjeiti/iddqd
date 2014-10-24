@@ -1,35 +1,72 @@
-// todo: document, maybe remove key ns
+/**
+ * Wrapper namespace for keyboard signals.<br/>
+ * Is really an Array containing pressed keycodes.
+ * @namespace iddqd.signal.key
+ * @summary Wrapper namespace for keyboard signals.
+ */
 iddqd.ns('iddqd.signal.key',(function(){
-	var aKeys = [];
-	function keypress(){
-		oSignals.keypress.dispatch(aKeys);
+	var fn = iddqd.fn
+		,signal = iddqd.signal
+		,animate = signal.animate
+		,eLastKeyDown
+		,bInit = false
+		/**
+		 * Signal for keyPress.<br/>
+		 * The callback for this signal is Function(keys,event)
+		 * @name iddqd.signal.keypress
+		 * @type Signal
+		 */
+		,press = signal(init)
+		/**
+		 * Signal for keyDown.<br/>
+		 * The callback for this signal is Function(keyCode,keys,event)
+		 * @name iddqd.signal.keydown
+		 * @type Signal
+		 */
+		,down = signal(initDown)
+		/**
+		 * Signal for keyUp.<br/>
+		 * The callback for this signal is Function(keyCode,keys,event)
+		 * @name iddqd.signal.keyup
+		 * @type Signal
+		 */
+		,up = signal(initUp)
+		//
+		,key = iddqd.extend([],{
+			press: press
+			,down: down
+			,up: up
+		})
+	;
+	function init(){
+		if (!bInit) {
+			bInit = true;
+			up.add(fn).detach();
+			press.add(fn).detach();
+			down.add(fn).detach();
+		}
 	}
-	iddqd.ns('iddqd.signal.keydown',iddqd.signal(function(signal){
+	function initDown(signal){
+		init();
 		document.addEventListener('keydown',function(e){
 			var iKeyCode = e.keyCode;
-			aKeys[iKeyCode] = true;
-			oSignals.animate.add(keypress);
-			signal.dispatch(iKeyCode);
-			//
-			oSignals.keypress.add(fnEmpty).detach();
-			oSignals.keyup.add(fnEmpty).detach();
+			key[iKeyCode] = true;
+			eLastKeyDown = e;
+			signal.dispatch(iKeyCode,key,e);
+			animate.add(keypress);
 		});
-	}));
-	iddqd.ns('iddqd.signal.keypress',iddqd.signal(function(signal){
-		oSignals.keyup.add(fnEmpty).detach();
-		oSignals.keydown.add(fnEmpty).detach();
-		signal.keys = aKeys;
-	}));
-	iddqd.ns('iddqd.signal.keyup',iddqd.signal(function(signal){
+	}
+	function initUp(signal){
+		init();
 		document.addEventListener('keyup',function(e){
 			var iKeyCode = e.keyCode;
-			aKeys[iKeyCode] = false;
-			oSignals.animate.remove(keypress);
-			signal.dispatch(iKeyCode);
-			//
-			oSignals.keydown.add(fnEmpty).detach();
-			oSignals.keypress.add(fnEmpty).detach();
+			key[iKeyCode] = false;
+			animate.remove(keypress);
+			signal.dispatch(iKeyCode,key,e);
 		});
-	}));
-	return aKeys;
+	}
+	function keypress(){
+		press.dispatch(key,eLastKeyDown);
+	}
+	return key;
 })());

@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head>
+	<link rel="stylesheet" href="screen.css" />
+	<style>
+		html, body {
+			height: 100%;
+		}
+		pre {
+			border: 1px solid gray;
+			padding: 1rem;
+		}
+	</style>
+</head>
+<body>
+	<pre></pre>
+	<pre class="n"></pre>
+	<script src="../vendor/signals.min.js"></script>
+	<script src="../src/iddqd.js"></script>
+	<script src="../src/iddqd.signal.js"></script>
+	<script src="../src/iddqd.animate.js"></script>
+	<script src="../src/iddqd.signal.key.js"></script>
+	<script>
+		(function(){
+			var mPre = document.body.querySelector('pre')
+				,mPre2 = document.body.querySelector('.n')
+				,aKeys
+				,key = iddqd.signal.key;
+			console.log('key',key); // log
+			key.down.add(function(k,keys,e){
+				console.log('keydown',arguments); // log
+				if (!aKeys) aKeys = keys;
+				mPre.innerText = keys.join(',');
+
+			});
+			key.press.add(function(keys,event){
+//				console.log('keypress',arguments); // log
+				mPre.innerText = keys.join(',')+Math.random();
+			});
+			key.up.add(function(k,keys,e){
+				console.log('keyup',arguments); // log
+				mPre.innerText = aKeys.join(',');
+				mPre2.innerText = key.join&&key.join(',');
+			console.log('key',key); // log
+			});
+		})();
+	</script>
+</body></html>
