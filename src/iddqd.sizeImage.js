@@ -4,12 +4,12 @@
 /**
  * iddqd.sizeImage
  * @author Ron Valstar (http://www.sjeiti.com/)
- * @namespace iddqd
- * @requires signals.js
- * @requires iddqd.js
- * @requires iddqd.signals.js
- * @requires iddqd.vector.js
- * @requires iddqd.loadImage.js
+ * @namespace iddqd.sizeImage
+ * @rrequires signals.js
+ * @rrequires iddqd.js
+ * @rrequires iddqd.signals.js
+ * @rrequires iddqd.vector.js
+ * @rrequires iddqd.loadImage.js
  */
 iddqd.ns('iddqd.sizeImage',(function(rv){
 	'use strict';

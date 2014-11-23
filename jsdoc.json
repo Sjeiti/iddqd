@@ -5,7 +5,7 @@
 "source": {
     "include": [ "src", "README.md" ],
     "exclude": [ "myProject/lib/ignore.js" ],
-    "includePattern": "iddqd\\..+\\.js(doc)?$",
+    "includePattern": "iddqd.+\\.js(doc)?$",
     "excludePattern": "(^|\\/|\\\\)_"
 },
 	"plugins": [],
