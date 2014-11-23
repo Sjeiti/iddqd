@@ -173,7 +173,9 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		function contains(){
 			var bContains = true;
 			for (var i=0,l=arguments.length;i<l&&bContains;i++) {
+				/*jshint validthis:true */
 				if (!fnContains.call(this,arguments[i])) bContains = false;
+				/*jshint validthis:false */
 			}
 			return bContains;
 		}
@@ -384,11 +386,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 
 	/**
 	 * A helper method for factory return objects so one can determine what factory an object was created with.
-	 * @param {Function} factory
+	 * @param {Function} factoryMethod
 	 * @param {object} [init]
 	 * @returns {Object}
 	 */
-	function factory(factory,init){
+	function factory(factoryMethod,init){
 		return extend(init||{},{factory:factory});
 	}
 

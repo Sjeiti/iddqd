@@ -50,6 +50,7 @@ iddqd.ns('iddqd.storage',(function(iddqd){
 		,oReturn = {}
 	;
 	['local','session'].forEach(function(type){
+		/*jshint validthis:true */
 		var oType = bCanStore?(type=='local'?localStorage:sessionStorage):{clear:iddqd.fn};
 		function get(key,defaultValue) {
 			return this[key]&&JSON.parse(this[key])||defaultValue&&set.call(this,key,defaultValue);

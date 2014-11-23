@@ -112,7 +112,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	 */
 	function rule(selector) {
 		var aStyles = [];
-		aStyles.toString = function(){return '[object style.rule:'+selector+']';}
+		aStyles.toString = function(){return '[object style.rule:'+selector+']';};
 		aStyles.set = function (key,prop) {
 			if (typeof key==='string') {
 				set.apply(aStyles,[key,prop]);
@@ -197,4 +197,4 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	}
 
 	return aStyles;
-})*/;
+});*/
