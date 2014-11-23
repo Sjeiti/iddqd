@@ -2,6 +2,12 @@
 	"tags": {
 		"allowUnknownTags": true
 	},
+"source": {
+    "include": [ "src", "README.md" ],
+    "exclude": [ "myProject/lib/ignore.js" ],
+    "includePattern": "iddqd\\..+\\.js(doc)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+},
 	"plugins": [],
 	"nogins": [
 		"plugins/markdown"
@@ -24,5 +30,12 @@
 	"markdown": {
 		"parser": "gfm",
 		"hardwrap": true
+	},
+	"opts": {
+		"template": "jsdoc/template",
+		"tutorials": "jsdoc/tutorials",
+		"destination": "doc",
+		"recurse": true,
+		"private": true
 	}
 }

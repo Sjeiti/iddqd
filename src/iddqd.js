@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.2.47
+ * @version 2.2.48
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
  */

@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 			'src/iddqd.js'
 
 			,'src/iddqd.pattern.js'
-			,'src/iddqd.signals.js'
+//			,'src/iddqd.signals.js'
 
 			,'src/iddqd.type.js'
 
@@ -73,7 +73,21 @@ module.exports = function (grunt) {
 				files: ['.git/COMMIT_EDITMSG']
 				,tasks: ['version_git']
 				,options: { spawn: false }
+			},
+			jsdoc: {
+				files: [
+					'jsdoc/template/static/styles/*.less'
+					,'jsdoc/template/static/scripts/*.js'
+					,'jsdoc/template/tmpl/*.tmpl'
+					,'jsdoc/tutorials/**'
+				]
+				,tasks: ['jsdoc']
+				,options: { spawn: false }
 			}
+		},
+
+		cli: {
+			jsdoc: { cwd: './', command: 'jsdoc -c jsdoc.json', output: true }
 		},
 
 		jshint: {
@@ -101,7 +115,7 @@ module.exports = function (grunt) {
 			}
 		},
 
-		jsdoc_json: {
+		map_json: {
 			package: {
 				src: 'src/iddqd.js'
 				,dest: 'package.json'
@@ -111,24 +125,10 @@ module.exports = function (grunt) {
 				src: 'src/iddqd.js'
 				,dest: 'jsdoc_template/jsdoc.conf.json'
 				,map: {name:'templates.systemName',copyright:'templates.copyright',author:'foo'}
-				// ok: Flatly Spacelab Cerulean United
-				// not ok: Amelia Cosmo Cyborg Journal Readable Simplex Slate Superhero Spruce
 			}
 		},
 
-		jsdoc : {
-			dist : {
-				src: aFiles.concat(['README.md']),
-				options: {
-					destination: 'doc'
-					,template: 'jsdoc_template'
-					,configure: 'jsdoc_template/jsdoc.conf.json'
-					//,mainpagetitle: 'harhar' // todo find out why this has no effect
-				}
-			}
-		}
-
-		,version_git: {
+		version_git: {
 			main: {
 				files: {src:['src/iddqd.js']}
 			}
@@ -137,8 +137,8 @@ module.exports = function (grunt) {
 
 //	grunt.loadNpmTasks('grunt-jsdoc');
 
-	grunt.registerTask('default',['jshint','qunit','jsdoc']);
+	grunt.registerTask('default',['jshint','qunit','cli:jsdoc']);
 	grunt.registerTask('test',['qunit']);
-	grunt.registerTask('doc',['jsdoc']);
+	grunt.registerTask('doc',['cli:jsdoc']);
 
 };

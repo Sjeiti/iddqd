@@ -6,7 +6,7 @@
  * @namespace iddqd.signals
  * @requires signals.js http://millermedeiros.github.com/js-signals/
  */
- 
+
 /**
  * Creates a signal.<br/>
  * The signals is dead (no events attached) until the first signal.add or signal.addOnce is called.<br/>
@@ -37,3 +37,5 @@ iddqd.ns('iddqd.signal',function(init){
 	};
 	return oSignal;
 });
+
+// todo: add window.addEventListener('popstate',handleCloseOverlay);

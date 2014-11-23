@@ -3,7 +3,8 @@
 		"iddqd": true,
 		"require": true,
 		"exports": true,
-		"signals": true
+		"signals": true,
+		"DOMTokenList": true
 	},
     "strict": true,
     "browser": true,

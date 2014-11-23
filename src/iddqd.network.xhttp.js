@@ -10,6 +10,7 @@
  **/
 iddqd.ns('iddqd.network.xhttp',(function(){
 	'use strict';
+	// todo: refactor
 	var XMLHttpFactories = [
 		function () {return new XMLHttpRequest();},
 		function () {return new ActiveXObject("Msxml2.XMLHTTP");},
@@ -18,25 +19,25 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 	];
 
 	function sendRequest(url,callback,errorCallback,postData) {
-		var req = createXMLHTTPObject();
-		if (!req) return;
-		var method = (postData) ? "POST" : "GET";
-		req.open(method,url,true);
+		var oXHR = getXHR()
+			,sMethod = (postData)?'POST':'GET';
+		if (!oXHR) return;
+		oXHR.open(sMethod,url,true);
 		//req.setRequestHeader('User-Agent','XMLHTTP/1.0');
 		if (postData) {
-			req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			oXHR.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 		}
-		req.onreadystatechange = function () {
-			if (req.readyState!=4) return;
-			if (req.status!=200 && req.status!=304) {
-				errorCallback('HTTP error ' + req.status); // todo: check error stati and flow
+		oXHR.onreadystatechange = function () {
+			if (oXHR.readyState!=4) return;
+			if (oXHR.status!=200 && oXHR.status!=304) {
+				errorCallback('HTTP error ' + oXHR.status); // todo: check error stati and flow
 				return;
 			}
-			callback(req);
+			callback(oXHR);
 		};
-		if (req.readyState==4) return;
-		req.send(postData);
-		return req;
+		if (oXHR.readyState==4) return;
+		oXHR.send(postData);
+		return oXHR;
 	}
 
 	/**
@@ -45,7 +46,7 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 	 * @method
 	 * @return {XMLHttpRequest}
 	 **/
-	function createXMLHTTPObject() {
+	function getXHR() {
 		var xmlhttp = false;
 		for (var i=0;i<XMLHttpFactories.length;i++) {
 			try {
@@ -57,7 +58,7 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 		}
 		return xmlhttp;
 	}
-	sendRequest.create = createXMLHTTPObject;
+	sendRequest.create = getXHR;
 
 	return sendRequest;
 //[

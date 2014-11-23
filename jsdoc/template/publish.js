@@ -584,6 +584,14 @@ exports.publish = function ( taffyData, opts, tutorials ) {
 			]
 		).concat( files ),
 		indexUrl );
+	generate( 'page', '',
+		packages.concat(
+			[
+				{kind : 'mainpage', readme : 'foobar.md', longname : 'Sub Page'}
+			]
+		).concat( files ),
+		helper.getUniqueFilename( 'page' ) );
+
 
 	// set up the lists that we'll use to generate pages
 	var classes = taffy( members.classes );

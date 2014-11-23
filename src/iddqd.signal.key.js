@@ -5,6 +5,8 @@
  * @summary Wrapper namespace for keyboard signals.
  */
 iddqd.ns('iddqd.signal.key',(function(){
+	'use strict';
+
 	var fn = iddqd.fn
 		,signal = iddqd.signal
 		,animate = signal.animate

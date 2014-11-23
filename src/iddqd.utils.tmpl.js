@@ -50,4 +50,4 @@ iddqd.ns('iddqd.utils.tmpl',(function(){
 		// Provide some basic currying to the user
 		return data ? fn( data ) : fn;
 	}
-})(););
+})());
