@@ -4,7 +4,7 @@
 /**
  * iddqd.sizeImage
  * @author Ron Valstar (http://www.sjeiti.com/)
- * @namespace hansreinerie
+ * @namespace iddqd
  * @requires signals.js
  * @requires iddqd.js
  * @requires iddqd.signals.js
@@ -12,18 +12,22 @@
  * @requires iddqd.loadImage.js
  */
 iddqd.ns('iddqd.sizeImage',(function(rv){
+	'use strict';
+
 	var aImages = []
 		,iW,iH
 		,iProcessed = 0
-		,sgProcessed = new signals.Signal
+		,sgProcessed = new signals.Signal()
 		,fnInit = function(){
 			fnSetWH(document.body.clientWidth,document.body.clientHeight);
 			rv.loop(document.body.getElementsByTagName('img'),function(i,img){
 				if (img.attributes&&img.attributes['data-sizes']) {
 					iProcessed++;
+					/*jshint evil:true*/
 					var oData = eval('('+img.attributes['data-sizes'].value+')');
+					/*jshint evil:false*/
 					if (img.height===0&&img.width===0) {
-						img.addEventListener('load',function(e){
+						img.addEventListener('load',function(){
 							fnHandleImgInit(img,oData);
 						});
 					} else {
@@ -71,7 +75,7 @@ iddqd.ns('iddqd.sizeImage',(function(rv){
 			fnTestSize(oImg);
 		}
 		,fnTestSizes = function(){
-			rv.loop(aImages,function(i,oImg){fnTestSize(oImg)});
+			rv.loop(aImages,function(i,oImg){fnTestSize(oImg);});
 		}
 		,fnTestSize = function(oImg){
 //			console.log('testSize',oImg,oImg.img.width); // log
@@ -108,8 +112,8 @@ iddqd.ns('iddqd.sizeImage',(function(rv){
 	fnResize();
 	rv.signals.resize.add(fnResize);
 	return {
-		toString: function(){return '[object sizeImage]'}
-		,getImages: function(){return aImages}
+		toString: function(){return '[object sizeImage]';}
+		,getImages: function(){return aImages;}
 		,processed: sgProcessed
 		,init: fnInit
 	};

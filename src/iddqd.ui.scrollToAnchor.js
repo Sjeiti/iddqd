@@ -10,6 +10,8 @@
  * @requires iddqd.animate
  */
 iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
+	'use strict';
+
 	var animate = iddqd.uses(iddqd.animate)
 		,oAnimate
 		,mBody

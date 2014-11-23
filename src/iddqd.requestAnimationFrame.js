@@ -10,6 +10,7 @@ iddqd.ns('iddqd.requestAnimationFrame'
 	window.oRequestAnimationFrame||
 	window.msRequestAnimationFrame||
 	function(callback){
+		'use strict';
 		window.setTimeout(callback, 1000/60);
 	}
 );

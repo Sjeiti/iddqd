@@ -17,6 +17,8 @@
  *	{myFoo:123}
  */
 iddqd.ns('iddqd.utils.getLessVars',function(id,parseNumbers) {
+	'use strict';
+
 	/*
 	 * http://www.w3.org/TR/css3-values/
 	 * even though rule.style(CSSStyleDeclaration) should contain custom properties it doesn't

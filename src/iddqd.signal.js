@@ -16,6 +16,8 @@
  * @returns {Signal} The signal
  */
 iddqd.ns('iddqd.signal',function(init){
+	'use strict';
+
 	// todo: what if the signal already exists
 	//var oSignal = oReturn[name] = new signals.Signal()
 	var oSignal = new window.signals.Signal()

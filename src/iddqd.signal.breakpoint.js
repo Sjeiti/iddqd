@@ -4,6 +4,8 @@
  * @type Signal
  */
 iddqd.ns('iddqd.signal.breakpoint',iddqd.signal(function(signal){
+	'use strict';
+
 	var forEach = Array.prototype.forEach
 		,aSizes = [Number.MAX_VALUE]
 		,iSizes
@@ -70,7 +72,7 @@ iddqd.ns('iddqd.signal.breakpoint',iddqd.signal(function(signal){
 					,bMax = !!match.match(/max/)
 				;
 				if (aWidth&&aDigit) {
-					var iSize = parseInt(aDigit.pop()) + (bMax?1:0);
+					var iSize = parseInt(aDigit.pop(),10) + (bMax?1:0);
 					if (aSizes.indexOf(iSize)===-1) aSizes.push(iSize);
 				}
 			});

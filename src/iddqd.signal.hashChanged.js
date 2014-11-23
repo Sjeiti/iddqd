@@ -5,6 +5,8 @@
  * @type Signal
  */
 iddqd.ns('iddqd.signal.hashChanged',iddqd.signal(function(signal){
+	'use strict';
+
 	var oLocation = window.location
 		,sHash = oLocation.hash.substr(1);
 	window.addEventListener('hashchange',function(){

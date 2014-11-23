@@ -23,8 +23,10 @@
  *</script>
  */
 iddqd.ns('iddqd.utils.tmpl',(function(){
+	'use strict';
+
 	var oTmplCache = {};
-	return function(str, data){
+	return function tmpl(str, data){
 		/* jshint -W054 */
 		// Figure out if we're getting a template, or if we need to
 		// load the template - and be sure to cache the result.
@@ -49,5 +51,5 @@ iddqd.ns('iddqd.utils.tmpl',(function(){
 			+ "');}return p.join('');");
 		// Provide some basic currying to the user
 		return data ? fn( data ) : fn;
-	}
+	};
 })());

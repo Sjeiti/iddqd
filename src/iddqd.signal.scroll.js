@@ -4,6 +4,8 @@
  * @type Signal
  */
 iddqd.ns('iddqd.signal.scroll',iddqd.signal(function(signal){
+	'use strict';
+
 	window.addEventListener('scroll',function(e){
 		var mBody = document.body;
 		signal.dispatch(e,mBody.scrollLeft,mBody.scrollTop);

@@ -5,9 +5,11 @@
  * @type Signal
  */
 iddqd.ns('iddqd.signal.orientation',iddqd.signal(function(signal){
+	'use strict';
+
 	if(iddqd.capabilities.touch) {
 		var iOrientation = window.orientation;
-		addEvent(window,'orientationchange',function(){
+		window.addEventListener('orientationchange',function(){
 			signal.dispatch(iOrientation,window.orientation);
 			iOrientation = window.orientation;
 		});

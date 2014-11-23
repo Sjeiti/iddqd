@@ -5,6 +5,8 @@
  * @type Signal
  */
 iddqd.ns('iddqd.signal.readyState',iddqd.signal(function(signal){
+	'use strict';
+
 	document.onreadystatechange = function () {
 		signal.dispatch(document.readyState);
 	};

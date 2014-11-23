@@ -7,57 +7,6 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 	grunt.loadTasks('gruntTasks');
 
-	var aFiles = [
-			// todo: cryptography
-
-			'src/iddqd.js'
-
-			,'src/iddqd.pattern.js'
-//			,'src/iddqd.signals.js'
-
-			,'src/iddqd.type.js'
-
-			,'src/iddqd.animate.js'
-
-			,'src/iddqd.internal.js'
-			,'src/iddqd.internal.host.canvasrenderingcontext2d.js'
-			,'src/iddqd.internal.host.htmlelement.js'
-			,'src/iddqd.internal.host.node.js'
-			,'src/iddqd.internal.native.array.js'
-			,'src/iddqd.internal.native.number.js'
-			,'src/iddqd.internal.native.object.js'
-			,'src/iddqd.internal.native.string.js'
-
-			,'src/iddqd.math.prng.js'
-			,'src/iddqd.math.vector.js'
-			,'src/iddqd.math.color.js'
-
-			,'src/iddqd.network.jsonp.js'
-			,'src/iddqd.network.xhttp.js'
-
-			,'src/iddqd.storage.js'
-			,'src/iddqd.storage.cookie.js'
-
-			,'src/iddqd.ui.scroll.js' // todo: not scroll
-
-			// data
-			,'src/iddqd.json.js'
-
-			// types
-
-			,'src/iddqd.capabilities.js' // todo: merge these two?
-			,'src/iddqd.environment.js'
-
-			// custom
-			,'src/iddqd.panorama.js'
-
-			,'src/iddqd.style.js'
-			,'src/iddqd.image.js'
-			//,'src/iddqd.sizeImage.js' // todo: put loadimage and sizeimage under image ns
-
-			//,'src/iddqd.log.js'
-		]
-	;
 
 
 	grunt.initConfig({
@@ -92,12 +41,12 @@ module.exports = function (grunt) {
 
 		jshint: {
 			options: { jshintrc: '.jshintrc' },
-			files: aFiles
+			files: ['src/iddqd*.js']
 		},
 
 		qunit: {
 			//options: { jshintrc: '.jshintrc' },
-			//files: aFiles
+			//files: ['src/iddqd*.js']
 			//,tests: 'test/unit/test.js'
 			all: {
 				options: {
@@ -110,7 +59,7 @@ module.exports = function (grunt) {
 
 		uglify: {
 			iddqd: {
-				src: aFiles,
+				src: ['src/iddqd*.js'],
 				dest: 'dist/iddqd.min.js'
 			}
 		},
@@ -134,8 +83,6 @@ module.exports = function (grunt) {
 			}
 		}
 	});
-
-//	grunt.loadNpmTasks('grunt-jsdoc');
 
 	grunt.registerTask('default',['jshint','qunit','cli:jsdoc']);
 	grunt.registerTask('test',['qunit']);

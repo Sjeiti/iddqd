@@ -6,6 +6,8 @@
  * @type Signal
  */
 iddqd.ns('iddqd.signal.animate',iddqd.signal(function(signal){
+	'use strict';
+
 	var requestAnimationFrame = iddqd.uses(iddqd.requestAnimationFrame,'Include iddqd.requestAnimationFrame')
 		,fDeltaT = 0
 		,iCurMillis

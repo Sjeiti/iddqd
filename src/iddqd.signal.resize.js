@@ -5,6 +5,8 @@
  * @type Signal
  */
 iddqd.ns('iddqd.signal.resize',iddqd.signal(function(signal){
+	'use strict';
+
 	var win = window,
 		doc = document,
 		docElm = doc.documentElement,

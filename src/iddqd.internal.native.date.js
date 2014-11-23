@@ -11,14 +11,14 @@ iddqd.ns('iddqd.internal.native.date',(function(iddqd){
 		,aMonth = ['January','February','March','April','May','June','July','August','September','October','November','December']
 		,aMonthAbbr = ['Jan','Feb','March','April','May','June','July','Aug','Sept','Oct','Nov','Dec']
 		,aDayMonthSuffix = ['st','nd','rd','th']
-		,oExtendDate = {
+		/*,oExtendDate = {
 			format: 'Y-m-d' // ISO 8601
 			,overrideToString: overrideToString
 			,toYYMMDD: toYYMMDD
-		}
-		,oExtendProto = {
+		}*/
+		/*,oExtendProto = {
 			toFormatted: toFormatted
-		}
+		}*/
 		,iSecond = 1000
 		,iMinute = iSecond*60
 		,iHour = iMinute*60
@@ -116,8 +116,10 @@ iddqd.ns('iddqd.internal.native.date',(function(iddqd){
 		// U	Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)	See also time()
 		// Day	---	---
 		if (format===undefined) format = oReturn.format;
+		/*jshint validthis:true*/
 		var that = this||new Date()
 			,sFormatted = '';
+		/*jshint validthis:false	*/
 		for (var i=0,l=format.length;i<l;i++) {
 			var s = format[i]
 				,iYear = that.getFullYear()

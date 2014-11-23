@@ -8,10 +8,10 @@ gridscatter.animate()
 */
 iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 	'use strict';
-	
+
 	var math = iddqd.math
-		,sin = math.sin
-		,cos = math.cos
+//		,sin = math.sin
+//		,cos = math.cos
 		,random = math.prng.lcg.random
 		,ceil = Math.ceil
 		//
@@ -23,7 +23,7 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 		,aCollection = []
 		,iCollection = 0
 	;
-	
+
 	/*
 	 * Adds an object type
 	 * @param {number} gridSize
@@ -59,9 +59,9 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 		//
 		iCollection = aCollection.push(oCollection);
 	}
-	
+
 	/*
-	 */	
+	 */
 	function resize(){
 		iW = mCanvas.width;
 		iH = mCanvas.height;
@@ -69,13 +69,13 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 			aCollection[i].resize();
 		}
 	}
-	
+
 	/*
 	 */
 	function sprite(createSprite,args) {
 		var mSprite = document.createElement('canvas')
 			,oSprite = mSprite.getContext('2d')
-			
+
 		;
 		mSprite.reset = function(seed) {
 			mSprite.seed = seed;
@@ -86,11 +86,11 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 				Array.prototype.push.apply(aParams,args);
 				createSprite.apply(null,aParams);
 			}
-		}
+		};
 		mSprite.reset(1);
 		return mSprite;
 	}
-	
+
 	/*
 	 */
 	function animate(offset) {
@@ -102,18 +102,19 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 				,iGridSize = oCollection.gridSize
 				,iGridRadius = oCollection.gridRadius
 				,iGridX = oCollection.gridX
-				,iGridY = oCollection.gridY
+//				,iGridY = oCollection.gridY
 				,aSprites = oCollection.sprites
 				,fOffsetX = oCollection.speed*offset
 				//
 				,aDraw = []
+				,i,l
 			;
-			for (var i=0;i<iGridX;i++) {
+			for (i=0;i<iGridX;i++) {
 				var iX = i - ceil(fOffsetX/iGridSize)
 					,iSeed = oCollection.seed*iX*iX
 					,fRandom = random(iSeed)
-					,iSpriteX = i*iGridSize - iGridRadius + fOffsetX%iGridSize + (random()-.5)*iGridRadius
-					,iSpriteY = .15*iH + iH*fRandom*.15
+					,iSpriteX = i*iGridSize - iGridRadius + fOffsetX%iGridSize + (random()-0.5)*iGridRadius
+					,iSpriteY = 0.15*iH + iH*fRandom*0.15
 				;
 				aDraw.push({
 					sprite: getSpriteBySeed(aSprites,iSeed)
@@ -123,8 +124,8 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 					,random: fRandom
 				});
 			}
-			aDraw.sort(function(a,b){return a.y>b.y?1:-1});
-			for (var i=0,l=aDraw.length;i<l;i++) {
+			aDraw.sort(function(a,b){return a.y>b.y?1:-1;});
+			for (i=0,l=aDraw.length;i<l;i++) {
 				var oDraw = aDraw.shift()//aDraw[i]
 					,mDrawSprite = oDraw.sprite;
 				if (mDrawSprite===undefined) {
@@ -143,7 +144,7 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 			}
 		}
 	}
-	
+
 	/*
 	 */
 	function getSpriteBySeed(list,seed) {
@@ -158,13 +159,13 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 		}
 		return mSprite;
 	}
-	
+
 	/*
 	 */
 	function ceilGrid(gridSize,gridRadius) {
 		return ceil((gridRadius+1E-6)/gridSize);
 	}
-	
+
 	return {
 		add: add
 		,animate: animate
@@ -174,4 +175,3 @@ iddqd.ns('iddqd.utils.gridscatter',function(canvas,undefined) {
 		}
 	};
 });
-	
