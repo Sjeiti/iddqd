@@ -1,6 +1,5 @@
 iddqd
 =====
 
-asdf
+A collection of code.
 
-qwer

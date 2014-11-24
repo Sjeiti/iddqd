@@ -1,21 +1,20 @@
 {
-  "name": "iddqd",
-  "version": "2.0.23",
-  "main": "src/iddqd.js",
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "test",
-    "vendor",
-    "*.md",
-    "Gruntfile.js",
-    "package.json"
-  ],
-  "devDependencies": {
-  },
-  "keywords": [
-    "iddqd",
-    "javascript",
-    "library"
-  ]
+	"name": "iddqd",
+	"version": "2.2.48",
+	"main": "src/iddqd.js",
+	"license": "MITa",
+	"ignore": [
+		"**/.*",
+		"test",
+		"vendor",
+		"*.md",
+		"Gruntfile.js",
+		"package.json"
+	],
+	"devDependencies": {},
+	"keywords": [
+		"iddqd",
+		"javascript",
+		"library"
+	]
 }

@@ -4,6 +4,7 @@
  * @name iddqd
  * @summary A collection
  * @version 2.2.48
+ * @license MITa
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
  */

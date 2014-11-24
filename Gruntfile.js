@@ -20,7 +20,7 @@ module.exports = function (grunt) {
 			},*/
 			revision: {
 				files: ['.git/COMMIT_EDITMSG']
-				,tasks: ['version_git']
+				,tasks: ['version']
 				,options: { spawn: false }
 			},
 			jsdoc: {
@@ -70,9 +70,14 @@ module.exports = function (grunt) {
 				,dest: 'package.json'
 				,map: {namespace:'name',name:'title',title:'description'}
 			}
+			,bower : {
+				src: 'src/iddqd.js'
+				,dest: 'bower.json'
+				,map: {}
+			}
 			,jsdoc : {
 				src: 'src/iddqd.js'
-				,dest: 'jsdoc_template/jsdoc.conf.json'
+				,dest: 'jsdoc.json'
 				,map: {name:'templates.systemName',copyright:'templates.copyright',author:'foo'}
 			}
 		},
@@ -85,6 +90,7 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('default',['jshint','qunit','cli:jsdoc']);
+	grunt.registerTask('version',['version_git','map_json']);
 	grunt.registerTask('test',['qunit']);
 	grunt.registerTask('doc',['cli:jsdoc']);
 

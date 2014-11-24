@@ -2,12 +2,12 @@
 	"tags": {
 		"allowUnknownTags": true
 	},
-"source": {
-    "include": [ "src", "README.md" ],
-    "exclude": [ "myProject/lib/ignore.js" ],
-    "includePattern": "iddqd.+\\.js(doc)?$",
-    "excludePattern": "(^|\\/|\\\\)_"
-},
+	"source": {
+		"include": [ "src", "README.md" ],
+		"exclude": [ "myProject/lib/ignore.js" ],
+		"includePattern": "iddqd.+\\.js(doc)?$",
+		"excludePattern": "(^|\\/|\\\\)_"
+	},
 	"plugins": [],
 	"nogins": [
 		"plugins/markdown"
