@@ -1,6 +1,6 @@
 {
 	"name": "iddqd",
-	"version": "2.2.48",
+	"version": "2.2.54",
 	"main": "src/iddqd.js",
 	"license": "MITa",
 	"ignore": [
