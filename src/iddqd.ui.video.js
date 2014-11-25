@@ -63,6 +63,12 @@
 	played			[object TimeRanges]
 
 */
+/**
+ * Video
+ * @name iddqd.ui.video
+ * @method
+ * @todo refactor, document
+ */
 iddqd.ns('iddqd.ui.video',(function(iddqd) {
 	'use strict';
 var $=function(o){return o;};//todo:remove

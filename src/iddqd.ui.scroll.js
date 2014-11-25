@@ -1,10 +1,8 @@
 /**
  * scroll
- * @author Ron Valstar (http://www.sjeiti.com/)
- * @namespace iddqd.ui.scroll
- * @requires iddqd.js
+ * @name iddqd.ui.scroll
+ * @todo refactor, document, test
  */
-// todo: document and test
 iddqd.ns('iddqd.ui.scroll',function addScroll(elm,baseSize){
 	'use strict';
 	//

@@ -1,6 +1,14 @@
-
+/**
+ * A memoized sine function
+ * @name iddqd.math.sin
+ * @method
+ * @param {Number} f
+ * @returns {Number}
+ * @todo document
+ */
 iddqd.ns('iddqd.math.sin',(function() {
 	'use strict';
+
 	var aSine = []
 		,iSine = 0
 		,PI = Math.PI
@@ -27,5 +35,13 @@ iddqd.ns('iddqd.math.sin',(function() {
 	//
 	return sin;
 })());
+/**
+ * A memoized cosine function
+ * @name iddqd.math.cos
+ * @method
+ * @param {Number} f
+ * @returns {Number}
+ * @todo document
+ */
 iddqd.ns('iddqd.math.cos',iddqd.math.sin.set(360).cos);
 

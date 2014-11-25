@@ -1,17 +1,17 @@
 /**
- * Implementation of a linear congruential generator.
- * Multiplier, increment and modulus can be set seperately or via one of the presets.
- * By default the Lehmer prng is used
- * @namespace iddqd.math.prng
- * @summary A simple seeded pseudo random number generator
+ * Implementation of a linear congruential generator.<br/>
+ * The linear congruential generator follows this formula: x=(a*x+c)%n where a=multiplier, c=increment and m=modulus.<br/>
+ * Multiplier, increment and modulus can be set separately or via one of the presets.<br/>
+ * By default the Lehmer prng is used.
+ * @namespace iddqd.math.prng.lcg
+ * @summary Linear congruential generator
+ * @todo document
  */
 iddqd.ns('iddqd.math.prng.lcg',(function(){
 	'use strict';
-	// linear congruential generator
-	//x=(a*x+c)%n
-	var a = 48271 // multiplier
-		,c = 0 // increment
-		,m = 2147483647 // modulus
+	var iMultiplier = 48271
+		,iIncrement = 0
+		,iModulus = 2147483647
 		,iSeed = 123
 		,oReturn = {
 			rnd: rnd
@@ -30,39 +30,110 @@ iddqd.ns('iddqd.math.prng.lcg',(function(){
 			,presetLehmer: presetLehmer
 			,presetJava: presetJava
 			,presetNumeralRecipes: presetNumeralRecipes
-		};
+		}
+	;
+
+	/**
+	 * Returns a random number between zero and the set modulus
+	 * @memberOf iddqd.math.prng.lcg
+	 * @param {number} [seed] The seed from which to calculate
+	 * @param {number} [iterate] The number of iterations
+	 * @returns {number} An integer between zero and the set modulus
+	 */
 	function rnd(seed,iterate) {
 		if (seed!==undefined) iSeed = seed;
 		if (iterate===undefined) iterate = 1;
-		while (iterate--) iSeed = (a*iSeed+c)%m;
+		while (iterate--) iSeed = (iMultiplier*iSeed+iIncrement)%iModulus;
 		return iSeed;
 	}
+
+	/**
+	 * Returns a random number between zero and one
+	 * @memberOf iddqd.math.prng.lcg
+	 * @param {number} [seed] The seed from which to calculate
+	 * @param {number} [iterate] The number of iterations
+	 * @returns {number} A floating point between zero and one
+	 */
 	function random(seed,iterate) {
-		return rnd(seed,iterate)/m;
+		return rnd(seed,iterate)/iModulus;
 	}
-	function setMultiplier(i){	a = i; }
-	function setIncrement(i){	c = i; }
-	function setModulus(i){		m = i; }
-	function getMultiplier(){	return a; }
-	function getIncrement(){	return c; }
-	function getModulus(){		return m; }
-	function setSeed(seed) {	iSeed = seed; }
+
+	/**
+	 * @memberOf iddqd.math.prng.lcg
+	 * @param {number} seed The integer seed
+	 */
+	function setSeed(seed) { iSeed = seed; }
+
+	/**
+	 * @memberOf iddqd.math.prng.lcg
+	 * @param {number} multiplier The integer multiplier
+	 */
+	function setMultiplier(multiplier){	iMultiplier = multiplier; }
+
+	/**
+	 * @memberOf iddqd.math.prng.lcg
+	 * @param {number} increment The integer increment
+	 */
+	function setIncrement(increment){	iIncrement = increment; }
+
+	/**
+	 * @memberOf iddqd.math.prng.lcg
+	 * @param {number} modulus The integer modulus
+	 */
+	function setModulus(modulus){		iModulus = modulus; }
+
+	/**
+	 * @memberOf iddqd.math.prng.lcg
+	 * @returns {number} The current multiplier
+	 */
+	function getMultiplier(){ return iMultiplier; }
+
+	/**
+	 * @memberOf iddqd.math.prng.lcg
+	 * @returns {number} The current increment
+	 */
+	function getIncrement(){ return iIncrement; }
+
+	/**
+	 * @memberOf iddqd.math.prng.lcg
+	 * @returns {number} The current modulus
+	 */
+	function getModulus(){ return iModulus; }
+
+	/**
+	 * Sets the current lcg settings to Lehmer
+	 * @memberOf iddqd.math.prng.lcg
+	 * @param {boolean} [minstd]
+	 * @returns {iddqd.math.prng.lcg}
+	 */
 	function presetLehmer(minstd) {
-		a = minstd?16807:48271;
-		c = 0;
-		m = 2147483647; // 2E31-1 mersenne prime
+		iMultiplier = minstd?16807:48271;
+		iIncrement = 0;
+		iModulus = 2147483647; // 2E31-1 mersenne prime
 		return oReturn;
 	}
+
+	/**
+	 * Sets the current lcg settings to Java
+	 * @memberOf iddqd.math.prng.lcg
+	 * @returns {iddqd.math.prng.lcg}
+	 */
 	function presetJava() {
-		a = 25214903917;
-		c = 11;
-		m = 2E48;
+		iMultiplier = 25214903917;
+		iIncrement = 11;
+		iModulus = 2E48;
 		return oReturn;
 	}
+
+	/**
+	 * Sets the current lcg settings to NumeralRecipes
+	 * @memberOf iddqd.math.prng.lcg
+	 * @returns {iddqd.math.prng.lcg}
+	 */
 	function presetNumeralRecipes() {
-		a = 1664525;
-		c = 1013904223;
-		m = 2E32;
+		iMultiplier = 1664525;
+		iIncrement = 1013904223;
+		iModulus = 2E32;
 		return oReturn;
 	}
 	return oReturn;

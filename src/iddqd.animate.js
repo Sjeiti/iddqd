@@ -3,6 +3,7 @@
  * The namespace is really the exposed private method {@link iddqd.animate.animate animate}
  * @summary Animation methods
  * @namespace iddqd.animate
+ * @todo Check functionality with signal equivalent
  */
 iddqd.ns('iddqd.animate',(function(iddqd,uses){
 	'use strict';
@@ -58,12 +59,12 @@ iddqd.ns('iddqd.animate',(function(iddqd,uses){
 		};
 	}
 
-	// todo: check to refactor following to own file
 	/**
 	 * Keyframe dispatcher using requestAnimationFrame.
 	 * The callback for this signal is Function(deltaT)
 	 * @name iddqd.signals.animate
 	 * @type Signal
+	 * @todo check to refactor to own file
 	 */
 	iddqd.signal.animate = signal(function(signal){
 		var fDeltaT = 0

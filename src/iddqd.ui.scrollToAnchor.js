@@ -1,7 +1,6 @@
 /**
- * Namespace to manipulate existing stylesheets.
- * @name scrollToAnchor
- * @namespace iddqd.ui
+ * Scroll to an anchor element
+ * @name iddqd.ui.scrollToAnchor
  * @method
  * @param {HTMLAnchorElement} anchorElement
  * @param {Number} millis
@@ -12,7 +11,7 @@
 iddqd.ns('iddqd.ui.scrollToAnchor',(function(){
 	'use strict';
 
-	var animate = iddqd.uses(iddqd.animate)
+	var animate = iddqd.uses(iddqd.animate,'Include iddqd.animate')
 		,oAnimate
 		,mBody
 		,mHTML;

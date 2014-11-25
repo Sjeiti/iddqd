@@ -36,6 +36,6 @@
 		"tutorials": "jsdoc/tutorials",
 		"destination": "doc",
 		"recurse": true,
-		"private": true
+		"private": false
 	}
 }

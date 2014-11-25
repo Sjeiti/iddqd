@@ -1,10 +1,10 @@
-// todo: document
 /**
  * A color object to do color calculations
  * @name iddqd.math.color
  * @method
  * @param {Number} x
  * @returns {colorInstance}
+ * @todo documentation
  */
 iddqd.ns('iddqd.math.color',function(){
 	'use strict';

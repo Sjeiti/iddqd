@@ -1,20 +1,28 @@
 {
-	"name": "iddqd",
-	"version": "2.2.54",
-	"main": "src/iddqd.js",
-	"license": "MITa",
-	"ignore": [
-		"**/.*",
-		"test",
-		"vendor",
-		"*.md",
-		"Gruntfile.js",
-		"package.json"
-	],
-	"devDependencies": {},
-	"keywords": [
-		"iddqd",
-		"javascript",
-		"library"
-	]
+  "name": "iddqd",
+  "version": "2.2.55",
+  "main": "src/iddqd.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "test",
+    "vendor",
+    "*.md",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "es5-shim": "*",
+    "es6-shim": "*",
+    "zen": "git://github.com/Sjeiti/zen.git",
+    "js-signals": "*",
+    "hammerjs": "~2.0.4",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "iddqd",
+    "javascript",
+    "library"
+  ]
 }

@@ -13,11 +13,11 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		watch: {
-			/*js: {
-				files: ['src/js*//*.js'],
-				tasks: ['js'],
+			default: {
+				files: ['src/iddqd*.js'],
+				tasks: ['default'],
 				options: { spawn: false }
-			},*/
+			},
 			revision: {
 				files: ['.git/COMMIT_EDITMSG']
 				,tasks: ['version']
@@ -57,10 +57,36 @@ module.exports = function (grunt) {
 			}
 		},
 
+		clean: {
+			jsdoc: {
+				src: ['doc/**']
+			}
+		},
+
+		less: {
+			options: {
+				compress: true
+			}
+			/*,src: {
+				src: ['src/style/main.less'],
+				dest: 'src/style/main.css'
+			}*/
+			,jsdoc: {
+				src: ['jsdoc/template/static/styles/site.sjeiti.less'],
+				dest: 'jsdoc/template/static/styles/site.sjeiti.css'
+			}
+		},
+
 		uglify: {
 			iddqd: {
 				src: ['src/iddqd*.js'],
 				dest: 'dist/iddqd.min.js'
+			}
+		},
+
+		version_git: {
+			main: {
+				files: {src:['src/iddqd.js']}
 			}
 		},
 
@@ -80,12 +106,6 @@ module.exports = function (grunt) {
 				,dest: 'jsdoc.json'
 				,map: {name:'templates.systemName',copyright:'templates.copyright',author:'foo'}
 			}
-		},
-
-		version_git: {
-			main: {
-				files: {src:['src/iddqd.js']}
-			}
 		}
 	});
 
@@ -93,5 +113,11 @@ module.exports = function (grunt) {
 	grunt.registerTask('version',['version_git','map_json']);
 	grunt.registerTask('test',['qunit']);
 	grunt.registerTask('doc',['cli:jsdoc']);
+
+	grunt.registerTask('jsdoc',[
+		'less:jsdoc'
+		,'clean:jsdoc'
+		,'cli:jsdoc'
+	]);
 
 };

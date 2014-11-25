@@ -20,8 +20,11 @@
 	box-sizing: border-box;
 }
 
-html, body { height: 100%;
-	background-color: #fafafa; }
+html, body {
+	height: 100%;
+	background-color: #fafafa;
+	line-height: 160%;
+}
 
 body {
 	padding-top: @navHeight;
@@ -39,6 +42,20 @@ body>div {
 	padding-bottom: @footerHeight;
 	margin-bottom: -@footerHeight;
 }
+
+article {
+	padding-bottom: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 2rem 0 .5rem;
+	font-family: Arial, sans;
+	line-height: 120%;
+}
+h1 { font-size: 18px; }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4 { font-size: 13px; }
 
 ul, ol {
 	.spacing();
@@ -77,35 +94,45 @@ ul, ol {
 
 
 .details {
-	dt {
+	dt,dd {
 		display: inline-block;
-		width: @leftColWidth;
+		vertical-align: top;
 	}
-	dd {
-		display: inline-block;
-		width: @rightColWidth;
-	}
+	dt { width: @leftColWidth; }
+	dd { width: @rightColWidth; }
 }
-.dl-methods {
+.dl-methods, .dl-members {
+	.description {
+		padding: .5rem 0 1.5rem;
+	}
+	table .description {
+		padding: 2px 20px 2px 5px;
+	}
+	.tag-todo {
+		background-color: #f6f4ac;
+	}
 	.details {
-		.lt(0,-.8,relative);
-		margin: 0;
+//		.lt(0,-.8,relative);
+//		margin: 0;
 		font-size: .6rem;
-		line-height: .6rem;
-		color: #aaa;
+		line-height: 100%;
+		color: #999;
 		dt, dd {
 			display: inline-block;
 			width: auto;
+			font-weight: normal;
 		}
-		dt {
+//		dt { clear: both; }
+		/*dt {
 			.lt(-3);
 			width: 3rem;
 			padding-right: .3rem;
 			text-align: right;
 			font-weight: normal;
-		}
+		}*/
 	}
 }
+
 
 
 .row-fluid {
@@ -127,6 +154,7 @@ ul, ol {
 	position: relative;
 	top: -1px*@navHeight;
 }
+
 #toc {
 	@tocIndent: 15px;
 	@tocWidth: 200px;
@@ -166,11 +194,13 @@ ul, ol {
 	}
 	.nav {
 		>li {
+			a {
+				color: white;
+			}
 			>a {
 				padding: 0 @tocIndent;
 				white-space: nowrap;
 				font: 11px/18px Verdana, sans;
-				color: white;
 				&:hover {
 					text-decoration: underline;
 					background: none;
@@ -180,7 +210,7 @@ ul, ol {
 				background-color: rgba(0,0,0,.1);
 				a { font-weight: bold; }
 			}
-			&.toc-h2 a,&.toc-h4 a,&.toc-a a { padding: 0 2*@tocIndent; }
+//			&.toc-h2 a,&.toc-h4 a,&.toc-a a { padding: 0 2*@tocIndent; }
 			&.toc-h1 {}
 			&.toc-h2 a {}
 			&.toc-h3 {}
@@ -207,9 +237,6 @@ ul, ol {
 }
 
 h1.page-title {
-	font: bold 16px/16px Arial, sans;
-}
-h2 {
 	font: bold 16px/16px Arial, sans;
 }
 h3.subsection-title {
@@ -299,7 +326,7 @@ article {
 	}
 }
 
-table.params, table.props {
+table.params, table.props, table.returns {
 	border: 1px solid #CCC;
 	background-color: #FAFAFA;
 	border-spacing: 0;
@@ -330,6 +357,9 @@ table.params, table.props {
 		text-align: left;
 		border-bottom: 2px solid #DDD;
 		.gradientVertical(#EEE,#DDD);
+	}
+	h5 {
+		font-weight: bold;
 	}
 	tbody td:first-child {
 		color: #A11;

@@ -6,20 +6,27 @@
  * @namespace iddqd.signals
  * @requires signals.js http://millermedeiros.github.com/js-signals/
  */
-
+/**
+ * Signal implementations<br/>
+ * The namespace itself is also {@link iddqd.signal.signal a method} that can be used to generate new signal implementations.
+ * @namespace iddqd.signal
+ * @summary Signal implementations
+ */
 /**
  * Creates a signal.<br/>
  * The signals is dead (no events attached) until the first signal.add or signal.addOnce is called.<br/>
- * @name iddqd.signal
+ * This method is really {@link iddqd.signal} and not {@link iddqd.signal.signal} (documentation prevents namespaces to be functions).
+ * @name signal
  * @method
+ * @memberOf iddqd.signal
  * @param {Function} init The initialisation method, called after the first signal.add or signal.addOnce.
  * @returns {Signal} The signal
+ * @todo implement requirements
+ * @todo what if the signal already exists
+ * @todo add window.addEventListener('popstate',handleCloseOverlay);
  */
 iddqd.ns('iddqd.signal',function(init){
 	'use strict';
-
-	// todo: what if the signal already exists
-	//var oSignal = oReturn[name] = new signals.Signal()
 	var oSignal = new window.signals.Signal()
 		,fnTmpAdd = oSignal.add
 		,fnTmpAddOnce = oSignal.addOnce
@@ -39,5 +46,3 @@ iddqd.ns('iddqd.signal',function(init){
 	};
 	return oSignal;
 });
-
-// todo: add window.addEventListener('popstate',handleCloseOverlay);

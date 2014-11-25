@@ -1,9 +1,10 @@
 /**
  * Keyframe dispatcher using requestAnimationFrame for continuous animation.
  * The callback for this signal is Function(deltaT,iCurMillis,iFrameNr)
- * todo: possibly stop when last signal listener is removed
  * @name iddqd.signal.animate
  * @type Signal
+ * @requires iddqd.requestAnimationFrame
+ * @todo: possibly stop when last signal listener is removed
  */
 iddqd.ns('iddqd.signal.animate',iddqd.signal(function(signal){
 	'use strict';
