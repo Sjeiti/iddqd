@@ -89,26 +89,6 @@ iddqd.ns('iddqd.internal.host.htmlelement',(function(internal){
 			}
 			return this;
 		}
-		,hasClass: function(name){
-			return !!~this.className.indexOf(name);
-		}
-		,removeClass: function(name){
-			this.className = this.className.replace(name,'').replace(/\s{2,}/g,' ');
-			return this;
-		}
-		,addClass: function(name){
-			if (!this.hasClass(name)) this.className += this.classNamelength===0?name:' '+name;
-			return this;
-		}
-		,toggleClass: function(name){
-			if (this.hasClass(name)) this.removeClass(name);
-			else this.addClass(name);
-			return this;
-		}
-		/*,addEvent: function(evt,fn,useCapture){
-			iddqd.addEvent(this,evt,fn,useCapture);
-			return this;
-		}*/
 		/**
 		 * Checks if the element descends from another element.
 		 * @name iddqd.internal.host.htmlelement.descendsFrom

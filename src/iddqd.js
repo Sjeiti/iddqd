@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.2.56
+ * @version 2.3.60
  * @license MIT
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
@@ -302,15 +302,17 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * @param {Function} click An optional click event handler
 	 * @returns {HTMLElement} Returns the newly created element
 	 */
-	function createElement(type,classes,parent,click){
+	function createElement(type,classes,parent,attributes,text,click){
 		var mElement = document.createElement(type||'div');
+		if (attributes) for (var attr in attributes) mElement.setAttribute(attr,attributes[attr]);
 		if (classes) {
 			var oClassList = mElement.classList
 				,aArguments = typeof(classes)==='string'?classes.split(' '):classes;
 			oClassList.add.apply(oClassList,aArguments);
 		}
-		parent&&parent.appendChild(mElement);
+		if (text) mElement.innerText = text;
 		click&&mElement.addEventListener('click',click);
+		parent&&parent.appendChild(mElement);
 		return mElement;
 	}
 
