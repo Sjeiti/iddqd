@@ -158,6 +158,14 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 			var sUnSpc = this.replace(/[\s\-]/g, '_');
 			return this==sCamel?sUnSpc:sCamel;
 		}
+		,sprintf: function(){
+			var s = this
+				,aMatch = s.match(/(%\d+\$s)/gi);
+			//aMatch.unique();
+			//unique.apply(aMatch);
+			for (var i=1,l=aMatch.length;i<=l;i++) s = s.replace(new RegExp('(\\%'+i+'\\$s)','g'),arguments[i]);
+			return s;
+		}
 		// todo: doc, http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 		,hashCode: function(){
 			var sHash = 0;
