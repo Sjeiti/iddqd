@@ -84,13 +84,29 @@ iddqd.ns('iddqd.internal.native.array',(function(internal) {
 		 * Adds all array entries
 		 * @name iddqd.internal.native.array.sum
 		 * @method
-		 * @returns {array} The sum
+		 * @returns {number} The sum
 		 */
 		,sum: function() {
 			var fSum = 0
 				,l = this.length;
 			while (l--) fSum += this[l];
 			return fSum;
+		}
+		/**
+		 * Move one array index to another index
+		 * @param {number} old_index
+		 * @param {number} new_index
+		 * @returns {array}
+		 */
+		,move: function(old_index, new_index) {
+			if (new_index >= this.length) {
+				var k = new_index - this.length;
+				while ((k--) + 1) {
+					this.push(undefined);
+				}
+			}
+			this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+			return this;
 		}
 	});
 })(iddqd.internal));
