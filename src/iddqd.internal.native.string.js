@@ -158,12 +158,15 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 			var sUnSpc = this.replace(/[\s\-]/g, '_');
 			return this==sCamel?sUnSpc:sCamel;
 		}
+		/**
+		 * A minimal version of sprintf. Replaces variables in a string with the arguments. Variables are like %1$s and start at 1.
+		 * @param {(string|string[])} [replacements] We're the replacements
+		 * @returns {string}
+		 */
 		,sprintf: function(){
 			var s = this
 				,aMatch = s.match(/(%\d+\$s)/gi);
-			//aMatch.unique();
-			//unique.apply(aMatch);
-			for (var i=1,l=aMatch.length;i<=l;i++) s = s.replace(new RegExp('(\\%'+i+'\\$s)','g'),arguments[i]);
+			for (var i=0,l=aMatch.length;i<l;i++) s = s.replace(new RegExp('(\\%'+(i+1)+'\\$s)','g'),arguments[i]);
 			return s;
 		}
 		// todo: doc, http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
