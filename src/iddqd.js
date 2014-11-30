@@ -310,7 +310,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 				,aArguments = typeof(classes)==='string'?classes.split(' '):classes;
 			oClassList.add.apply(oClassList,aArguments);
 		}
-		if (text) mElement.innerText = text;
+		if (text) mElement.textContent = text;
 		click&&mElement.addEventListener('click',click);
 		parent&&parent.appendChild(mElement);
 		return mElement;
