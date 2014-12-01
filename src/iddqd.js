@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.3.60
+ * @version 2.3.61
  * @license MIT
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
@@ -323,10 +323,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * @param {String} src The source location of the file.
 	 * @param {Function} [loadCallback=null] A callback function for when the file is loaded.
 	 */
-	function loadScript(src,loadCallback) {
+	function loadScript(src,loadCallback,errorCallback) {
 		var mScript = document.createElement('script');
 		mScript.src = src;
 		if (loadCallback) mScript.addEventListener('load',loadCallback);
+		if (errorCallback) mScript.addEventListener('error',errorCallback);
 		(document.head||document.getElementsByTagName('head')[0]).appendChild(mScript);
 	}
 

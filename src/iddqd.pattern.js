@@ -93,6 +93,28 @@ iddqd.ns('iddqd.pattern',(function(){
 
 	/**
 	 * Turn a regular callback method into a promise.
+	 * The method must be of type function(param1,param2,...,successCallback,errorCallback)
+	 * @param {Function} fn The function to convert
+	 * @param {number} [success=1] The position of the callback argument
+	 * @param {number} [error=2] The position of the error argument
+	 * @returns {Function}
+	 */
+	function callbackToPromise(fn,success,error){
+		var Promise = iddqd.uses(window.Promise);
+		if (success===undefined) success = 1;
+		if (error===undefined) error = 2;
+		return function(){
+			var arg = Array.prototype.slice.call(arguments,0);
+			return new Promise(function(resolve,reject){
+				if (!arg[success]) arg[success] = resolve;
+				if (!arg[error]) arg[error] = reject;
+				fn.apply(fn,arg);
+			});
+		};
+	}
+
+	/**
+	 * Turn a node-style callback method into a promise.
 	 * @param {Function} nodeStyleFunction
 	 * @param {Function} filter Map the original functions callback params to nodeStyle
 	 * @returns {Function}
@@ -138,6 +160,7 @@ iddqd.ns('iddqd.pattern',(function(){
 	return {
 		pool:pool
 		,memoize:memoize
+		,callbackToPromise:callbackToPromise
 		,denodify:denodify
 	};
 })());
