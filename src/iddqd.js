@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.3.61
+ * @version 2.3.62
  * @license MIT
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>

@@ -166,7 +166,7 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 		,sprintf: function(){
 			var s = this
 				,aMatch = s.match(/(%\d+\$s)/gi);
-			for (var i=0,l=aMatch.length;i<l;i++) s = s.replace(new RegExp('(\\%'+(i+1)+'\\$s)','g'),arguments[i]);
+			if (aMatch) for (var i=0,l=aMatch.length;i<l;i++) s = s.replace(new RegExp('(\\%'+(i+1)+'\\$s)','g'),arguments[i]);
 			return s;
 		}
 		// todo: doc, http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/

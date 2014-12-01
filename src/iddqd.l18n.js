@@ -55,7 +55,7 @@ iddqd.ns('iddqd.l18n',(function(undefined){
 	 * @public
 	 */
 	function __(s){
-		return oLang[sLang][s]||s;
+		return oLang.hasOwnProperty(sLang)&&oLang[sLang].hasOwnProperty(s)?oLang[sLang][s]:s;
 	}
 
 	return {
