@@ -38,7 +38,7 @@ myString.wrap('(',')');
 		if (oPrototype===undefined) {
 			console.warn('Object has no prototype to augment, use extend instead.');
 		} else {
-			loop(augmentwith,function(name,fnc){
+			loop(augmentwith,function(fnc,name){
 				if (name!=='toString'&&name!=='normalize'&&name!=='augment') {
 					if (oPrototype.hasOwnProperty(name)) {
 						if (oPrototype[name]!==augmentwith[name]) {
@@ -75,7 +75,7 @@ bar.wrap.apply(myString,['(',')']); // returns '(foo)'
 bar.wrap(myString,'(',')');
 	 */
 	function normalize(namespace){
-		loop(namespace,function(name,fnc){
+		loop(namespace,function(fnc,name){
 			if (
 				typeof(fnc)==='function'
 				&&name!=='augment'

@@ -20,7 +20,7 @@ iddqd.ns('iddqd.sizeImage',(function(rv){
 		,sgProcessed = new signals.Signal()
 		,fnInit = function(){
 			fnSetWH(document.body.clientWidth,document.body.clientHeight);
-			rv.loop(document.body.getElementsByTagName('img'),function(i,img){
+			rv.loop(document.body.getElementsByTagName('img'),function(img){
 				if (img.attributes&&img.attributes['data-sizes']) {
 					iProcessed++;
 					/*jshint evil:true*/
@@ -52,7 +52,7 @@ iddqd.ns('iddqd.sizeImage',(function(rv){
 //				,img.parentNode.style.paddingLeft
 //				,'foo'
 			); // log
-			rv.loop(data.sizes,function(i,o){
+			rv.loop(data.sizes,function(o){
 				aSizes.push({
 					src:sBasePath+o.file
 					,w: o.w||(o.h*fAspectRatio<<0)
@@ -75,7 +75,7 @@ iddqd.ns('iddqd.sizeImage',(function(rv){
 			fnTestSize(oImg);
 		}
 		,fnTestSizes = function(){
-			rv.loop(aImages,function(i,oImg){fnTestSize(oImg);});
+			rv.loop(aImages,fnTestSize);
 		}
 		,fnTestSize = function(oImg){
 //			console.log('testSize',oImg,oImg.img.width); // log

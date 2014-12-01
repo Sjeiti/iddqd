@@ -28,13 +28,13 @@ iddqd.ns('iddqd.internal.host.canvasrenderingcontext2d',
 			}
 			,storeStyle: function(){
 				var oStore = {};
-				iddqd.loop(aStyle,function(i,prop){
+				iddqd.loop(aStyle,function(prop){
 					if (this.hasOwnProperty(prop)) oStore[prop] = this[prop];
 				});
 				return oStore;
 			}
 			,restoreStyle: function(o){
-				iddqd.loop(o||oStoredStyle,function(prop,value){
+				iddqd.loop(o||oStoredStyle,function(value,prop){
 					if (this.hasOwnProperty(prop)) this[prop] = value;
 				});
 			}

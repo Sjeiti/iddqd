@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.3.62
+ * @version 2.4.63
  * @license MIT
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
@@ -142,7 +142,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	}
 
 	function findJavascriptRoot(){
-		loop(document.getElementsByTagName('script'),function(i,el){
+		loop(document.getElementsByTagName('script'),function(el){
 			var sSrc = el.attributes&&el.attributes.src&&el.attributes.src.value.split('?').shift()
 				,aMatch = sSrc&&sSrc.match(/^(.*)(iddqd\.js|iddqd\.min\.js)$/);
 			if (aMatch) sJSRoot = aMatch[1];
@@ -221,7 +221,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * @name iddqd.loop
 	 * @method
 	 * @param {Object} o The object or array
-	 * @param {Function} fn Callback function with the parameters key and value.
+	 * @param {Function} fn Callback function with the parameters value and key.
 	 */
 	function loop(o,fn){
 		if (o&&fn) {
@@ -232,11 +232,11 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 					,j;
 				while (i--) {
 					j = l-i-1;
-					fn(j,o[j]);
+					fn(o[j],j);
 				}
 			} else {
 				//for (var s in o) if (o.hasOwnProperty(s)) fn(s,o[s]);
-				for (var s in o) if (fn.call(o[s],s,o[s])===false) break; // ie8 fix
+				for (var s in o) if (fn.call(o[s],o[s],s)===false) break; // ie8 fix
 			}
 		}
 	}

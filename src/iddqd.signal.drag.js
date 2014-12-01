@@ -115,7 +115,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 							console.log('__'+s+' '+e.changedTouches[s]); // log;
 						}
 					}*/
-					loop(e.changedTouches,function(i,o){
+					loop(e.changedTouches,function(o){
 						/*console.log(
 							 ' i:'+i
 							+' o:'+o
@@ -141,7 +141,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 			case 'mouseup': case 'touchend':
 				var oDelete = {};
 				if (bTouch) {
-					loop(e.changedTouches,function(i,o){
+					loop(e.changedTouches,function(o){
 						if (typeof o!='object') return;
 						var id = o.identifier;
 						oDelete[id] = oTouches.remove(id);
@@ -160,7 +160,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 			break;
 			case 'mousemove': case 'touchmove':
 				if (bTouch) {
-					loop(e.touches,function(i,o){
+					loop(e.touches,function(o){
 						if (typeof o!='object') return;
 						var oTouch = oTouches[o.identifier];
 						oTouch.update(o.pageX,o.pageY);
@@ -205,11 +205,11 @@ iddqd.ns('iddqd.signal.drag',(function(){
 	 */
 	function checkForOrphans(touches){
 		var aIds = [];
-		loop(touches,function(i,o){
+		loop(touches,function(o){
 			aIds.push(o.identifier);
 		});
 		var oDead = {};
-		loop(oTouches,function(id,o){
+		loop(oTouches,function(o,id){
 			if (aIds.indexOf(parseInt(id,10))===-1) {
 				oDead[id] = o;
 				oTouches.remove&&oTouches.remove(id); // todo: check

@@ -100,7 +100,7 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 	 */
 	function addRule(selector,rules) {
 		var oSheet,sRules = '';
-		iddqd.loop(rules,function(prop,val){sRules+=prop+':'+val+';';});
+		iddqd.loop(rules,function(val,prop){sRules+=prop+':'+val+';';});
 		oSheet = aoStyleSheets[0];
 		oSheet.addRule(selector,sRules);
 		return oSheet.cssRules[oSheet.cssRules.length-1];
