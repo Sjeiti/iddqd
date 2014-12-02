@@ -15,18 +15,24 @@ iddqd.ns('iddqd.l18n',(function(undefined){
 	 * Initialise locale
 	 * @param iso
 	 * @param dictionaries
+	 * @memberof iddqd.l18n
+	 * @method
+	 * @public
 	 */
 	function init(iso,dictionaries){
 		set(iso);
 		for (var dicIso in dictionaries) {
-			dictionary(dicIso,dictionaries[dicIso]);
+			addISO(dicIso,dictionaries[dicIso]);
 		}
 	}
 
 	/**
-	 * Set current localse
+	 * Set current locale
 	 * @param {string} iso
 	 * @returns {string}
+	 * @memberof iddqd.l18n
+	 * @method
+	 * @public
 	 */
 	function set(iso){
 		sLang = iso;
@@ -34,15 +40,33 @@ iddqd.ns('iddqd.l18n',(function(undefined){
 	}
 
 	/**
-	 * Set translations for a specific iso code
+	 * Adds a translation to the lang namespace.
+	 * @param {string} iso The language ISO code (ie 'en', not 'en_US')
+	 * @param {string} key The l18n key
+	 * @param {string} text The translation
+	 * @memberof iddqd.l18n
+	 * @method
+	 * @public
+	 */
+	function add(iso,key,text){
+		if (!oLang.hasOwnProperty(iso)) oLang[iso] = {};
+		oLang[iso][key] = text;
+	}
+
+	/**
+	 * Set translations for a specific iso code.
+	 * Existing translations will be overwritten if the iso already exists.
 	 * @param iso
 	 * @param translations
+	 * @memberof iddqd.l18n
+	 * @method
+	 * @public
 	 */
-	function dictionary(iso,translations){
+	function addISO(iso,translations){
 		if (oLang[iso]===undefined) {
 			oLang[iso] = translations;
 		} else {
-			extend(oLang[iso],translations);
+			extend(oLang[iso],translations,true);
 		}
 	}
 
@@ -62,6 +86,7 @@ iddqd.ns('iddqd.l18n',(function(undefined){
 		__:__
 		,init:init
 		,set:set
-		,dictionary:dictionary
+		,add:add
+		,addISO:addISO
 	};
 })());

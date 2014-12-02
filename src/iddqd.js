@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.4.63
+ * @version 2.4.64
  * @license MIT
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
@@ -245,13 +245,17 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 * Extend an object
 	 * @name iddqd.extend
 	 * @method
-	 * @param obj {Object} Subject.
-	 * @param fns {Object} Property object.
+	 * @param {Object} obj Subject.
+	 * @param {Object} fns Property object.
+	 * @param {boolean} [overwrite=false]  Overwrite properties.
 	 * @returns {Object} Subject.
 	 */
-	function extend(obj,fns){
-		for (var s in fns) if (obj[s]===undefined) obj[s] = fns[s];
-		//for (var s in fns) if (!obj[s]) obj[s] = fns[s];
+	function extend(obj,fns,overwrite){
+		for (var s in fns) {
+			if (overwrite||obj[s]===undefined) {
+				obj[s] = fns[s];
+			}
+		}
 		return obj;
 	}
 
