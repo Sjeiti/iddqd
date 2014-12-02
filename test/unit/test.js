@@ -235,6 +235,8 @@
 		ok(isUrl('//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')===true,'CDN url');
 		ok(isUrl('https://gmail.com/')===true,'https url');
 		ok(isUrl('http://google.com/')===true,'http url');
+		ok(isUrl('www.filmacademie.nl')===false,'invalid strict');
+		ok(isUrl('www.filmacademie.nl',false)===true,'valid non-strict');
 	});
 	test('isUrl', function() {
 		var toSlug = iddqd.internal.native.string.toSlug;
