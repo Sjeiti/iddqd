@@ -51,7 +51,7 @@ module.exports = function (grunt) {
 			all: {
 				options: {
 					urls: [
-						'http://localhost/libs/js/iddqd/test/unit/index.html'
+						'http://localhost/iddqd/test/unit/index.html'
 					]
 				}
 			}

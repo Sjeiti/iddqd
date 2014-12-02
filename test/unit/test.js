@@ -29,28 +29,28 @@
 	test('iddqd.loop', function() {
 		ok((function(){
 			var a = [4,1,2,3], sResult = '';
-			iddqd.loop(a,function(i,s){
+			iddqd.loop(a,function(s){
 				sResult += s;
 			});
 			return sResult===a.join('');
 		})(),'array values');
 		ok((function(){
 			var a = [4,1,2,3], sResult = '';
-			iddqd.loop(a,function(i){
+			iddqd.loop(a,function(s,i){
 				sResult += i;
 			});
 			return sResult==='0123';
 		})(),'array keys');
 		ok((function(){
 			var a = {a:2,c:4,b:1}, sResult = '';
-			iddqd.loop(a,function(i,s){
+			iddqd.loop(a,function(s,i){
 				sResult += s;
 			});
 			return sResult==='241';
 		})(),'object values');
 		ok((function(){
 			var a = {a:2,c:4,b:1}, sResult = '';
-			iddqd.loop(a,function(i){
+			iddqd.loop(a,function(s,i){
 				sResult += i;
 			});
 			return sResult==='acb';
@@ -229,9 +229,16 @@
 		ok('aac'.pad(3,'b')==='aac','pad');
 		ok('aaac'.pad(3,'b')==='aaac','pad');
 	});
-	test('normalize', function() {
-		iddqd.internal.native.string.normalize();
-		ok(iddqd.internal.native.string.camelCase('foo bar baz')==='fooBarBaz','normalize');
+	test('isUrl', function() {
+		var isUrl = iddqd.internal.native.string.isUrl;
+		ok(isUrl('foo bar baz')===false,'not url');
+		ok(isUrl('//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')===true,'CDN url');
+		ok(isUrl('https://gmail.com/')===true,'https url');
+		ok(isUrl('http://google.com/')===true,'http url');
+	});
+	test('isUrl', function() {
+		var toSlug = iddqd.internal.native.string.toSlug;
+		ok(toSlug('Foo bär bAz?')==='foo-bar-baz','Foo bär bAz');
 	});
 	test('normalize', function() {
 		iddqd.internal.native.string.normalize();

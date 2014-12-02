@@ -169,6 +169,14 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 			if (aMatch) for (var i=0,l=aMatch.length;i<l;i++) s = s.replace(new RegExp('(\\%'+(i+1)+'\\$s)','g'),arguments[i]);
 			return s;
 		}
+		/**
+		 * Test if a string is an url
+		 * @returns {boolean}
+		 */
+		,isUrl: function() {
+			var rxUrl = new RegExp("^((http|https|ftp):)?//([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&amp;%$-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9-]+.)*[a-zA-Z0-9-]+.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(/($|[a-zA-Z0-9.,?\'\\+&amp;%$#=~_-]+))*$");
+			return rxUrl.test(this);
+		}
 		// todo: doc, http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 		,hashCode: function(){
 			var sHash = 0;
@@ -180,17 +188,19 @@ iddqd.ns('iddqd.internal.native.string',(function(internal){
 			}
 			return sHash;
 		}
+		/**
+		 * Turn a title into a slug
+		 * @returns {string}
+		 */
 		,toSlug: function() {
-			var str = this.replace(/^\s+|\s+$/g,''); // trim
-			str = str.toLowerCase();
-
-			// remove accents, swap ñ for n, etc
-			var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-			var to = "aaaaeeeeiiiioooouuuunc------";
+			var str = this.replace(/^\s+|\s+$/g,'').toLowerCase()
+				// remove accents, swap ñ for n, etc
+				,from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;"
+				,to = "aaaaeeeeiiiioooouuuunc------"
+			;
 			for (var i = 0, l = from.length; i<l; i++) {
 				str = str.replace(new RegExp(from.charAt(i),'g'),to.charAt(i));
 			}
-
 			str = str.replace(/[^a-z0-9 -]/g,'') // remove invalid chars
 				.replace(/\s+/g,'-') // collapse whitespace and replace by -
 				.replace(/-+/g,'-'); // collapse dashes
