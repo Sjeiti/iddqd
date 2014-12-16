@@ -13,7 +13,11 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		watch: {
-			default: {
+			gruntfile: {
+				files: ['Gruntfile.js', '.jshintrc'],
+				options: { spawn: false, reload: true }
+			}
+			,default: {
 				files: ['src/iddqd*.js'],
 				tasks: ['default'],
 				options: { spawn: false }
@@ -32,6 +36,11 @@ module.exports = function (grunt) {
 				]
 				,tasks: ['jsdoc']
 				,options: { spawn: false }
+			}
+			,bower: {
+				files: ['.bowerrc','bower.json','src/vendor/**/*'],
+				tasks: ['bower'],
+				options: { spawn: false }
 			}
 		},
 
@@ -105,6 +114,16 @@ module.exports = function (grunt) {
 				src: 'src/iddqd.js'
 				,dest: 'jsdoc.json'
 				,map: {name:'templates.systemName',copyright:'templates.copyright',author:'foo'}
+			}
+		}
+
+        // inject Bower components into HTML
+		,bower: {
+			main: {
+				json: 'bower.json'
+				,bowerrc: '.bowerrc'
+				,prefix: '../../'
+				,dest: ['test/unit/index.html']
 			}
 		}
 	});

@@ -5,4 +5,4 @@ vendor/
 web/
 doc/
 dist/
-test/
+test/*.*

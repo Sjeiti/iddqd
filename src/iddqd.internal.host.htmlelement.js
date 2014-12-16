@@ -104,6 +104,36 @@ iddqd.ns('iddqd.internal.host.htmlelement',(function(internal){
 			return parentNode===mParent;
 		}
 		/**
+		 * Traverses a nodes ancestors in search for a specific tag
+		 * @memberof iddqd.internal.host.htmlelement
+		 * @method
+		 * @param {string} parentName
+		 * @param {string} parentClass
+		 * @returns {HTMLElement}
+		 */
+		,findParent: function(parentName,parentClass){
+			var mParent = this
+				,sParentName = parentName&&parentName.toLowerCase()
+				,mFound;
+			if (mParent) {
+				while (mParent!==document.body) {
+					mParent = mParent.parentNode;
+					if (sParentName&&mParent.nodeName.toLowerCase()===sParentName) {
+						mFound = mParent;
+					}
+					if (parentClass) {
+						if (mParent.classList.contains(parentClass)) {
+							mFound = mParent;
+						} else {
+							mFound = undefined;
+						}
+					}
+					if (mFound) break;
+				}
+			}
+			return mFound;
+		}
+		/**
 		 * Checks if width and height are set.
 		 * @name iddqd.internal.host.htmlelement.visible
 		 * @method

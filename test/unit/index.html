@@ -5,19 +5,24 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<link href="qunit/qunit-1.15.0-iddqd.css" type="text/css" rel="stylesheet" />
-		<!--<link href="qunit/qunit-theme-ninja.css" type="text/css" rel="stylesheet" />-->
 
-		<script src="../../vendor/lodash.js"></script>
-		<script src="../../vendor/es5-shim.min.js"></script>
-		<script src="../../vendor/es5-sham.min.js"></script>
-		<script src="../../vendor/zen.min.js"></script>
-		<script src="../../vendor/signals.min.js"></script>
+		<!-- bower:js -->
+<script src="../../vendor/es5-shim/es5-shim.js"></script>
+<script src="../../vendor/es6-shim/es6-shim.js"></script>
+<script src="../../vendor/zen/dist/zen.js"></script>
+<script src="../../vendor/js-signals/dist/signals.js"></script>
+<script src="../../vendor/hammerjs/hammer.js"></script>
+<script src="../../vendor/lodash/dist/lodash.compat.js"></script>
+		<!-- endbower -->
 
-		<script src="../../src/iddqd.js"></script>
+		<script src="qunit/qunit-1.15.0.js"></script>
+		<script src="test.js"></script>
+
+		<!--<script src="../../src/iddqd.js"></script>
 		<script src="../../src/iddqd.type.js"></script>
 		<script src="../../src/iddqd.capabilities.js"></script>
 		<script src="../../src/iddqd.environment.js"></script>
-		
+
 		<script src="../../src/iddqd.internal.js"></script>
 		<script src="../../src/iddqd.internal.native.string.js"></script>
 		<script src="../../src/iddqd.internal.native.array.js"></script>
@@ -31,14 +36,14 @@
 		<script src="../../src/iddqd.math.prng.js"></script>
 		<script src="../../src/iddqd.math.vector.js"></script>
 		<script src="../../src/iddqd.math.color.js"></script>
-		
+
 		<script src="../../src/iddqd.requestAnimationFrame.js"></script>
-		
+
 		<script src="../../src/iddqd.pattern.js"></script>
 
 		<script src="../../src/iddqd.network.xhttp.js"></script>
 
-		<script src="../../src/iddqd.signals.js"></script>
+		<script src="../../src/iddqd.signal.js"></script>
 
 		<script src="../../src/iddqd.signal.js"></script>
 		<script src="../../src/iddqd.signal.DOMReady.js"></script>
@@ -51,20 +56,13 @@
 		<script src="../../src/iddqd.storage.js"></script>
 		<script src="../../src/iddqd.storage.cookie.js"></script>
 
-		<script src="qunit/qunit-1.15.0.js"></script>
+		<script src="iddqd.js"></script>
 
-		<script src="test.js"></script>
+		<script src="test.js"></script>-->
 	</head>
 	<body>
 		<div id="qunit"></div>
 		<div id="qunit-fixture"></div>
-
-<!--
-		<h1 id="qunit-header">IDDQD</h1>
-		<h2 id="qunit-banner"></h2>
-		<h2 id="qunit-userAgent"></h2>
-		<ol id="qunit-tests"></ol>
--->
 		<script type="text/html" id="tplfoo"><div class="bar">baz</div></script>
 	</body>
 </html>
