@@ -1,9 +1,24 @@
 /* global module, test, ok */
-/*jshint -W058 */
-(function(){
+(function(undefined){
 	'use strict';
 
+	var vector = iddqd.math.vector;
+
 	module('iddqd.math.vector.js');
+	test('empty', function() {
+		var v = vector();
+		ok(!!v,'exists');
+		ok(v.getX()===undefined,'no X');
+		ok(v.getY()===undefined,'no Y');
+		ok(isNaN(v.size()),'no size');
+	});
+	test('normal', function() {
+		var v = vector(3,7);
+		ok(!!v,'exists');
+		ok(v.getX()===3,'getX');
+		ok(v.getY()===7,'getY');
+		ok(v.size()===Math.sqrt(3*3+7*7),'size');
+	});
 	// todo iddqd.math.vector.js
 	// todo getX
 	// todo getY

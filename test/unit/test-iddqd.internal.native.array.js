@@ -1,5 +1,4 @@
 /* global module, test, ok */
-/*jshint -W058 */
 (function(){
 	'use strict';
 
@@ -14,7 +13,6 @@
 	});
 	test('rnd', function() {
 		var i = 100
-			,fRnd
 			,bDifferent = false
 			,rnd = iddqd.internal.native.array.rnd;
 		while (i--) bDifferent = bDifferent||rnd(this.a)!==rnd(this.a);

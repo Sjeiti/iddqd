@@ -19,12 +19,17 @@ module.exports = function (grunt) {
 			}
 			,default: {
 				files: ['src/iddqd*.js'],
-				tasks: ['default'],
+				tasks: ['test'],
 				options: { spawn: false }
 			},
 			revision: {
 				files: ['.git/COMMIT_EDITMSG']
 				,tasks: ['version']
+				,options: { spawn: false }
+			},
+			test: {
+				files: ['test/unit/**']
+				,tasks: ['qunit']
 				,options: { spawn: false }
 			},
 			jsdoc: {
@@ -34,7 +39,7 @@ module.exports = function (grunt) {
 					,'jsdoc/template/tmpl/*.tmpl'
 					,'jsdoc/tutorials/**'
 				]
-				,tasks: ['jsdoc']
+				,tasks: ['doc']
 				,options: { spawn: false }
 			}
 			,bower: {
@@ -99,6 +104,7 @@ module.exports = function (grunt) {
 			}
 		},
 
+		// set variables
 		map_json: {
 			package: {
 				src: 'src/iddqd.js'
@@ -128,12 +134,11 @@ module.exports = function (grunt) {
 		}
 	});
 
-	grunt.registerTask('default',['jshint','qunit','cli:jsdoc']);
+	grunt.registerTask('default',['test','watch']);
+	grunt.registerTask('test',['jshint','qunit','cli:jsdoc']);
 	grunt.registerTask('version',['version_git','map_json']);
-	grunt.registerTask('test',['qunit']);
-	grunt.registerTask('doc',['cli:jsdoc']);
 
-	grunt.registerTask('jsdoc',[
+	grunt.registerTask('doc',[
 		'less:jsdoc'
 		,'clean:jsdoc'
 		,'cli:jsdoc'

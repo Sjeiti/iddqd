@@ -59,7 +59,7 @@ module.exports = function(grunt) {
 	grunt.registerMultiTask('bower', 'Processes HTML', function() {
 		var fs = require('fs')
 			,oData = this.data
-			,sPrefix = oData.prefix||'/'
+			,sPrefix = oData.prefix!==undefined?oData.prefix:'/'
 			,oBower = JSON.parse(fs.readFileSync(oData.json).toString())
 			,oBowrc = JSON.parse(fs.readFileSync(oData.bowerrc).toString())
 			,oOverrides = oBowrc.overrides||{}
