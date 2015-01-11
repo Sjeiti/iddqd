@@ -10,7 +10,7 @@
  * @namespace iddqd.math.proc.simplex
  * @todo documentation
  */
-iddqd.ns('iddqd.math.proc.simplex',function(){
+iddqd.ns('iddqd.math.proc.simplex',(function(){
 	'use strict';
 
 	var F2 = 0.5*(Math.sqrt(3)-1);
@@ -440,4 +440,4 @@ iddqd.ns('iddqd.math.proc.simplex',function(){
 			return "[object PerlinSimplex "+iOctaves+" "+fPersistence+"]";
 		}
 	};
-});
+})());

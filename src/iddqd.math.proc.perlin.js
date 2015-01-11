@@ -8,7 +8,7 @@
  * @namespace iddqd.math.proc.perlin
  * @todo documentation
  */
-iddqd.ns('iddqd.math.proc.perlin',function(){
+iddqd.ns('iddqd.math.proc.perlin',(function(){
 	'use strict';
 
 	var oRng = Math;
@@ -186,4 +186,4 @@ iddqd.ns('iddqd.math.proc.perlin',function(){
 			return "[object Perlin "+iOctaves+" "+fPersistence+"]";
 		}
 	};
-});
+})());
