@@ -18,9 +18,9 @@ iddqd.ns('iddqd.environment',(function(){
 		,isStandalone =	!!oNavigator.standalone
 	;
 	function addClassNames(){
-		var mHTML = document.body//querySelector('html')
+		var mHTML = document.body
 			,sPrefix = 'env_'
-			,addBodyClass = mHTML.classList.add;
+			,addBodyClass = mHTML.classList.add.bind(mHTML.classList);
 		isIPad&&addBodyClass(sPrefix+'ipad');
 		isIPhone&&addBodyClass(sPrefix+'iphone');
 		isIPod&&addBodyClass(sPrefix+'ipod');
