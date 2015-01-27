@@ -100,7 +100,7 @@ module.exports = function (grunt) {
 
 		version_git: {
 			main: {
-				files: {src:['src/iddqd.js']}
+				src:['src/iddqd.js']
 			}
 		},
 
