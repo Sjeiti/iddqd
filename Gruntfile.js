@@ -132,6 +132,25 @@ module.exports = function (grunt) {
 				,dest: ['test/unit/index.html']
 			}
 		}
+
+		,'6to5': {
+//			options: {
+//				sourceMap: true
+//			}
+//			,dist: {
+//				files: {
+//					'./test/appsrc.js': './test/app.js'
+//				}
+//			}
+			options: {
+				sourceMap: true
+			},
+			dist: {
+				files: {
+					'test/app.js': 'test/appsrc.js'
+				}
+			}
+		}
 	});
 
 	grunt.registerTask('default',['test','watch']);
