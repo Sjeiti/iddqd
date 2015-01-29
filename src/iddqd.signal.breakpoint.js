@@ -158,4 +158,4 @@ iddqd.ns('iddqd.signal.breakpoint',iddqd.signal(function(signal){
 //			}
 //		}
 //	},false);
-}));
+},true));

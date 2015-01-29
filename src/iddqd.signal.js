@@ -25,7 +25,7 @@
  * @todo what if the signal already exists
  * @todo add window.addEventListener('popstate',handleCloseOverlay);
  */
-iddqd.ns('iddqd.signal',function(init){
+iddqd.ns('iddqd.signal',function(init,createNow){
 	'use strict';
 	var oSignal = new window.signals.Signal()
 		,fnTmpAdd = oSignal.add
@@ -36,6 +36,7 @@ iddqd.ns('iddqd.signal',function(init){
 			init(oSignal);
 		}
 	;
+	createNow&&fnInited();
 	oSignal.add = function(){
 		fnInited();
 		return oSignal.add.apply(this,arguments);

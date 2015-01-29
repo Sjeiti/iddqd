@@ -3,11 +3,8 @@
 module.exports = function (grunt) {
 	/* jshint strict: false */
 
-    // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 	grunt.loadTasks('gruntTasks');
-
-
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -22,11 +19,11 @@ module.exports = function (grunt) {
 				tasks: ['test'],
 				options: { spawn: false }
 			},
-			revision: {
+			/*revision: {
 				files: ['.git/COMMIT_EDITMSG']
 				,tasks: ['version']
 				,options: { spawn: false }
-			},
+			},*/
 			test: {
 				files: ['test/unit/**']
 				,tasks: ['qunit']
@@ -100,7 +97,11 @@ module.exports = function (grunt) {
 
 		version_git: {
 			main: {
-				src:['src/iddqd.js']
+				src:[
+					'src/iddqd.js'
+					,'package.json'
+					,'bower.json'
+				]
 			}
 		},
 
@@ -136,7 +137,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default',['test','watch']);
 	grunt.registerTask('test',['jshint','qunit','cli:jsdoc']);
-	grunt.registerTask('version',['version_git','map_json']);
+	//grunt.registerTask('version',['version_git','map_json']);
 
 	grunt.registerTask('doc',[
 		'less:jsdoc'
