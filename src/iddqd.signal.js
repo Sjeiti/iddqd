@@ -36,14 +36,17 @@ iddqd.ns('iddqd.signal',function(init,createNow){
 			init(oSignal);
 		}
 	;
-	createNow&&fnInited();
-	oSignal.add = function(){
+	if (createNow) {
 		fnInited();
-		return oSignal.add.apply(this,arguments);
-	};
-	oSignal.addOnce = function(){
-		fnInited();
-		return oSignal.addOnce.apply(this,arguments);
-	};
+	} else {
+		oSignal.add = function(){
+			fnInited();
+			return oSignal.add.apply(this,arguments);
+		};
+		oSignal.addOnce = function(){
+			fnInited();
+			return oSignal.addOnce.apply(this,arguments);
+		};
+	}
 	return oSignal;
 });
