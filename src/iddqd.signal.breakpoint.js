@@ -13,12 +13,23 @@ iddqd.ns('iddqd.signal.breakpoint',iddqd.signal(function(signal){
 		,bLoaded = false
 		,aPostMap
 	;
+
 	signal.current = iCurrent;
 	signal.points = aSizes;
 	signal.map = map;
 	function map(){
 		if (bLoaded) {
-			if (arguments.length===iSizes) {
+			if (arguments.length===1&&typeof(arguments[0])!=='number') {
+				var obj = arguments[0];
+				for (var sConstant in obj) {
+					var iValue = obj[sConstant];
+					if (aSizes.indexOf(iValue)!==-1) {
+						signal[sConstant] = iValue;
+					} else {
+						console.warn('Breakpoint \''+sConstant+'\' ('+iValue+') not found.');
+					}
+				}
+			} else if (arguments.length===iSizes) {
 				for (var i=0;i<iSizes;i++) {
 					var sMap = arguments[i];
 					signal[sMap] = aSizes[i];
