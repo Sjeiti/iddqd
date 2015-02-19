@@ -26,11 +26,11 @@ iddqd.ns('iddqd.utils.getLessVars',function(id,parseNumbers) {
 	// todo: memoisation
 	var bNumbers = parseNumbers===undefined?true:parseNumbers
 		,oLess = {}
-		,rgId = /\#\w+/
+		,rgId = /\#[\w-]+/
+		,rgKey = /\.([\w-]+)/
 		,rgNum = /^[0-9]+$/
 		,rgUnit = /[a-z]+$/
 		,aUnits = 'em,ex,ch,rem,vw,vh,vmin,cm,mm,in,pt,pc,px,deg,grad,rad,turn,s,ms,Hz,kHz,dpi,dpcm,dppx'.split(',')
-		,rgKey = /\.(\w+)/
 		,rgValue = /:\s?(.*)\s?;\s?\}/
 		,sId = '#'+id
 		,oStyles = document.styleSheets;
@@ -38,7 +38,9 @@ iddqd.ns('iddqd.utils.getLessVars',function(id,parseNumbers) {
 		var oSheet = oStyles[i]
 			,sStyleHref = oSheet.href;
 		if (sStyleHref&&sStyleHref.indexOf(location.origin)===0) {
-			var oRules = oSheet.cssRules;// todo: IE8 err
+			var oRules;
+			try{ oRules = oStyles[i].cssRules; }
+			catch (e) { continue; }
 			if (oRules) { // if ! callback
 				for (var j=0,k=oRules.length;j<k;j++) {
 					var sRule = oRules[j].cssText
