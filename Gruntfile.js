@@ -14,22 +14,29 @@ module.exports = function (grunt) {
 				files: ['Gruntfile.js', '.jshintrc'],
 				options: { spawn: false, reload: true }
 			}
+			//
+			,browserify: {
+				files: ['src/_test.js'],
+				tasks: ['cli:browserify'],
+				options: { spawn: false }
+			}
+			//
 			,default: {
 				files: ['src/iddqd*.js'],
 				tasks: ['test'],
 				options: { spawn: false }
-			},
+			}
 			/*revision: {
 				files: ['.git/COMMIT_EDITMSG']
 				,tasks: ['version']
 				,options: { spawn: false }
 			},*/
-			test: {
+			,test: {
 				files: ['test/unit/**']
 				,tasks: ['qunit']
 				,options: { spawn: false }
-			},
-			jsdoc: {
+			}
+			,jsdoc: {
 				files: [
 					'jsdoc/template/static/styles/*.less'
 					,'jsdoc/template/static/scripts/*.js'
@@ -47,7 +54,8 @@ module.exports = function (grunt) {
 		},
 
 		cli: {
-			jsdoc: { cwd: './', command: 'jsdoc -c jsdoc.json', output: true }
+			jsdoc: { cwd: './', command: 'jsdoc -c jsdoc.json', output: true },
+			browserify: { cwd: './', command: 'browserify src/_test.js -d -t babelify --outfile temp/_test.js', output: true }
 		},
 
 		jshint: {
@@ -134,24 +142,28 @@ module.exports = function (grunt) {
 			}
 		}
 
-		,'6to5': {
+//		,browserify: {
+//			foo: {files:{'temp/_test.js': ['src/_test.js']}}
+//		}
+//
+//		,babel: {
+////			options: {
+////				sourceMap: true
+////			}
+////			,dist: {
+////				files: {
+////					'./test/appsrc.js': './test/app.js'
+////				}
+////			}
 //			options: {
 //				sourceMap: true
-//			}
-//			,dist: {
+//			},
+//			dist: {
 //				files: {
-//					'./test/appsrc.js': './test/app.js'
+//					'temp/app.js': 'test/appsrc.js'
 //				}
 //			}
-			options: {
-				sourceMap: true
-			},
-			dist: {
-				files: {
-					'test/app.js': 'test/appsrc.js'
-				}
-			}
-		}
+//		}
 	});
 
 	grunt.registerTask('default',['test','watch']);

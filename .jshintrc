@@ -1,13 +1,15 @@
 {
     "globals": {
 		"iddqd": true,
+		"module": true,
 		"require": true,
 		"exports": true,
 		"signals": true,
 		"DOMTokenList": true,
 		"CSSMediaRule": true
 	},
-    "strict": true,
+    "esnext": true,
+//    "strict": true,
     "browser": true,
     "jquery": true,
     "devel": true,
