@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.4.70
+ * @version 2.5.3
  * @license MIT
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
@@ -154,7 +154,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 	 */
 	function fixClassList(){
 		(function(m){
-			if (m.classList) {
+			if (m.classList&&window.DOMTokenList) {
 				m.classList.add('a','b');
 				if (!m.classList.contains('b')) {
 					var tokenProto = DOMTokenList.prototype
@@ -180,7 +180,7 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 			}
 			return bContains;
 		}
-		if (DOMTokenList) {
+		if (window.DOMTokenList) {
 			var oDOMTokenListPrototype = DOMTokenList.prototype
 				,fnContains = oDOMTokenListPrototype.contains;
 			oDOMTokenListPrototype.contains = contains;
