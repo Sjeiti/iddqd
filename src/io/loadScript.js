@@ -4,7 +4,7 @@
  * @param {String} src The source location of the file.
  * @returns {Promise}
  */
-module.exports = src => {
+export default src => {
 	return new Promise((resolve,reject) => {
 		const mScript = document.createElement('script');
 		mScript.src = src;

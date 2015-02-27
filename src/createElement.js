@@ -9,7 +9,7 @@
  * @param {Function} click An optional click event handler
  * @returns {HTMLElement} Returns the newly created element
  */
-module.exports = (type,classes,parent,attributes,text,click) => {
+export default (type,classes,parent,attributes,text,click) => {
 	const mElement = document.createElement(type||'div');
 	if (attributes) for (var attr in attributes) mElement.setAttribute(attr,attributes[attr]);
 	if (classes) {

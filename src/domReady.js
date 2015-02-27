@@ -5,7 +5,7 @@
  * @param {Function} callback Callback function.
  * @param {string} state Listen to particular state
  */
-module.exports = new Promise((resolve) => {
+export default new Promise((resolve) => {
 	function checkReadyState(fn) {
 		document.readyState==='interactive'&&fn();
 	}

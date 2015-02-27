@@ -5,7 +5,7 @@
  * @param {Object} target The target
  * @param {String} evt The event
  */
-module.exports = (target,evt) => {
+export default (target,evt) => {
 	if (document.createEventObject){ // dispatch for IE
 		return target.fireEvent('on'+evt,document.createEventObject());
 	} else { // dispatch for others

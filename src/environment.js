@@ -1,7 +1,6 @@
 // todo document
-iddqd.ns('iddqd.environment',(function(){
-	'use strict';
-	var
+export default (()=>{
+	const
 		oNavigator =	window.navigator
 		,sUserAgent =	oNavigator.userAgent
 		,isIPad =		!!sUserAgent.match(/iPad/i)
@@ -18,7 +17,7 @@ iddqd.ns('iddqd.environment',(function(){
 		,isStandalone =	!!oNavigator.standalone
 	;
 	function addClassNames(){
-		var mHTML = document.body
+		const mHTML = document.body
 			,sPrefix = 'env_'
 			,addBodyClass = mHTML.classList.add.bind(mHTML.classList);
 		isIPad&&addBodyClass(sPrefix+'ipad');
@@ -44,4 +43,4 @@ iddqd.ns('iddqd.environment',(function(){
 		,standalone: isStandalone
 		,addClassNames:addClassNames
 	};
-})());
+})();

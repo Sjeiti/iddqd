@@ -4,7 +4,7 @@
  * @method
  * @return {Object} A key/value object.
  */
-module.exports = (function(){
+export default (function(){
 	var bGetget = false, oGetget = {};
 	return function(){ // todo typecast * @param {Boolean} [typecast=true] Tries to guess the type.
 		if (!bGetget) {

@@ -16,12 +16,18 @@ module.exports = function (grunt) {
 			}
 			//
 			,browserify: {
-				files: ['src/_test.js'],
+				files: ['src/*.js'],
 				tasks: ['cli:browserify'],
 				options: { spawn: false }
 			}
 			//
-			,default: {
+			/*,babel: {
+				files: ['src*//*.js'],
+				tasks: ['cli:babel'],
+				options: { spawn: false }
+			}*/
+			//
+			,jstest: {
 				files: ['src/iddqd*.js'],
 				tasks: ['test'],
 				options: { spawn: false }
@@ -38,10 +44,10 @@ module.exports = function (grunt) {
 			}
 			,jsdoc: {
 				files: [
-					'jsdoc/template/static/styles/*.less'
-					,'jsdoc/template/static/scripts/*.js'
-					,'jsdoc/template/tmpl/*.tmpl'
-					,'jsdoc/tutorials/**'
+					'jsdoc/template/static/styles.less'
+					,'jsdoc/template/static/scripts.js'
+					,'jsdoc/template/tmpl.tmpl'
+					,'jsdoc/tutorials*'
 				]
 				,tasks: ['doc']
 				,options: { spawn: false }
@@ -51,19 +57,20 @@ module.exports = function (grunt) {
 				tasks: ['bower'],
 				options: { spawn: false }
 			}
-		},
+		}
 
-		cli: {
-			jsdoc: { cwd: './', command: 'jsdoc -c jsdoc.json', output: true },
-			browserify: { cwd: './', command: 'browserify src/_test.js -d -t babelify --outfile temp/_test.js', output: true }
-		},
+		,cli: {
+			jsdoc: { cwd: './', command: 'jsdoc -c jsdoc.json', output: true }
+			,browserify: { cwd: './', command: 'browserify src/_test.js -d -t babelify --outfile temp/_test.js', output: true }
+			,babel: { cwd: './', command: 'babel src/_test.js --out-file temp/_test.js -t', output: true }
+		}
 
-		jshint: {
+		,jshint: {
 			options: { jshintrc: '.jshintrc' },
 			files: ['src/iddqd*.js']
-		},
+		}
 
-		qunit: {
+		,qunit: {
 			//options: { jshintrc: '.jshintrc' },
 			//files: ['src/iddqd*.js']
 			//,tests: 'test/unit/test.js'
@@ -74,15 +81,15 @@ module.exports = function (grunt) {
 					]
 				}
 			}
-		},
+		}
 
-		clean: {
+		,clean: {
 			jsdoc: {
 				src: ['doc/**']
 			}
-		},
+		}
 
-		less: {
+		,less: {
 			options: {
 				compress: true
 			}
@@ -98,8 +105,8 @@ module.exports = function (grunt) {
 
 		uglify: {
 			iddqd: {
-				src: ['src/iddqd*.js'],
-				dest: 'dist/iddqd.min.js'
+				src: ['src/iddqd*.js']
+				,dest: 'dist/iddqd.min.js'
 			}
 		},
 
