@@ -274,7 +274,8 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 		while(s=aNS.shift()){
 			if (object) {
 				if (aNS.length===0) {
-					var oExists = oBase.hasOwnProperty(s)?oBase[s]:null;
+					//var oExists = oBase.hasOwnProperty(s)?oBase[s]:null;
+					var oExists = Object.prototype.hasOwnProperty.call(oBase,s)?oBase[s]:null; // ie8 fix
 					oBase[s] = object;
 					if (!object.hasOwnProperty('toString')) object.toString = (function(s){return function(){return '[object '+s+']';};})(s);
 					if (oExists) {
