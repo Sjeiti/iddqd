@@ -3,7 +3,7 @@
  * @namespace iddqd
  * @name iddqd
  * @summary A collection
- * @version 2.5.3
+ * @version 2.5.4
  * @license MIT
  * @author Ron Valstar (http://www.sjeiti.com/)
  * @copyright Ron Valstar <ron@ronvalstar.nl>
@@ -281,13 +281,13 @@ if (window.iddqd===undefined) window.iddqd = (function() {
 						console.warn('Overwriting '+s+' in '+namespace);
 						extend(oBase[s],oExists);
 					}
-				} else if (!oBase.hasOwnProperty(s)) {
-				//} else if (!Object.prototype.hasOwnProperty.call(oBase,s)) { // ie8 fix
+				//} else if (!oBase.hasOwnProperty(s)) {
+				} else if (!Object.prototype.hasOwnProperty.call(oBase,s)) { // ie8 fix
 					oBase[s] = {};
 				}
 				oBase = oBase[s];
-			} else if (oBase.hasOwnProperty(s)) {
-			//} else if (!Object.prototype.hasOwnProperty.call(oBase,s)) { // ie8 fix
+			//} else if (oBase.hasOwnProperty(s)) {
+			} else if (!Object.prototype.hasOwnProperty.call(oBase,s)) { // ie8 fix
 				oBase = oBase[s];
 			} else {
 				return;
