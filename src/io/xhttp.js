@@ -1,14 +1,13 @@
 /* global ActiveXObject */
 /**
  * Do an xhttp request
- * @name iddqd.network.xhttp
- * @method
+ * @module io/xhttp
  * @param {string} url
  * @param {Function} callback
  * @param {Object} postData
  * @returns {XMLHttpRequest}
  **/
-iddqd.ns('iddqd.network.xhttp',(function(){
+export default (function(){
 	'use strict';
 	// todo: refactor
 	var XMLHttpFactories = [
@@ -83,4 +82,4 @@ iddqd.ns('iddqd.network.xhttp',(function(){
 //	//
 //	,'Content-Transfer-Encoding'
 //]
-})());
+})();

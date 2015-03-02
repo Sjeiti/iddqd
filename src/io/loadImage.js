@@ -1,7 +1,7 @@
 /**
  * Load an image
  * If {@link iddqd.network.xhttp xhttp} is present proper filesize and mime types will also be returned in the callback
- * @name loadImage
+ * @name io/loadImage
  * @param {String} uri The uri of the image.
  * @param {boolean} useXHTTP Use XHTTP to retreive more data.
  * @return {Promise} A loadImage object.

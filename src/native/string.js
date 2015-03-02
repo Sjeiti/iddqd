@@ -1,4 +1,3 @@
-
 /**
  * Tries to determine the type of the string and returns it.
  * @name string.toType
