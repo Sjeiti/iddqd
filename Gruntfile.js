@@ -15,13 +15,13 @@ module.exports = function (grunt) {
 				options: { spawn: false, reload: true }
 			}
 			//
-			,browserify: {
-				files: ['src/*.js'],
+			/*,browserify: {
+				files: ['src/!*.js'],
 				tasks: ['cli:browserify'],
 				options: { spawn: false }
-			}
+			}*/
 			,browserifytest: {
-				files: ['./test/unit/src/*.js'],
+				files: ['./src/**','./test/unit/src/*.js'],
 				tasks: ['test'],
 				options: { spawn: false }
 			}
@@ -32,21 +32,21 @@ module.exports = function (grunt) {
 				options: { spawn: false }
 			}*/
 			//
-			,jstest: {
+			/*,jstest: {
 				files: ['src/iddqd*.js'],
 				tasks: ['test'],
 				options: { spawn: false }
-			}
+			}*/
 			/*revision: {
 				files: ['.git/COMMIT_EDITMSG']
 				,tasks: ['version']
 				,options: { spawn: false }
 			},*/
-			,test: {
-				files: ['test/unit/**']
+			/*,test: {
+				files: ['test/unit/!**']
 				,tasks: ['qunit']
 				,options: { spawn: false }
-			}
+			}*/
 			,jsdoc: {
 				files: [
 					'jsdoc/template/static/styles.less'
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
 
 		,jshint: {
 			options: { jshintrc: '.jshintrc' },
-			files: ['src/iddqd*.js']
+			files: []//['src/native/string.js','!*iddqd*.js','!_*.js']
 		}
 
 		,qunit: {
@@ -106,13 +106,6 @@ module.exports = function (grunt) {
 			,jsdoc: {
 				src: ['jsdoc/template/static/styles/site.sjeiti.less'],
 				dest: 'jsdoc/template/static/styles/site.sjeiti.css'
-			}
-		},
-
-		uglify: {
-			iddqd: {
-				src: ['src/iddqd*.js']
-				,dest: 'dist/iddqd.min.js'
 			}
 		},
 
@@ -189,5 +182,4 @@ module.exports = function (grunt) {
 		,'clean:jsdoc'
 		,'cli:jsdoc'
 	]);
-
 };

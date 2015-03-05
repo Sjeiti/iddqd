@@ -1,6 +1,6 @@
 /**
  * Array methods
- * @namespace iddqd.internal.native.array
+ * @namespace internal.array
  */
 iddqd.ns('iddqd.internal.native.array',(function(internal) {
 	'use strict';

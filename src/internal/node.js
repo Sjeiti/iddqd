@@ -1,6 +1,6 @@
 /**
  * Node methods
- * @module native/node
+ * @module internal/node
  */
 
 /**

@@ -1,6 +1,6 @@
 /**
  * HTMLElement methods
- * @module native/htmlelement
+ * @module internal/htmlelement
  */
 
 /**

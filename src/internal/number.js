@@ -1,6 +1,6 @@
 /**
  * Number methods
- * @module native/number
+ * @module internal/number
  */
 
 /**
@@ -8,6 +8,7 @@
  * @param {number} number The number to format
  * @param {number} round The number of decimals to round by
  * @returns {string} Filesize string result
+ * @todo extend to generic formatter
  */
 export function formatSize(number,round) {
 	var i, size = number;

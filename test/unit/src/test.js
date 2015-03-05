@@ -1,9 +1,13 @@
 import './testType';
+import './testTimeout';
 import './testNamespace';// todo: other iddqd
 import './testCapabilities';
 import './testEnvironment';
-import './testNode';
-import './testString';
+import './testInternalNode';
+import './testInternalString';
+import './testInternalNumber';
+import './testInternalDate';
+
 
 /*
 (function(){

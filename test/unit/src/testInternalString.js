@@ -1,5 +1,5 @@
 /*global QUnit,test,ok*/
-import * as string from './../../../src/native/string';
+import * as string from './../../../src/internal/string';
 //import type from './../../../src/type';
 
 QUnit.module('string');
@@ -69,7 +69,8 @@ test('isUrl', function() {
 });
 test('toSlug', function() {
 	var toSlug = string.toSlug;
-	ok(toSlug('Foo b‰r bAz?')==='foo-bar-baz','Foo b‰r bAz');
+	ok(toSlug(' Foo bar bAz?')==='foo-bar-baz','Foo b√§r bAz');
+	ok(toSlug('Foo b√§r bAz?')==='foo-bar-baz','Foo b√§r bAz');
 });
 test('normalize', function() {
 	ok(string.camelCase('foo bar baz')==='fooBarBaz','normalize');

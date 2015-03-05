@@ -1,7 +1,11 @@
 /**
+ * String methods
+ * @module internal/string
+ */
+
+/**
  * Tries to determine the type of the string and returns it.
- * @name string.toType
- * @method
+ * @param {String} s A string
  * @returns {Object} Returns a string, number or boolean.
  */
 export function toType(s){
@@ -20,8 +24,7 @@ export function toType(s){
 
 /**
  * Pads a string left or right
- * @name string.pad
- * @method
+ * @param {String} s A string
  * @param {Number} length Final length of the total string.
  * @param {String} chr Character to pad the string with.
  * @param {Boolean} [left=false] Pad to the left of the string.
@@ -45,8 +48,7 @@ export function pad(s,length,chr,left){
 
 /**
  * Converts string to XML
- * @name string.toXML
- * @method
+ * @param {String} s A string
  * @returns {Document} Returns an XML Document
  */
 export function toXML(s) {
@@ -62,10 +64,10 @@ export function toXML(s) {
 	return xDoc;
 }
 
+
 ///**
 // * Converts an XML string to an object
-// * @name string.toXMLObj
-// * @method
+// * @param {String} s A string
 // * @returns {Object}
 // */
 //export function toXMLObj(s){
@@ -108,52 +110,50 @@ export function toXML(s) {
 //			}
 //			return cut?sPsw.substr(0,length):sPsw;
 //		}
+
 /**
  * Capitalizes the first character of the string
- * @name string.nameCase
- * @method
+ * @param {String} s A string
  * @returns {string}
  */
 export function nameCase(s){
-	return ('-'+s).replace(/[_\s\-][a-z]/g, function($1){return $1.toUpperCase().replace('-',' ').replace('_',' ');}).substr(1);
+	return ('-'+s).replace(/[_\s\-][a-z]/g, $1=>$1.toUpperCase().replace('-',' ').replace('_',' ')).substr(1);
 }
 
 /**
  * Converts the string to camelCase notation
- * @name string.camelCase
- * @method
+ * @param {String} s A string
  * @returns {string}
  */
 export function camelCase(s){
-	return s.replace(/[_\s\-][a-z]/g, function($1){return $1.toUpperCase().replace('-','').replace(' ','').replace('_','');});
+	return s.replace(/[_\s\-][a-z]/g, $1=>$1.toUpperCase().replace('-','').replace(' ','').replace('_',''));
 }
 
 /**
  * Converts the string to dashed notation
- * @name string.dash
- * @method
+ * @param {String} s A string
  * @returns {string}
  */
 export function dash(s){
-	var sCamel = s.replace(/[A-Z]/g, function($1){return "-"+$1.toLowerCase();});
+	var sCamel = s.replace(/[A-Z]/g, $1=>"-"+$1.toLowerCase());
 	var sUnSpc = s.replace(/[\s_]/g, '-');
 	return s==sCamel?sUnSpc:sCamel;
 }
 
 /**
  * Converts the string to underscored notation
- * @name string.underscore
- * @method
+ * @param {String} s A string
  * @returns {string}
  */
 export function underscore(s){
-	var sCamel = s.replace(/[A-Z]/g, function($1){return "_"+$1.toLowerCase();});
+	var sCamel = s.replace(/[A-Z]/g, $1=>"_"+$1.toLowerCase());
 	var sUnSpc = s.replace(/[\s\-]/g, '_');
 	return s==sCamel?sUnSpc:sCamel;
 }
 
 /**
  * A minimal version of sprintf. Replaces variables in a string with the arguments. Variables are like %1$s and start at 1.
+ * @param {String} s A string
  * @param {(string|string[])} [replacements] We're the replacements
  * @returns {string}
  */
@@ -165,11 +165,12 @@ export function sprintf(s){
 
 /**
  * Test if a string is an url
+ * @param {String} s A string
  * @param {boolean} [strict=true] Non-strict for urls without protocol, ie: www.google.com
  * @returns {boolean}
  */
-export function isUrl(s,strict) {
-	var rxUrl = new RegExp(strict===undefined||strict?
+export function isUrl(s,strict=true) {
+	var rxUrl = new RegExp(strict?
 			"^((http|https|ftp):)?//([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&amp;%$-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9-]+.)*[a-zA-Z0-9-]+.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(/($|[a-zA-Z0-9.,?\'\\+&amp;%$#=~_-]+))*$"
 			:"^(((http|https|ftp):)?//)?([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&amp;%$-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9-]+.)*[a-zA-Z0-9-]+.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(/($|[a-zA-Z0-9.,?\'\\+&amp;%$#=~_-]+))*$"
 		);
@@ -177,6 +178,11 @@ export function isUrl(s,strict) {
 }
 
 // todo: doc, http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+/**
+ * A string to hashcode method
+ * @param {String} s A string
+ * @returns {Number}
+ */
 export function hashCode(s){
 	var sHash = 0;
 	if (s.length===0) return sHash;
@@ -190,20 +196,25 @@ export function hashCode(s){
 
 /**
  * Turn a title into a slug
+ * @param {String} s A string
  * @returns {string}
  */
 export function toSlug(s) {
-	var str = s.replace(/^\s+|\s+$/g,'').toLowerCase()
-		// remove accents, swap ñ for n, etc
-		,from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;"
-		,to = "aaaaeeeeiiiioooouuuunc------"
+	var str = s.toLowerCase()
+		,replace = {
+			a: /[àáäâ]/g
+			,e: /[èéëê]/g
+			,i: /[ìíïî]/g
+			,o: /[òóöô]/g
+			,u: /[ùúüû]/g
+			,n: /[ñ]/g
+			,c: /[ç]/g
+			,'-': /[^a-z0-9]|-+/g
+			,'': /^-+|-+$/g
+		}
 	;
-	for (var i = 0, l = from.length; i<l; i++) {
-		str = str.replace(new RegExp(from.charAt(i),'g'),to.charAt(i));
+	for (var replacement in replace) {
+		str = str.replace(replace[replacement],replacement);
 	}
-	str = str.replace(/[^a-z0-9 -]/g,'') // remove invalid chars
-		.replace(/\s+/g,'-') // collapse whitespace and replace by -
-		.replace(/-+/g,'-'); // collapse dashes
-
 	return str;
 }

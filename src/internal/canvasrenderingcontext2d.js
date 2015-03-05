@@ -1,7 +1,7 @@
 // todo: document
 /**
  * CanvasRenderingContext2D methods
- * @module native/canvasrenderingcontext2d
+ * @module internal/canvasrenderingcontext2d
  */
 
 var aStyle = ['strokeStyle','fillStyle','font','lineWidth']
