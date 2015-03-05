@@ -20,6 +20,11 @@ module.exports = function (grunt) {
 				tasks: ['cli:browserify'],
 				options: { spawn: false }
 			}
+			,browserifytest: {
+				files: ['./test/unit/src/*.js'],
+				tasks: ['test'],
+				options: { spawn: false }
+			}
 			//
 			/*,babel: {
 				files: ['src*//*.js'],
@@ -62,6 +67,7 @@ module.exports = function (grunt) {
 		,cli: {
 			jsdoc: { cwd: './', command: 'jsdoc -c jsdoc.json', output: true }
 			,browserify: { cwd: './', command: 'browserify src/_test.js -d -t babelify --outfile temp/_test.js', output: true }
+			,browserifytest: { cwd: './test/unit/', command: 'browserify src/test.js -d -t babelify --outfile test.js', output: true }
 			,babel: { cwd: './', command: 'babel src/_test.js --out-file temp/_test.js -t', output: true }
 		}
 
@@ -174,7 +180,8 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('default',['test','watch']);
-	grunt.registerTask('test',['jshint','qunit','cli:jsdoc']);
+	//grunt.registerTask('test',['jshint','qunit','cli:jsdoc']);
+	grunt.registerTask('test',['jshint','cli:browserifytest','qunit']);
 	//grunt.registerTask('version',['version_git','map_json']);
 
 	grunt.registerTask('doc',[
