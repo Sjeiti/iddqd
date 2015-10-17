@@ -93,6 +93,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 	 * @returns {boolean}
 	 */
 	function handleDrag(e){
+		e.preventDefault();
 		var bReturn = true
 			,isMouse = Object.prototype.toString.call(e)=='[object MouseEvent]'// is ['touchstart'...].indexOf(e.type) faster?
 		;
