@@ -93,7 +93,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 	 * @returns {boolean}
 	 */
 	function handleDrag(e){
-		e.preventDefault();
+		//e.preventDefault();
 		var bReturn = true
 			,isMouse = Object.prototype.toString.call(e)=='[object MouseEvent]'// is ['touchstart'...].indexOf(e.type) faster?
 		;
@@ -137,7 +137,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 					); // log*/
 					oAdd[iFakeId] = oTouches.add(touch(iFakeId,vector(e.pageX,e.pageY)));
 				}
-				signal.dragstart.dispatch(oAdd,oTouches);
+				signal.dragstart.dispatch(oAdd,oTouches,e);
 			break;
 			case 'mouseup': case 'touchend':
 				var oDelete = {};
@@ -157,7 +157,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 						oDelete[id] = oTouches.remove(id);
 					});
 				}*/
-				signal.dragend.dispatch(oDelete,oTouches);
+				signal.dragend.dispatch(oDelete,oTouches,e);
 			break;
 			case 'mousemove': case 'touchmove':
 				if (bTouch) {
@@ -170,7 +170,7 @@ iddqd.ns('iddqd.signal.drag',(function(){
 					var oTouch = oTouches[iFakeId];
 					if (oTouch!==undefined) oTouch.update(e.pageX,e.pageY);
 				}
-				if (oTouches.length>0) signal.drag.dispatch(oTouches);
+				if (oTouches.length>0) signal.drag.dispatch(oTouches,e);
 				bReturn = false;
 			break;
 			default: console.log(e.type,e);
