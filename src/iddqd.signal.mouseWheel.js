@@ -7,6 +7,10 @@
 iddqd.ns('iddqd.signal.mouseWheel',iddqd.signal(function(signal){
 	'use strict';
 
+	window.addEventListener('DOMMouseScroll',function(e){
+		signal.dispatch(10*e.detail,e);
+	},false);
+
 	window.addEventListener('mousewheel',function(e){
 		signal.dispatch(e.wheelDelta,e);
 	},false);

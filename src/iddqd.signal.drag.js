@@ -48,7 +48,8 @@ iddqd.ns('iddqd.signal.drag',(function(){
 			,remove: function(id){
 				var touch = this[id];
 				delete this[id];
-				this.length--;
+				//this.length--;
+				this.length = Math.max(this.length-1,0);
 				return touch;
 			}
 		}
