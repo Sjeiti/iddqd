@@ -4,15 +4,15 @@ iddqd.ns('iddqd.parse.glsl',(function(){
 	var xhttp = iddqd.network.xhttp;
 
 	function parse(uri){
-		var defer = Promise.defer()
-			,promise = defer.promise;
-		xhttp(uri,handleXHR.bind(null,defer));
-		return promise;
+		return new Promise(function(resolve,reject){
+			//XMLHttpRequest
+			xhttp(uri,handleXHR.bind(null,resolve,reject));
+		});
 	}
 
-	function handleXHR(defer,request){
+	function handleXHR(resolve,reject,request){
 		var responseText = request.responseText
-			,includes = responseText.match(/\n\s*\#include\s+"[^"]+"|\n\s*\#include\s+<[^>]+>/g)||[]
+			,includes = responseText.match(/\n*\#include\s+"[^"]+"|\n*\#include\s+<[^>]+>/g)||[]
 			,promises = [];
 		if (includes) {
 			for (var i=0,l=includes.length;i<l;i++) {
@@ -23,17 +23,24 @@ iddqd.ns('iddqd.parse.glsl',(function(){
 				promises.push(promise);
 			}
 		}
-		Promise.all(promises).then(handleParseInclude.bind(null,defer,request,responseText,includes));
+		Promise.all(promises)
+			.then(handleParseInclude.bind(null,resolve,reject,request,responseText,includes));
 	}
 
-	function handleParseInclude(defer,request,responseText,includes,results){
+	function handleParseInclude(resolve,reject,request,responseText,includes,results){
 		for (var i=0,l=includes.length;i<l;i++) {
 			var include = includes[i]
 				,result = results[i];
 			responseText = responseText.replace(include,'\n'+result);
 		}
-		defer.resolve(responseText);
+		resolve(responseText);
 	}
 
 	return parse;
+
 })());
+
+
+
+
+
