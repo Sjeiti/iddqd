@@ -18,7 +18,12 @@ iddqd.ns('iddqd.style',(function(iddqd) {
 		,aoStyleSheets = document.styleSheets
 		,bReversedSelectors = (function(){
 			// creates a new selector and checks if the rule comes out in reverse
-			var oSheet = aoStyleSheets[0]
+			var oSheet = (function() {
+						var style = document.createElement('style');
+						style.appendChild(document.createTextNode(''));
+						document.head.appendChild(style);
+						return style.sheet;
+					})()
 				,aRules = oSheet.cssRules
 				,iNumRules = aRules.length
 				,sSelector = 'span#a.c.d.b'
